@@ -7,17 +7,14 @@
 
 import SwiftUI
 
-class DemoView: ObservableObject {
+class DemoViewModel: ObservableObject {
     
-    let usecase: DemoUsecase
+    let usecase: DemoUsecase = DemoUsecaseImpl()
     
     @Published var demos: [DemoEntity] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
-    
-    init(usecase: DemoUsecase) {
-        self.usecase = usecase
-    }
+
     
     func getDemos() async throws {
         isLoading = true

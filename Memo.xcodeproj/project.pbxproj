@@ -19,6 +19,16 @@
 		E4A229D12C6785560058123F /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229D02C6785560058123F /* NavigationBar.swift */; };
 		E4A229D42C6786780058123F /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229D32C6786780058123F /* Icon.swift */; };
 		E4A229D72C678A1F0058123F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229D62C678A1F0058123F /* ContentView.swift */; };
+		E4A229DF2C6791EB0058123F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229DE2C6791EB0058123F /* String+Extension.swift */; };
+		E4A229E22C6792310058123F /* DemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229E12C6792310058123F /* DemoModel.swift */; };
+		E4A229E52C6792540058123F /* DemoRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229E42C6792540058123F /* DemoRepositoryImpl.swift */; };
+		E4A229E82C6792800058123F /* DemoDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229E72C6792800058123F /* DemoDatasource.swift */; };
+		E4A229EA2C6792BA0058123F /* DemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229E92C6792BA0058123F /* DemoRepository.swift */; };
+		E4A229EC2C6792DA0058123F /* DemoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229EB2C6792DA0058123F /* DemoEntity.swift */; };
+		E4A229EF2C6793120058123F /* DemoMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229EE2C6793120058123F /* DemoMapper.swift */; };
+		E4A229F12C6795310058123F /* DemoUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229F02C6795310058123F /* DemoUsecase.swift */; };
+		E4A229F42C6799480058123F /* DemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229F32C6799480058123F /* DemoViewModel.swift */; };
+		E4A229F62C679AD10058123F /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A229F52C679AD10058123F /* DemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +64,16 @@
 		E4A229D02C6785560058123F /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		E4A229D32C6786780058123F /* Icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		E4A229D62C678A1F0058123F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E4A229DE2C6791EB0058123F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		E4A229E12C6792310058123F /* DemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModel.swift; sourceTree = "<group>"; };
+		E4A229E42C6792540058123F /* DemoRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRepositoryImpl.swift; sourceTree = "<group>"; };
+		E4A229E72C6792800058123F /* DemoDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDatasource.swift; sourceTree = "<group>"; };
+		E4A229E92C6792BA0058123F /* DemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRepository.swift; sourceTree = "<group>"; };
+		E4A229EB2C6792DA0058123F /* DemoEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoEntity.swift; sourceTree = "<group>"; };
+		E4A229EE2C6793120058123F /* DemoMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoMapper.swift; sourceTree = "<group>"; };
+		E4A229F02C6795310058123F /* DemoUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoUsecase.swift; sourceTree = "<group>"; };
+		E4A229F32C6799480058123F /* DemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewModel.swift; sourceTree = "<group>"; };
+		E4A229F52C679AD10058123F /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +124,6 @@
 		E4A229952C66A4720058123F /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				E4A229C82C6775890058123F /* Components */,
 				E4A229C32C6773330058123F /* Extensions */,
 				E4A229C22C67732A0058123F /* Presentation */,
 				E4A229C12C67731F0058123F /* Infrastructure */,
@@ -154,6 +173,10 @@
 		E4A229C12C67731F0058123F /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				E4A229ED2C67930A0058123F /* Mappers */,
+				E4A229E62C6792750058123F /* Datasource */,
+				E4A229E32C6792470058123F /* Repositories */,
+				E4A229E02C6792270058123F /* Models */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -161,8 +184,8 @@
 		E4A229C22C67732A0058123F /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				E4A229D52C678A140058123F /* Content */,
-				E4A229C42C67738E0058123F /* Home */,
+				E4A229DD2C6791AE0058123F /* Screen */,
+				E4A229D82C6791660058123F /* Components */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -170,6 +193,7 @@
 		E4A229C32C6773330058123F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E4A229DE2C6791EB0058123F /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -185,6 +209,7 @@
 		E4A229C52C6774150058123F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				E4A229EB2C6792DA0058123F /* DemoEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -192,6 +217,7 @@
 		E4A229C62C67741C0058123F /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E4A229E92C6792BA0058123F /* DemoRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -199,51 +225,9 @@
 		E4A229C72C6774250058123F /* Usecases */ = {
 			isa = PBXGroup;
 			children = (
+				E4A229F02C6795310058123F /* DemoUsecase.swift */,
 			);
 			path = Usecases;
-			sourceTree = "<group>";
-		};
-		E4A229C82C6775890058123F /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				E4A229D22C67866C0058123F /* Icon */,
-				E4A229CF2C6785480058123F /* NavigationBar */,
-				E4A229CC2C677D710058123F /* BadgeDot */,
-				E4A229C92C6775900058123F /* ChatBox */,
-			);
-			name = Components;
-			sourceTree = "<group>";
-		};
-		E4A229C92C6775900058123F /* ChatBox */ = {
-			isa = PBXGroup;
-			children = (
-				E4A229CA2C6775AB0058123F /* ChatBox.swift */,
-			);
-			name = ChatBox;
-			sourceTree = "<group>";
-		};
-		E4A229CC2C677D710058123F /* BadgeDot */ = {
-			isa = PBXGroup;
-			children = (
-				E4A229CD2C677D7A0058123F /* BadgeDot.swift */,
-			);
-			name = BadgeDot;
-			sourceTree = "<group>";
-		};
-		E4A229CF2C6785480058123F /* NavigationBar */ = {
-			isa = PBXGroup;
-			children = (
-				E4A229D02C6785560058123F /* NavigationBar.swift */,
-			);
-			name = NavigationBar;
-			sourceTree = "<group>";
-		};
-		E4A229D22C67866C0058123F /* Icon */ = {
-			isa = PBXGroup;
-			children = (
-				E4A229D32C6786780058123F /* Icon.swift */,
-			);
-			name = Icon;
 			sourceTree = "<group>";
 		};
 		E4A229D52C678A140058123F /* Content */ = {
@@ -252,6 +236,100 @@
 				E4A229D62C678A1F0058123F /* ContentView.swift */,
 			);
 			path = Content;
+			sourceTree = "<group>";
+		};
+		E4A229D82C6791660058123F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229F72C679EDA0058123F /* Icon */,
+				E4A229DC2C6791950058123F /* ChatBox */,
+				E4A229DB2C67918D0058123F /* BadgeDot */,
+				E4A229DA2C67917F0058123F /* NavigationBar */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E4A229DA2C67917F0058123F /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229D02C6785560058123F /* NavigationBar.swift */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		E4A229DB2C67918D0058123F /* BadgeDot */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229CD2C677D7A0058123F /* BadgeDot.swift */,
+			);
+			path = BadgeDot;
+			sourceTree = "<group>";
+		};
+		E4A229DC2C6791950058123F /* ChatBox */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229CA2C6775AB0058123F /* ChatBox.swift */,
+			);
+			path = ChatBox;
+			sourceTree = "<group>";
+		};
+		E4A229DD2C6791AE0058123F /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229F22C67993F0058123F /* Demo */,
+				E4A229C42C67738E0058123F /* Home */,
+				E4A229D52C678A140058123F /* Content */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		E4A229E02C6792270058123F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229E12C6792310058123F /* DemoModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E4A229E32C6792470058123F /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229E42C6792540058123F /* DemoRepositoryImpl.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		E4A229E62C6792750058123F /* Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229E72C6792800058123F /* DemoDatasource.swift */,
+			);
+			path = Datasource;
+			sourceTree = "<group>";
+		};
+		E4A229ED2C67930A0058123F /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229EE2C6793120058123F /* DemoMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		E4A229F22C67993F0058123F /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229F32C6799480058123F /* DemoViewModel.swift */,
+				E4A229F52C679AD10058123F /* DemoView.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		E4A229F72C679EDA0058123F /* Icon */ = {
+			isa = PBXGroup;
+			children = (
+				E4A229D32C6786780058123F /* Icon.swift */,
+			);
+			path = Icon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,10 +462,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4A229E82C6792800058123F /* DemoDatasource.swift in Sources */,
+				E4A229EF2C6793120058123F /* DemoMapper.swift in Sources */,
+				E4A229E52C6792540058123F /* DemoRepositoryImpl.swift in Sources */,
+				E4A229DF2C6791EB0058123F /* String+Extension.swift in Sources */,
+				E4A229E22C6792310058123F /* DemoModel.swift in Sources */,
+				E4A229F12C6795310058123F /* DemoUsecase.swift in Sources */,
 				E4A229D42C6786780058123F /* Icon.swift in Sources */,
 				E4A229D12C6785560058123F /* NavigationBar.swift in Sources */,
 				E4A229D72C678A1F0058123F /* ContentView.swift in Sources */,
+				E4A229F42C6799480058123F /* DemoViewModel.swift in Sources */,
+				E4A229EC2C6792DA0058123F /* DemoEntity.swift in Sources */,
 				E4A229992C66A4720058123F /* HomeView.swift in Sources */,
+				E4A229EA2C6792BA0058123F /* DemoRepository.swift in Sources */,
+				E4A229F62C679AD10058123F /* DemoView.swift in Sources */,
 				E4A229972C66A4720058123F /* MemoApp.swift in Sources */,
 				E4A229CB2C6775AB0058123F /* ChatBox.swift in Sources */,
 				E4A229CE2C677D7A0058123F /* BadgeDot.swift in Sources */,
