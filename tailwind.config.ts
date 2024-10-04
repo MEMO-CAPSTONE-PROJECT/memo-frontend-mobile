@@ -7,6 +7,13 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontSize: {
+      header: "36px",
+      title: "20px",
+      body: "16px",
+      "caption-1": "14px",
+      "caption-2": "12px"
+    },
     fontWeight: {
       extrabold: "800",
       bold: "700",
