@@ -1,0 +1,18 @@
+/** @type {import('tailwindcss').Config} */
+const { Color } = require('./constants/theme/color');
+const { BorderRadius } = require("./constants/theme/border-radius");
+const { FontSize, FontWeight, FontFamily } = require("./constants/theme/font");
+
+module.exports = {
+  // NOTE: Update this to include the paths to all of your component files.
+  content: ["./app/**/*.{js,jsx,ts,tsx}","./components/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    borderRadius: BorderRadius,
+    fontSize: FontSize,
+    fontWeight: FontWeight,
+    fontFamily: FontFamily,
+    colors: Color
+  },
+  plugins: [],
+}
