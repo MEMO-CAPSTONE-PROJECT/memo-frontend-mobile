@@ -19,16 +19,16 @@ export default function HomeScreen() {
             <BrandingBackground color="secondary" className="flex justify-end items-center">
                 <SafeAreaView className="z-20 w-full">
                     <CardContainer>
-                         <View>
+                         <View className="flex gap-y-lg">
                             <SurpriseStudent className="flex items-center"/>
-                            <View className="flex items-center mb-[20px]">
-                                <Text className="font-kanit-bold text-title text-title-2 mb-[10px]">ลงชื่อเข้าใช้ระบบ นักเรียน</Text>
-                                <Text className="font-kanit-regular text-body text-title-3">กรุณาใส่รหัสนักเรียน</Text>
+                            <View className="flex items-center gap-y-md">
+                                <Text className="font-kanit-bold space text-title text-body-1">ลงชื่อเข้าใช้ระบบ นักเรียน</Text>
+                                <Text className="font-kanit-regular text-body text-body-2">กรุณาใส่รหัสนักเรียน</Text>
                             </View>
                             <MemoTextInput state="default" placeholder="รหัสนักเรียน"/>
                         </View>
                         <View>
-                            <View className="flex-row justify-between mb-[10px]">
+                            <View className="flex-row justify-between">
                                 <HelperError error="รหัสผ่านไม่ถูกต้อง"/>
                                 <Text className="font-kanit-regular text-title-1">ลืมรหัสนักเรียน?</Text>
                             </View>
@@ -41,3 +41,4 @@ export default function HomeScreen() {
     </KeyboardAvoidingView>
   )
 }
+

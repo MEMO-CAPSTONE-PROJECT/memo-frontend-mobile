@@ -8,7 +8,7 @@ interface MemoButtonProps {
     onPress?: (event: GestureResponderEvent) => void
 }
 
-export default function MemoButton({ onPress, name, variant, size = "medium" }: MemoButtonProps) {
+export default function MemoButton({ onPress, name, variant, size = "medium" }: Readonly<MemoButtonProps>) {
     const { color, text } = useMemo(() => {
         const classes = {
             primary: { color: "bg-primary-2", text: "text-system-white" },

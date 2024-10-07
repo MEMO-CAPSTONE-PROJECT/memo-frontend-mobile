@@ -7,7 +7,7 @@ interface BrandingBackgroundProps {
     className?: string
 }
 
-export default function BrandingBackground({ color, children, className }: BrandingBackgroundProps) {
+export default function BrandingBackground({ color, children, className }: Readonly<BrandingBackgroundProps>) {
     const { background, border } = useMemo(() => {
         const classes = {
             primary: { background: "bg-primary-2", border: "border-primary-3" },

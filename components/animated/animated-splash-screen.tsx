@@ -21,15 +21,17 @@ export default function AnimatedSplashScreen({ children, image }: Readonly<Anima
           useNativeDriver: true,
         }).start(() => setIsSplashAnimationComplete(true))
       }
-    }, [isAppReady])
+    }, [animation, isAppReady])
   
     const onImageLoaded = useCallback(async () => {
       try {
         await SplashScreen.hideAsync()
         // Load stuff
         await Promise.all([])
+        /* eslint-disable */ //
       } catch (e) {
-        // handle errors
+        // Do nothing
+        /* eslint-enable */ //
       } finally {
         setIsAppReady(true)
       }

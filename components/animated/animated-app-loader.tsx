@@ -18,7 +18,7 @@ export default function AnimatedAppLoader({ children }: Readonly<AnimatedAppLoad
       }
   
       prepare()
-    }, [SPLASH_IMAGE_URI])
+    }, [])
   
     if (!isSplashReady) {
       return null

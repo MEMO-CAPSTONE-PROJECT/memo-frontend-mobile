@@ -2,6 +2,7 @@
 const { Color } = require('./constants/theme/color');
 const { BorderRadius } = require("./constants/theme/border-radius");
 const { FontSize, FontWeight, FontFamily } = require("./constants/theme/font");
+const { LayoutSize } = require("./constants/theme/layout-size");
 
 module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
@@ -12,7 +13,10 @@ module.exports = {
     fontSize: FontSize,
     fontWeight: FontWeight,
     fontFamily: FontFamily,
-    colors: Color
+    colors: Color,
+    extends: {
+      spacing: LayoutSize,
+    }
   },
   plugins: [],
 }

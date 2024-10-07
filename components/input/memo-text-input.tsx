@@ -9,13 +9,13 @@ interface MemoTextInputProps {
     className?: string
 }
 
-export default function MemoTextInput({ placeholder, state = "default", className }: MemoTextInputProps) {
+export default function MemoTextInput({ placeholder, state = "default", className }: Readonly<MemoTextInputProps>) {
     const { bgColor, placeholderColor, borderColor, textColor } = useMemo(() => {
         const classes = {
-            default: { borderColor: undefined, bgColor: "bg-system-light-gray", placeholderColor: Color["title-3"], textColor: "text-title-1" },
+            default: { borderColor: undefined, bgColor: "bg-system-light-gray", placeholderColor: Color["body-2"], textColor: "text-title-1" },
             error: { borderColor: "border-system-error", bgColor: "bg-system-error-light", placeholderColor: Color["system-error"], textColor: "text-system-error" },
             success: { borderColor: "border-system-success", bgColor: "bg-system-success-light", placeholderColor: Color["system-success"], textColor: "text-system-success" },
-            disabled: { borderColor: "border-title-3", bgColor: "bg-system-gray", placeholderColor: Color["title-3"], textColor: "text-title-3" },
+            disabled: { borderColor: "border-body-2", bgColor: "bg-system-gray", placeholderColor: Color["body-2"], textColor: "text-body-2" },
         }
         return classes[state]
     }, [state])
@@ -24,12 +24,14 @@ export default function MemoTextInput({ placeholder, state = "default", classNam
             default: <></>,
             error: <XCircle size={24} weight="bold" color={Color["system-error"]}/>,
             success: <CheckCircle size={24} weight="bold" color={Color["system-success"]}/>,
-            disabled: <PencilSimpleSlash size={24} weight="bold" color={Color["title-3"]}/>,
+            disabled: <PencilSimpleSlash size={24} weight="bold" color={Color["body-2"]}/>,
         }
         return icons[state]
     }, [state])
+    const borderClasses = borderColor ? `border-2 ${borderColor}` : ""
+
     return (
-        <View className={`flex-row justify-between items-center px-3 h-[52px]  rounded-sm ${borderColor ? `border-2 ${borderColor}` : ""}  ${bgColor} ${placeholderColor} ${className}`}>
+        <View className={`flex-row justify-between items-center px-3 h-[52px]  rounded-sm ${borderClasses} ${bgColor} ${placeholderColor} ${className}`}>
             <TextInput 
                 placeholder={placeholder}
                 placeholderTextColor={placeholderColor}

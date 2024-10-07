@@ -1,6 +1,5 @@
 import AnimatedAppLoader from '@/components/animated/animated-app-loader'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
-import Constants from 'expo-constants'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'

@@ -6,7 +6,7 @@ interface HelperErrorProps {
     error?: string
 }
 
-export default function HelperError({ error }: HelperErrorProps) {
+export default function HelperError({ error }: Readonly<HelperErrorProps>) {
     if (!error) return <View></View>
     return (
         <View className="flex-row justify-center items-center">
