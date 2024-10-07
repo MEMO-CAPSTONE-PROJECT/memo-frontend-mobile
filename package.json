@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "NODE_NO_WARNINGS=1 expo start --dev-client --clear",
+    "prod": "NODE_NO_WARNINGS=1 expo start --no-dev --minify",
     "start": "NODE_NO_WARNINGS=1 expo start",
-    "prebuild": "npx expo prebuild",
+    "prebuild": "npx expo prebuild --clean",
     "prebuild:react-native": "npx expo prebuild --skip-dependency-update react-native,react",
     "android": "expo run:android",
     "ios": "expo run:ios",

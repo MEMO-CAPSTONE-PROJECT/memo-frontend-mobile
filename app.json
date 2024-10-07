@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#9967AC"
+      "backgroundColor": "#9751AF"
     },
     "ios": {
       "bundleIdentifier": "com.capstone.memo",
@@ -20,7 +20,7 @@
       "package": "com.capstone.memo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#9967AC"
+        "backgroundColor": "#9751AF"
       }
     },
     "web": {

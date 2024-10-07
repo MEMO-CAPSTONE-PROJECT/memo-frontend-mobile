@@ -14,7 +14,7 @@ module.exports = {
     fontWeight: FontWeight,
     fontFamily: FontFamily,
     colors: Color,
-    extends: {
+    extend: {
       spacing: LayoutSize,
     }
   },

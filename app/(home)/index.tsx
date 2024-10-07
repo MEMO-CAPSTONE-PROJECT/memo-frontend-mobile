@@ -27,7 +27,7 @@ export default function HomeScreen() {
                             </View>
                             <MemoTextInput state="default" placeholder="รหัสนักเรียน"/>
                         </View>
-                        <View>
+                        <View className="flex gap-y-md">
                             <View className="flex-row justify-between">
                                 <HelperError error="รหัสผ่านไม่ถูกต้อง"/>
                                 <Text className="font-kanit-regular text-title-1">ลืมรหัสนักเรียน?</Text>

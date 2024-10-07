@@ -1,7 +1,7 @@
 
 export const Color = {
     "primary-1": "#FFE598",
-    "primary-2": "#9751AFFF",
+    "primary-2": "#9751AF",
     "primary-2-hover": "#85409D",
     "primary-3": "#521C7C",
     "secondary-1": "#FFD98F",

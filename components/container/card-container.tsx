@@ -10,7 +10,7 @@ interface CardContainerProps {
 export default function CardContainer({ variant = "primary", size = "medium", children }: Readonly<CardContainerProps>) {
     const { height, rounded, padding, margin, bgColor } = useMemo(() => {
         const sizes = {
-            medium: { height: "40rem", rounded: "rounded-lg", padding: "1.5rem", margin: "1.5rem" },
+            medium: { height: "h-[40rem]", rounded: "rounded-lg", padding: "p-[1.5rem]", margin: "m-[1.5rem]" },
         }
         const variants = {
             primary: { bgColor: "bg-system-white" },
@@ -22,7 +22,7 @@ export default function CardContainer({ variant = "primary", size = "medium", ch
     }, [variant, size])
 
     return (
-        <View className={`flex justify-between h-[${height}] p-[${padding}] m-[${margin}] ${bgColor} ${rounded}`}>
+        <View className={`flex justify-between ${height} ${padding} ${margin} ${bgColor} ${rounded}`}>
             {children}
         </View>
     )
