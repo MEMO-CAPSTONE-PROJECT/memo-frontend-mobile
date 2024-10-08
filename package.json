@@ -6,7 +6,7 @@
     "dev": "NODE_NO_WARNINGS=1 expo start --dev-client --clear",
     "prod": "NODE_NO_WARNINGS=1 expo start --no-dev --minify",
     "start": "NODE_NO_WARNINGS=1 expo start",
-    "prebuild": "npx expo prebuild --clean",
+    "prebuild": "npx expo prebuild",
     "prebuild:react-native": "npx expo prebuild --skip-dependency-update react-native,react",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^6.0.2",
-    "expo": "~51.0.28",
+    "expo": "~51.0.36",
     "expo-constants": "~16.0.2",
     "expo-dev-client": "~4.0.27",
     "expo-font": "~12.0.9",
