@@ -3,13 +3,13 @@ import { Color } from "@/constants/theme/color";
 import { View } from "react-native";
 import { Circle, Ellipse, G, Mask, Path, Rect, Svg } from "react-native-svg";
 
-interface MascotBoyLookingProps {
+interface MascotBoyLookingSvgProps {
     size: number
     flip?: boolean
     className?: string
 }
 
-export default function MascotBoyLooking({ size, flip, className = "" }: Readonly<MascotBoyLookingProps>) {
+export default function MascotBoyLookingSvg({ size, flip, className = "" }: Readonly<MascotBoyLookingSvgProps>) {
     return (
         <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
             <Svg width={size} height={size} viewBox="0 0 155 147" fill="none">

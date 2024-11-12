@@ -6,6 +6,7 @@ export const Color = {
     "primary-3": "#521C7C",
     "secondary-1": "#FFD98F",
     "secondary-2": "#FFA856",
+    "secondary-2-hover": "#FF8C48",
     "secondary-3": "#A34053",
     "secondary-4": "#FFCCCC",
     "title-1": "#323130",
@@ -17,5 +18,7 @@ export const Color = {
     "system-success": "#64E39E",
     "system-success-light": "#E1FFE5",
     "system-error": "#FA8585",
+    "system-error-2": "#D33C3C",
+    "system-error-2-hover": "#B62D2D",
     "system-error-light": "#FFDEDE",
   }

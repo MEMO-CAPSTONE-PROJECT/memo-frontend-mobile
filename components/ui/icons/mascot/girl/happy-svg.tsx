@@ -2,13 +2,13 @@ import { Color } from "@/constants/theme/color";
 import { View } from "react-native";
 import { Circle, Ellipse, G, Mask, Path, Rect, Svg } from "react-native-svg";
 
-interface MascotGirlHappyProps {
+interface MascotGirlHappySvgProps {
     size: number
     flip?: boolean
     className?: string
 }
 
-export default function MascotGirlHappy({ size, flip, className = "" }: Readonly<MascotGirlHappyProps>) {
+export default function MascotGirlHappySvg({ size, flip, className = "" }: Readonly<MascotGirlHappySvgProps>) {
     return (
         <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
             <Svg width={size} height={size} viewBox="0 0 122 147" fill="none">

@@ -2,12 +2,12 @@ import { Color } from "@/constants/theme/color";
 import { View } from "react-native";
 import { Path, Rect, Svg } from "react-native-svg";
 
-interface BookProps {
+interface BookSvgProps {
     size: number
     className?: string
 }
 
-export default function Book({ size,className = "" }: Readonly<BookProps>) {
+export default function BookSvg({ size,className = "" }: Readonly<BookSvgProps>) {
     return (
         <View className={className}>
             <Svg width={size} height={size} viewBox="0 0 92 132" fill="none">
