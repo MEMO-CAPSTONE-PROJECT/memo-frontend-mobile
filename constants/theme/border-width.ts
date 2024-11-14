@@ -1,5 +1,6 @@
 
 export const BorderWidth = {
+    "none": "0px",
     "2xsm": "1px",
     "xsm": "2px",
     "sm": "3px",

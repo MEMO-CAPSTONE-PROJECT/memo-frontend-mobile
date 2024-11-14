@@ -14,6 +14,7 @@ export const Color = {
     "body-2": "#A19F9D",
     "system-white": "#FCFCFC",
     "system-light-gray": "#EDEDED",
+    "system-lightest-gray": "#F4F4F4",
     "system-gray": "#D9D9D9",
     "system-success": "#64E39E",
     "system-success-light": "#E1FFE5",

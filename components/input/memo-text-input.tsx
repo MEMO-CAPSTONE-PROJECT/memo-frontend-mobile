@@ -3,12 +3,12 @@ import { CheckCircle, PencilSimpleSlash, XCircle } from "phosphor-react-native";
 import { TextInput, View } from "react-native";
 
 interface MemoTextInputProps {
-    state?: keyof MemoTextInputVariant
+    state?: keyof MemoTextInputState
     placeholder?: string
     className?: string
 }
 
-interface MemoTextInputVariant {
+interface MemoTextInputState {
     default: string
     error: string
     success: string
@@ -36,7 +36,7 @@ export default function MemoTextInput({ placeholder, state = "default", classNam
             <TextInput 
                 placeholder={placeholder}
                 placeholderTextColor={placeholderColor}
-                className={`font-kanit-medium ${textColor} pl-3 flex-1`}
+                className={`font-kanit-medium ${textColor} pl-3 flex-1 ease-in-out transition`}
                 editable={state !== "disabled"}
                 selectTextOnFocus={state !== "disabled"}
             />  

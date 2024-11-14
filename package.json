@@ -20,7 +20,6 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^6.0.2",
-    "clsx": "^2.1.1",
     "expo": "~51.0.36",
     "expo-constants": "~16.0.2",
     "expo-dev-client": "~4.0.27",
@@ -42,6 +41,7 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.10",
+    "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.13"
   },
   "devDependencies": {

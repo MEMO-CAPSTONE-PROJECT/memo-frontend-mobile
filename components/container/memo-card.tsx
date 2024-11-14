@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { View } from "react-native";
+import { twMerge } from "tailwind-merge";
 
 interface MemoCardProps {
     variant?: keyof MemoCardVariant
@@ -14,21 +14,23 @@ interface MemoCardVariant {
 }
 
 interface MemoCardSize {
+    full: string
     medium: string
 }
 
 export default function MemoCard({ variant = "primary", size = "medium", children, className, containerClassName }: Readonly<MemoCardProps>) {
     const sizes = {
-        medium: { height: "h-[45rem]", rounded: "rounded-lg", padding: "p-[1.75rem]", container: "px-[1.5rem]" },
+        full: { height: "h-full", rounded: "rounded-t-lg", padding: "" },
+        medium: { height: "h-[45rem]", rounded: "rounded-t-lg", padding: "p-[1.5rem] pt-[2rem]" },
     }
     const variants = {
         primary: { bgColor: "bg-system-white" },
     }
-    const { height, rounded, padding, container } = sizes[size]
+    const { height, rounded, padding } = sizes[size]
     const { bgColor } = variants[variant]
 
     return (
-        <View className={clsx(`w-full ${height} ${container} ${containerClassName}`)}>
+        <View className={twMerge(`w-full ${height}`, containerClassName)}>
             <View className={`flex-1 ${bgColor} ${padding} ${rounded} ${className}`}>
                 {children}
             </View>

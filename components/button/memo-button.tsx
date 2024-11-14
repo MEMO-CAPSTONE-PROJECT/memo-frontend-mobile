@@ -21,7 +21,7 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, 
     const variants = {
         primary: { color: "bg-primary-2 hover:bg-primary-2-hover", text: "text-system-white" },
         secondary: { color: "bg-secondary-2 hover:bg-secondary-2-hover", text: "text-system-white" },
-        ghost: { color: "border-primary-2 border-xsm hover:bg-primary-2", text: "text-primary-2 hover:text-system-white" },
+        ghost: { color: "border-body-1 border-xsm hover:bg-body-1", text: "text-body-1 hover:text-system-white" },
     }
     const sizes = {
         medium: { height: "h-[55px]", width: "w-full", rounded: "rounded-sm" },
