@@ -6,10 +6,10 @@ import MemoCard from '@/components/container/memo-card';
 import MemoErrorMessage from '@/components/helper/memo-error-message';
 import MemoTextInput from '@/components/input/memo-text-input';
 import KeyboardView from '@/components/scrollable/keyboard-view';
-import MemoText from '@/components/text/memo-text';
 import SurpriseStudentSvg from '@/components/ui/kits/surprise-student-svg';
 import { Link } from 'expo-router';
 import React from 'react';
+import { Text } from 'react-native';
 import { View } from 'react-native';
 
 export default function StudentLoginScreen() {
@@ -20,8 +20,12 @@ export default function StudentLoginScreen() {
                     <View className="flex gap-y-xl">
                         <SurpriseStudentSvg className="flex items-center" />
                         <View className="flex items-center gap-y-sm">
-                            <MemoText weight="bold" size="title">ลงชื่อเข้าใช้ระบบ นักเรียน</MemoText>
-                            <MemoText color="body-2" size="body">กรุณาใส่รหัสนักเรียน</MemoText>
+                            <Text className="font-kanit-bold text-title text-body-1">
+                                ลงชื่อเข้าใช้ระบบ นักเรียน
+                            </Text>
+                            <Text className="font-kanit-regular text-body text-body-2">
+                                กรุณาใส่รหัสนักเรียน
+                            </Text>
                         </View>
                         <MemoTextInput state="default" placeholder="รหัสนักเรียน" />
                     </View>

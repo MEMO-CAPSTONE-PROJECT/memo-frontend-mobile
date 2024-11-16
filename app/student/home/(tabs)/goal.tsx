@@ -1,14 +1,12 @@
 import BrandingBackground from "@/components/background/branding-background";
 import MemoCard from "@/components/container/memo-card";
-import { View } from "react-native";
+import { Text } from "react-native";
 
 export default function StudentGoalScreen() {
     return (
         <BrandingBackground variant="secondary" appbar>
             <MemoCard size="full">
-                <View>
-
-                </View>
+                <Text>Goal</Text>
             </MemoCard>
         </BrandingBackground>
     )

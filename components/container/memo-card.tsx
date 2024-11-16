@@ -20,7 +20,7 @@ interface MemoCardSize {
 
 export default function MemoCard({ variant = "primary", size = "medium", children, className, containerClassName }: Readonly<MemoCardProps>) {
     const sizes = {
-        full: { height: "h-full", rounded: "rounded-t-lg", padding: "" },
+        full: { height: "h-full", rounded: "rounded-t-lg", padding: "p-[1.5rem] pt-[2rem]" },
         medium: { height: "h-[45rem]", rounded: "rounded-t-lg", padding: "p-[1.5rem] pt-[2rem]" },
     }
     const variants = {

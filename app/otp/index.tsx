@@ -4,10 +4,9 @@ import MemoTextButton from "@/components/button/memo-text-button"
 import MemoCard from "@/components/container/memo-card"
 import MemoOtpTextInput from "@/components/input/memo-otp-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
-import MemoText from "@/components/text/memo-text"
 import { Link, router } from "expo-router"
 import { useState } from "react"
-import { View } from "react-native"
+import { Text, View } from "react-native"
 
 export default function OtpScreen() {
     const [codes, setCodes] = useState<string[]>([])
@@ -37,8 +36,12 @@ export default function OtpScreen() {
                 <MemoCard className="z-20 justify-between">
                     <View className="gap-y-3xl py-5xl">
                         <View className="gap-y-lg items-center">
-                            <MemoText weight="bold" size="title">กรุณายืนยันตัวตนด้วยรหัส OTP</MemoText>
-                            <MemoText size="body" className="text-center">เราจะส่งรหัสให้คุณผ่านทางอีเมล{"\n"}{email}</MemoText>
+                            <Text className="text-body-1 font-kanit-bold text-title">
+                                กรุณายืนยันตัวตนด้วยรหัส OTP
+                            </Text>
+                            <Text className="text-body-1 font-kanit-regular text-body text-center">
+                                เราจะส่งรหัสให้คุณผ่านทางอีเมล{"\n"}{email}
+                            </Text>
                         </View>
                         <MemoOtpTextInput 
                             length={5}
@@ -48,7 +51,9 @@ export default function OtpScreen() {
                     </View>
                     <View className="gap-y-lg">
                         <View className="flex-row justify-between">
-                            <MemoText size="caption-1" color="body-2">รหัสหมดอายุใน {timeout} นาที</MemoText>
+                            <Text className="text-body-2 font-kanit-regular text-caption-1">
+                                รหัสหมดอายุใน {timeout} นาที
+                            </Text>
                             <MemoTextButton name="ส่งอีกครั้ง?"/>
                         </View>
                         <MemoButton name="ยืนยัน" variant="primary" onPress={verify} />
