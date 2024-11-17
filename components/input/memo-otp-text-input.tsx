@@ -80,7 +80,7 @@ export default function MemoOtpTextInput({
                     />
                 ))}
             </View>
-            <MemoErrorMessage error={error} />
+            <MemoErrorMessage error={error} className="justify-center" />
         </View>
     )
 }

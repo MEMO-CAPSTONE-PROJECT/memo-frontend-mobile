@@ -22,4 +22,8 @@ export const Color = {
     "system-error-2": "#D33C3C",
     "system-error-2-hover": "#B62D2D",
     "system-error-light": "#FFDEDE",
+    "system-dark-green": "#7EAC67",
+    "system-brown": "#82685E",
+    "system-dark-brown": "#694F45",
+    "system-light-blue": "#E1F5FE",
   }

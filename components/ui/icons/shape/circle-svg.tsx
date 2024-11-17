@@ -8,7 +8,7 @@ interface CircleSvgProps {
     className?: string
 }
 
-export default function CircleSvgIcon({ size, color, className = "" }: Readonly<CircleSvgProps>) {
+export default function CircleSvg({ size, color, className = "" }: Readonly<CircleSvgProps>) {
     return (
         <View className={className}>
             <Svg width={size} height={size} viewBox="0 0 100 100" fill="none">

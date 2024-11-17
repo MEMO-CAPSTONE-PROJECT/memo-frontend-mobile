@@ -6,5 +6,6 @@ export const BorderRadius = {
     lg: "30px",
     xl: "25px",
     "2xl": "30px",
-    full: "100%"
+    full: "100%",
+    circle: "100vw",
 }

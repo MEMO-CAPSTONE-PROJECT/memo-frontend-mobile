@@ -9,14 +9,13 @@ import KeyboardView from '@/components/scrollable/keyboard-view';
 import SurpriseStudentSvg from '@/components/ui/kits/surprise-student-svg';
 import { Link } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 export default function StudentLoginScreen() {
     return (
         <KeyboardView>
             <BrandingBackground variant="secondary" className="justify-end items-center">
-                <MemoCard className="z-20 justify-between">
+                <MemoCard className="justify-between">
                     <View className="flex gap-y-xl">
                         <SurpriseStudentSvg className="flex items-center" />
                         <View className="flex items-center gap-y-sm">

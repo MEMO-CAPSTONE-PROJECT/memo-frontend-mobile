@@ -1,8 +1,8 @@
-import OtpUIKits from "@/components/ui/kits/screen/otp"
-import { router } from "expo-router"
-import { useState } from "react"
+import OtpUIKits from "@/components/ui/kits/screen/otp";
+import { router } from "expo-router";
+import { useState } from "react";
 
-export default function OtpScreen() {
+export default function ParentOtpScreen() {
     const [codes, setCodes] = useState<string[]>([])
     const [error, setError] = useState<string | undefined>(undefined)
     const email = "thannicha.xxxxx@gmail.com"
@@ -36,4 +36,3 @@ export default function OtpScreen() {
         />
     )
 }
-
