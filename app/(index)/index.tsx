@@ -4,8 +4,8 @@ import MemoCard from '@/components/container/memo-card';
 import MemoCharacterCard from '@/components/container/memo-character-card';
 import MemoErrorMessage from '@/components/helper/memo-error-message';
 import ScrollableView from '@/components/scrollable/scrollable-view';
-import ParentManHappySvg from '@/components/ui/icons/parent/man/happy-svg';
-import StudentBoyLookingSvg from '@/components/ui/icons/student/boy/look-svg';
+import ParentManDefaultSvg from '@/components/ui/icons/parent/man/default-svg';
+import StudentBoyDefaultSvg from '@/components/ui/icons/student/boy/default-svg';
 import TeacherWomanDefaultSvg from '@/components/ui/icons/teacher/woman/default-svg';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -16,17 +16,17 @@ export default function HomeScreen() {
   const [error, setError] = useState<string | undefined>(undefined)
   const characters = [
     {
-      icon: <TeacherWomanDefaultSvg className="justify-center items-center w-20 h-20" size={75} />,
+      icon: <TeacherWomanDefaultSvg container="medium" size={75} />,
       name: "คุณครูประจำชั้น",
       navigate: () => router.push("/teacher/login")
     },
     {
-      icon: <StudentBoyLookingSvg className="justify-center items-center w-20 h-20" size={75} />,
+      icon: <StudentBoyDefaultSvg container="medium" size={75} />,
       name: "นักเรียนชั้นประถมศึกษา",
       navigate: () => router.push("/student/login")
     },
     {
-      icon: <ParentManHappySvg className="justify-center items-center w-20 h-20" size={75} />,
+      icon: <ParentManDefaultSvg container="medium" size={75} />,
       name: "ผู้ปกครองของนักเรียน",
       navigate: () => router.push("/parent/login")
     },

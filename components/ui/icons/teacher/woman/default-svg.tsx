@@ -1,4 +1,6 @@
+import { ContainerSize } from "@/constants/container-size";
 import { Color } from "@/constants/theme/color";
+import { ContainerType } from "@/types/container-type";
 import { View } from "react-native";
 import Svg, { Circle, Ellipse, G, Mask, Path, Rect } from "react-native-svg";
 
@@ -6,11 +8,12 @@ interface TeacherWomanDefaultSvgProps {
     size: number
     flip?: boolean
     className?: string
+    container?: keyof ContainerType
 }
 
-export default function TeacherWomanDefaultSvg({ size, flip, className = "" }: Readonly<TeacherWomanDefaultSvgProps>) {
+export default function TeacherWomanDefaultSvg({ size, flip, className = "", container = "none" }: Readonly<TeacherWomanDefaultSvgProps>) {
     return (
-        <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
+        <View className={`${ContainerSize[container]} ${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
             <Svg width={size} height={size} viewBox="0 0 137 147" fill="none">
                 <Rect y="53" width="136" height="94" rx="20" fill={Color["title-1"]} />
                 <Rect y="47" width="136" height="60" rx="20" fill={Color["title-1"]} />

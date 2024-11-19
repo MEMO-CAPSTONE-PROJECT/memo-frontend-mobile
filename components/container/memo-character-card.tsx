@@ -1,5 +1,5 @@
-import StudentBoyLookingSvg from "@/components/ui/icons/student/boy/look-svg"
-import StudentGirlHappySvg from "@/components/ui/icons/student/girl/happy-svg"
+import StudentBoyDefaultSvg from "@/components/ui/icons/student/boy/default-svg"
+import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-svg"
 import clsx from "clsx"
 import React, { Fragment } from "react"
 import { Pressable, Text, View } from "react-native"
@@ -29,9 +29,16 @@ export default function MemoCharacterCard({ active, character, gender, onPress, 
     if (character) {
         mascot = character
     } else {
-        mascot = gender === "หญิง" ? 
-            <StudentGirlHappySvg className="justify-center items-center w-20 h-20" size={70} /> : 
-            <StudentBoyLookingSvg className="justify-center items-center w-20 h-20" size={75} />
+        switch (gender) {
+            case "หญิง":
+                mascot = <StudentGirlDefaultSvg container="medium" size={70} />
+                break;
+            case "ชาย":
+                mascot = <StudentBoyDefaultSvg container="medium" size={75} />
+                break;
+            default:
+                break;
+        }
     }
     return (
         <Pressable onPress={onPress} className={`flex-row items-center h-[110] rounded-sm p-xl gap-x-xl overflow-hidden ${container}`}>

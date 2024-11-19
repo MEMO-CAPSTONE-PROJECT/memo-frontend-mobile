@@ -31,7 +31,7 @@ export default function TeacherLoginScreen() {
                             <MemoErrorMessage error="รหัสคุณครูไม่ถูกต้อง" />
                             <MemoTextButton name="ลืมรหัสคุณครู?" />
                         </View>
-                        <Link href="/otp" asChild>
+                        <Link href="/teacher/login/otp" asChild>
                             <MemoButton name="เข้าสู่ระบบ" variant="primary" />
                         </Link>
                         <Link href="/" asChild>

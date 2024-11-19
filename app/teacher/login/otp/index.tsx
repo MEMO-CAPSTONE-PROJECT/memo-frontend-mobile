@@ -1,8 +1,8 @@
-import OtpUIKits from "@/components/ui/kits/screen/otp"
-import { router } from "expo-router"
-import { useState } from "react"
+import OtpUIKits from "@/components/ui/kits/screen/otp";
+import { router } from "expo-router";
+import { useState } from "react";
 
-export default function OtpScreen() {
+export default function TeacherOtpScreen() {
     const [codes, setCodes] = useState<string[]>([])
     const [error, setError] = useState<string | undefined>(undefined)
     const email = "thannicha.xxxxx@gmail.com"
@@ -17,7 +17,7 @@ export default function OtpScreen() {
         const otp = codes.join("")
 
         if (otp.match("11111")) {
-            router.replace("/parent/login/students")
+            router.replace("/teacher/home")
         } else {
             setError("รหัส OTP ไม่ถูกต้อง")
         }
@@ -36,4 +36,3 @@ export default function OtpScreen() {
         />
     )
 }
-
