@@ -1,5 +1,7 @@
 
 export const LayoutSize = {
+    "2xsm": "2px",
+    xsm: "3px",
     sm: "5px",
     md: "10px",
     lg: "15px",

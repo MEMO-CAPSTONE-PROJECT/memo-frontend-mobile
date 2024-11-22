@@ -26,4 +26,7 @@ export const Color = {
     "system-brown": "#82685E",
     "system-dark-brown": "#694F45",
     "system-light-blue": "#E1F5FE",
+    "system-light-purple": "#EBDBF1",
+    "system-light-orange": "#FFE7D9",
+    "system-blue": "#3F3DA3"
   }
