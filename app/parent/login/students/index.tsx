@@ -11,9 +11,9 @@ export default function ParentStudentsScreen() {
     const [active, setActive] = useState<number>(-1)
     const students = [
         { id: "19528", name: "ด.ญ. พิณ อิอิจ่ะ", gender: "หญิง", classroom: "5/2" },
-        { id: "19528", name: "ด.ญ. พิณ อิอิจ่ะ", gender: "หญิง", classroom: "5/2" },
-        { id: "19528", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
-        { id: "19528", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
+        { id: "19529", name: "ด.ญ. พิณ อิอิจ่ะ", gender: "หญิง", classroom: "5/2" },
+        { id: "19530", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
+        { id: "19531", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
     ]
     return (
         <BrandingBackground variant="secondary" className="justify-end items-center">
@@ -27,10 +27,10 @@ export default function ParentStudentsScreen() {
                             กรุณาเลือกบุตรหลานที่ท่านต้องการเข้าใช้ระบบ
                         </Text>
                     </View>
-                    <ScrollableView scrollEnabled={students.length > 3} className="gap-y-lg">
+                    <ScrollableView gap={true} scrollEnabled={students.length > 3} className="gap-y-lg">
                         {students.map((student, index) =>
                             <MemoCharacterCard
-                                key={index}
+                                key={student.id}
                                 gender={student.gender}
                                 active={index === active}
                                 onPress={() => setActive(index)}

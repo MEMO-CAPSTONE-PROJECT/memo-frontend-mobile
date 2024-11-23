@@ -31,7 +31,7 @@ export default function MemoCard({ variant = "primary", size = "medium", childre
 
     return (
         <View className={clsx(`w-full ${height}`, containerClassName)}>
-            <View className={`flex-1 ${bgColor} ${padding} ${rounded} ${className}`}>
+            <View className={clsx(`flex-1 ${bgColor} ${padding} ${rounded}`, className)}>
                 {children}
             </View>
         </View>

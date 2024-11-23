@@ -1,8 +1,8 @@
 import { Color } from "@/constants/theme/color"
 import { Tabs } from "expo-router"
 import { cssInterop } from "nativewind"
-import { Icon } from "phosphor-react-native"
-import { ComponentProps } from "react"
+import { Icon, IconProps } from "phosphor-react-native"
+import { ComponentProps, useCallback } from "react"
 import { View, ViewStyle } from "react-native"
 
 interface MemoTabBarProps {
@@ -12,51 +12,55 @@ interface MemoTabBarProps {
 interface TabBarItem {
     route: string
     title: string
-    Icon: Icon
+    icon: Icon
+}
+
+interface TabBarIconProps {
+    focused: boolean
+    icon: React.ComponentType<IconProps>
 }
 
 export default function MemoTabBar({ tabs }: Readonly<MemoTabBarProps>) {
+    const TabBarIcon: React.FC<TabBarIconProps> = useCallback(({ focused, icon: Icon }) => (
+        <View className="h-full px-2 justify-center">
+            <Icon
+                size={28}
+                weight={focused ? "fill" : "regular"}
+                color={focused ? Color["primary-2"] : Color["body-1"]}
+            />
+        </View>
+    ), [])
+
     return (
-        <TabsInterop
-            tabBarClassName="border-t-xsm border-t-primary-2"
-            titleClassName="font-kanit-bold text-secondary-3"
-        >
-            {tabs.map(({ route, title, Icon }) => (
+        <TabInterop tabBarClassName="bg-system-white border-t-xsm border-t-primary-2">
+            {tabs.map(({ route, title, icon }) => (
                 <Tabs.Screen
                     key={route}
                     name={route}
                     options={{
                         title,
                         tabBarShowLabel: false,
-                        tabBarIcon: ({ focused }) => (
-                            <View className={`h-full px-2 justify-center`}>
-                                <Icon
-                                    size={28}
-                                    weight={focused ? "fill" : "regular"}
-                                    color={focused ? Color["primary-2"] : Color["body-1"]}
-                                />
-                            </View>
-                        )
+                        tabBarIcon: (props) => TabBarIcon({ ...props, icon })
                     }}
                 />
             ))}
-        </TabsInterop>
+        </TabInterop>
     )
 }
 
-interface TabsProps extends Omit<ComponentProps<typeof Tabs>, "screenOptions"> {
-    headerStyle?: ViewStyle
+interface TabsProps extends ComponentProps<typeof Tabs> {
     tabBarStyle?: ViewStyle
-    headerTitleStyle?: ViewStyle
 }
 
-const TabsInterop = cssInterop(
-    ({ headerStyle, headerTitleStyle, tabBarStyle, ...props }: TabsProps) => (
-        <Tabs screenOptions={{ headerTransparent: true, headerStyle: headerStyle, headerTitleStyle, tabBarStyle }} {...props} />
+const TabInterop = cssInterop(
+    ({ tabBarStyle, screenOptions, ...props }: TabsProps) => (
+        <Tabs screenOptions={{
+            headerShown: false,
+            tabBarStyle: tabBarStyle,
+            ...screenOptions
+        }} {...props} />
     ),
     {
-        headerClassName: "headerStyle",
-        titleClassName: "headerTitleStyle",
-        tabBarClassName: "tabBarStyle"
+        tabBarClassName: "tabBarStyle",
     }
 )

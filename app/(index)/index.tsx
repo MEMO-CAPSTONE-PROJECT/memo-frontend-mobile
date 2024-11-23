@@ -61,7 +61,7 @@ export default function HomeScreen() {
           <ScrollableView scrollEnabled={characters.length > 3} className="gap-y-lg">
               {characters.map((character, index) =>
                 <MemoCharacterCard
-                  key={index}
+                  key={index + character.name}
                   character={character.icon}
                   active={index === active}
                   onPress={() => handleCardPress(index)}

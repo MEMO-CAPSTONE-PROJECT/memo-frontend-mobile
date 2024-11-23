@@ -21,7 +21,7 @@ export default function MemoSelectionButton({ buttons }: Readonly<MemoSelectionB
                 <Pressable 
                     onPress={onPress} 
                     className={`h-full w-full flex-1 justify-center rounded-[8px] ${active ? states.active.container : states.default.container}`} 
-                    key={index}
+                    key={name}
                 >
                     <Text className={`text-center ${active ? states.active.text : states.default.text}`}>{name}</Text>
                 </Pressable>

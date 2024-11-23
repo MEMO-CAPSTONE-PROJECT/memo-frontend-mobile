@@ -8,7 +8,7 @@ interface ScrollableViewProps {
     children: React.ReactNode
 }
 
-export default function ScrollableView({ gap = true, border = true, scrollEnabled = true, className, children }: Readonly<ScrollableViewProps>) {
+export default function ScrollableView({ gap = false, border = true, scrollEnabled = true, className, children }: Readonly<ScrollableViewProps>) {
     return (
         <ScrollView
             scrollEnabled={scrollEnabled}

@@ -4,7 +4,6 @@ interface BrandingBackgroundProps {
     variant?: keyof BrandingBackgroundVariant
     children: React.ReactNode
     className?: string
-    appbar?: boolean
 }
 
 interface BrandingBackgroundVariant {
@@ -14,7 +13,7 @@ interface BrandingBackgroundVariant {
     success: string
 }
 
-export default function BrandingBackground({ variant = "secondary", children, className, appbar = false }: Readonly<BrandingBackgroundProps>) {
+export default function BrandingBackground({ variant = "secondary", children, className }: Readonly<BrandingBackgroundProps>) {
     const variants = {
         primary: { background: "bg-primary-2", border: "border-primary-3" },
         secondary: { background: "bg-secondary-1", border: "border-secondary-2" },
@@ -27,7 +26,7 @@ export default function BrandingBackground({ variant = "secondary", children, cl
     return (
         <View className={`flex-[1] overflow-hidden ${background}`}>
             <SafeAreaView className={`${flex} ${background}`} />
-            <View className={`flex-[1] relative ${background} ${appbar ? "pt-11" : ""} ${className}`} >
+            <View className={`flex-[1] relative ${background} ${className}`} >
                 <View className={`absolute -top-56 -left-[23rem] ${border} border-[125px] opacity-20 w-[488px] h-[488px] rounded-circle`} />
                 <View className={`absolute -top-[22rem] -right-[16rem] ${border} border-[100px] opacity-20 w-[388px] h-[388px] rounded-circle`} />
                 <View className={`absolute top-36 -right-48 ${border} border-[75px] opacity-20 w-[288px] h-[288px] rounded-circle`} />
