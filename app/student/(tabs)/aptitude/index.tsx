@@ -1,12 +1,19 @@
 import BrandingBackground from "@/components/background/branding-background";
 import MemoCard from "@/components/container/memo-card";
 import MemoNavigatorCard from "@/components/container/memo-navigator-card";
+import { useRouter } from "expo-router";
 import { ChartDonut, CheckFat, User } from "phosphor-react-native";
 import { Text, View } from "react-native";
 
 export default function StudentAptitudeScreen() {
     const name = "ด.ญ. ธัณย์นิชา สมภาร"
     const classroom = "ชั้นประถมศึกษาปีที่ 4/2"
+    const router = useRouter()
+
+    function handlePressChart() {
+        router.navigate("/student/aptitude/overall")
+    }
+
     return (
       <BrandingBackground variant="secondary">
           <MemoCard size="full" className="gap-y-3xl">
@@ -18,7 +25,7 @@ export default function StudentAptitudeScreen() {
                 </View>
             </View>    
             <View className="gap-y-lg">
-                <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut}/>
+                <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handlePressChart}/>
                 <MemoNavigatorCard title="บุคลิกของคุณ" className="bg-secondary-2" Icon={User}/>
                 <MemoNavigatorCard title="เหรียญและถ้วยรางวัล" className="bg-secondary-3" Icon={CheckFat}/>
             </View>        
