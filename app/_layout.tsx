@@ -1,4 +1,3 @@
-import { AuthProvider } from '@/app/context/AuthContext'
 import AnimatedAppLoader from '@/components/animated/animated-app-loader'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
@@ -29,15 +28,13 @@ export default function RootLayout() {
   if (!loaded) return null
 
   return (
-    <AuthProvider>
-      <AnimatedAppLoader>
-        <ThemeProvider value={DefaultTheme}>
-          <Stack screenOptions={{ headerShown: false, }}>
-            <Stack.Screen name="(index)" />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        </ThemeProvider>
-      </AnimatedAppLoader>
-    </AuthProvider>
+    <AnimatedAppLoader>
+      <ThemeProvider value={DefaultTheme}>
+        <Stack screenOptions={{ headerShown: false, }}>
+          <Stack.Screen name="(index)" />
+          <Stack.Screen name="+not-found"/>
+        </Stack>
+      </ThemeProvider>
+    </AnimatedAppLoader>
   )
 }
