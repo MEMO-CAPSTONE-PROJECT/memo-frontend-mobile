@@ -14,7 +14,10 @@
     },
     "ios": {
       "bundleIdentifier": "com.capstone.memo",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.capstone.memo",
@@ -34,6 +37,13 @@
         "expo-dev-launcher",
         {
           "launchMode": "most-recent"
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
         }
       ]
     ],

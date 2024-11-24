@@ -1,20 +1,32 @@
+import { useAuth } from "@/app/context/AuthContext";
 import BrandingBackground from "@/components/background/branding-background";
 import MemoButton from "@/components/button/memo-button";
 import MemoCard from "@/components/container/memo-card";
 import MemoCharacterCard from "@/components/container/memo-character-card";
 import ScrollableView from "@/components/scrollable/scrollable-view";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
 
 export default function ParentStudentsScreen() {
     const [active, setActive] = useState<number>(-1)
+    const { login } = useAuth()
+    const router = useRouter()
     const students = [
         { id: "19528", name: "ด.ญ. พิณ อิอิจ่ะ", gender: "หญิง", classroom: "5/2" },
         { id: "19529", name: "ด.ญ. พิณ อิอิจ่ะ", gender: "หญิง", classroom: "5/2" },
         { id: "19530", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
         { id: "19531", name: "ด.ช. พิณ อิอิจ่ะ", gender: "ชาย", classroom: "5/2" },
     ]
+    async function handleSelectStudent() {
+        const result = await login?.("thannicha.xxxxx@gmail.com", "123456")
+        if (result && result.error) {
+            alert(result.error)
+        } else {
+            router.navigate("/parent/home")
+        }
+    }
+
     return (
         <BrandingBackground variant="secondary" className="justify-end items-center">
             <MemoCard className="justify-between">
@@ -44,9 +56,7 @@ export default function ParentStudentsScreen() {
                     </ScrollableView>
                 </View>
                 <View className="gap-y-lg">
-                    <Link href="/parent/home" asChild>
-                        <MemoButton name="ยืนยัน" variant="primary" />
-                    </Link>
+                    <MemoButton name="ยืนยัน" variant="primary" onPress={handleSelectStudent}/>
                     <Link href="/" asChild>
                         <MemoButton name="กลับสู่หนัาเริ่มต้น" variant="ghost" />
                     </Link>
