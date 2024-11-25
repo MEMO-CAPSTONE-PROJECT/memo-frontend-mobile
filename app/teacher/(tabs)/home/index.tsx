@@ -5,15 +5,17 @@ import MemoSelectionButton from "@/components/button/memo-selection-button";
 import MemoCard from "@/components/container/memo-card";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content";
-import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native";
+import { Color } from "@/constants/theme/color";
+import { Link } from "expo-router";
+import { CalendarDots, GraduationCap, Medal, Plus } from "phosphor-react-native";
 import { useState } from "react";
 import { View } from "react-native";
 
 export default function TeacherHomeScreen() {
     const [isOpen, setIsOpen] = useState(true)
     const buttons = [
-      { name: "เป้าหมายที่เปิดรับ", active: isOpen, onPress: () => setIsOpen(true) },
-      { name: "เป้าหมายที่ปิดรับ", active: !isOpen, onPress: () => setIsOpen(false) }
+      { name: "เป้าหมายทั้งหมด", active: isOpen, onPress: () => setIsOpen(true) },
+      { name: "เป้าหมายของฉัน", active: !isOpen, onPress: () => setIsOpen(false) }
     ]
     const sections: MemoSection[] = [
       { id: "reward", name: "รางวัล", icon: Medal, secondary: true },
@@ -23,7 +25,7 @@ export default function TeacherHomeScreen() {
     const contents = mockTeacherContents
     return (
         <BrandingBackground variant="secondary">
-            <MemoCard size="full" className="gap-y-xl !p-0">
+            <MemoCard size="full" className="relative gap-y-xl !p-0">
                 <View className="gap-y-xl px-[1.5rem]">
                     <MemoSearchBar placeholder="ค้นหา" />
                     <MemoSelectionButton buttons={buttons} />
@@ -36,12 +38,17 @@ export default function TeacherHomeScreen() {
                             content={content}
                             sections={sections}
                             href={{
-                                pathname: "/student/home/[detail]",
+                                pathname: "/teacher/home/[detail]",
                                 params: { detail: content.id, name: content.name }
                             }}
                         />
                     ))}
                 </ScrollableView>
+                <Link href="/teacher/home/create" className="absolute bottom-6 right-6">
+                    <View className="w-14 h-14 rounded-circle bg-primary-3 justify-center items-center">
+                        <Plus color={Color["system-white"]} weight="bold" size={32} />
+                    </View>
+                </Link>
             </MemoCard>
         </BrandingBackground>
     )
