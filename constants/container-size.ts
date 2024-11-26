@@ -1,4 +1,4 @@
-import { ContainerType } from "@/types/container-type";
+import { ContainerType } from "@/shared/types/container-type";
 
 export const ContainerSize: ContainerType = {
     none: "",

@@ -1,7 +1,7 @@
 
 import { ContainerSize } from "@/constants/container-size";
 import { Color } from "@/constants/theme/color";
-import { ContainerType } from "@/types/container-type";
+import { ContainerType } from "@/shared/types/container-type";
 import { View } from "react-native";
 import Svg, { Circle, Ellipse, G, Mask, Path, Rect } from "react-native-svg";
 

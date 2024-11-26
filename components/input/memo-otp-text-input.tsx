@@ -1,5 +1,5 @@
 import MemoErrorMessage from "@/components/helper/memo-error-message"
-import { Color } from "@/constants/theme/color"
+import { InputStates } from "@/shared/themes/input-variants"
 import { createRef, RefObject, useState } from "react"
 import { TextInput, View } from "react-native"
 
@@ -17,21 +17,7 @@ export default function MemoOtpTextInput({
     const [codes, setCodes] = useState<string[]>(Array(length).fill(""))
     const refs: RefObject<TextInput>[] = Array(length).fill(null).map(() => createRef<TextInput>())
 
-    const states = {
-        default: { 
-            borderColor: undefined, 
-            bgColor: "bg-system-light-gray", 
-            placeholderColor: Color["body-2"], 
-            textColor: "text-title-1" 
-        },
-        error: { 
-            borderColor: "border-system-error", 
-            bgColor: "bg-system-error-light", 
-            placeholderColor: Color["system-error"], 
-            textColor: "text-system-error" 
-        },
-    }
-    const { bgColor, placeholderColor, borderColor, textColor } = error ? states.error : states.default
+    const { bgColor, placeholderColor, borderColor, textColor } = error ? InputStates.error : InputStates.default
     const borderClasses = borderColor ? `border-xsm ${borderColor}` : ""
 
     const handleCodeChange = (text: string, index: number) => {
@@ -64,7 +50,7 @@ export default function MemoOtpTextInput({
             <View className="flex w-full flex-row justify-between">
                 {codes.map((code, index) => (
                     <TextInput
-                        key={index}
+                        key={index + code}
                         autoComplete="one-time-code"
                         enterKeyHint="next"
                         className={`

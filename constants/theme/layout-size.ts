@@ -11,3 +11,7 @@ export const LayoutSize = {
     "4xl": "40px",
     "5xl": "50px",
 }
+
+export const getMemoLayoutSize = (size: keyof typeof LayoutSize) => {
+    return Number(LayoutSize[size].replace("px", ""))
+}

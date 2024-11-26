@@ -2,6 +2,7 @@ node_modules/
 ios/
 android/
 .expo/
+.tamagui/
 .vscode/
 dist/
 npm-debug.*
@@ -21,3 +22,7 @@ web-build/
 /backup
 expo-env.d.ts
 # @end expo-cli
+# Expo
+.expo
+dist/
+web-build/

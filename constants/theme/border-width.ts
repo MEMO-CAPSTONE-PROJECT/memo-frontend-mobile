@@ -9,3 +9,7 @@ export const BorderWidth = {
     "xl": "15px",
     "2xl": "30px",
 }
+
+export const getMemoBorderWidth = (size: keyof typeof BorderWidth) => {
+    return Number(BorderWidth[size].replace("px", ""))
+}

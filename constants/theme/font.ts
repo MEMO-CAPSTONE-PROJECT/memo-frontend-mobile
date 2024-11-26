@@ -22,3 +22,7 @@ export const FontFamily = {
     "kanit-regular": "Kanit-Regular",
     "kanit-light": "Kanit-Light",
 }
+
+export const getMemoFontSize = (size: keyof typeof FontSize) => {
+    return Number(FontSize[size].replace("px", ""))
+}
