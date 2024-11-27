@@ -74,7 +74,7 @@ export default function MemoSelectPicker({ placeholder, state = "default", items
             {items.map((item, index) => (
               <Select.Item 
                 index={index} 
-                key={index + item.name} 
+                key={index + "_" + item.name} 
                 value={item.name}
                 borderBottomWidth={1}
               >

@@ -18,14 +18,19 @@ export default function MemoTextAreaInput({ state = "default", ...props }: Reado
             height={100}
             fontFamily={FontFamily["kanit-medium"]}
             paddingVertical={getMemoLayoutSize("md")}
+            placeholderTextColor={placeholderColor}
             borderWidth={getMemoBorderWidth("xsm")}
             borderColor={borderColor}
             backgroundColor={bgColor}
-            placeholderTextColor={placeholderColor}
             color={textColor}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}
-            disableOptimization={true}
+            focusStyle={{
+                borderWidth: getMemoBorderWidth("xsm"),
+                borderColor: InputStateColors.focus.borderColor,
+                backgroundColor: InputStateColors.focus.bgColor,
+                color: InputStateColors.focus.textColor
+            }}
             {...props}
         />
     )

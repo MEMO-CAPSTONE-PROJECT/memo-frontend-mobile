@@ -1,5 +1,4 @@
 import { Platform, SafeAreaView, View } from "react-native";
-
 interface BrandingBackgroundProps {
     variant?: keyof BrandingBackgroundVariant
     children: React.ReactNode

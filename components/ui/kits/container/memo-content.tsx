@@ -16,6 +16,19 @@ export interface MemoContent {
     tags: MemoContentTag[]
 }
 
+export interface MemoContentOwner {
+    id: string
+    name: string
+    owner: string
+    src?: ImageSourcePropType
+    sections: {
+        reward: string
+        date: string
+        organizer: string
+    }
+    tags: MemoContentTag[]
+}
+
 export interface MemoContentTag {
     id: string,
     variant: "primary" | "secondary"
@@ -30,7 +43,7 @@ export interface MemoSection {
 
 interface MemoContentCardProps {
     divider: boolean
-    content: MemoContent
+    content: MemoContent | MemoContentOwner
     sections: MemoSection[]
     href: Href
 }

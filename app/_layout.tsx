@@ -10,6 +10,7 @@ import { Text } from 'react-native'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
 import './global.css'
+import { AuthProvider } from '@/context/useAuth'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -33,6 +34,7 @@ export default function RootLayout() {
 
   return (
     <PortalProvider shouldAddRootHost>
+      <AuthProvider>  
       <AnimatedAppLoader>
         <TamaguiProvider config={tamaguiConfig}>
           <ThemeProvider value={DefaultTheme}>
@@ -41,8 +43,9 @@ export default function RootLayout() {
               <Stack.Screen name="+not-found" />
             </Stack>
           </ThemeProvider>
-        </TamaguiProvider>
+          </TamaguiProvider>
       </AnimatedAppLoader>
+      </AuthProvider>
     </PortalProvider>
   )
 }

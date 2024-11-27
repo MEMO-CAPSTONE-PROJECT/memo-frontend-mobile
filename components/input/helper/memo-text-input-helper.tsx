@@ -9,8 +9,8 @@ interface MemoTextInputHelperProps extends MemoTextInputProps {
 
 export default function MemoTextInputHelper({ label, error, ...props }: Readonly<MemoTextInputHelperProps>) {
     return (
-        <View className="gap-y-md">
-            {label && <Text className="font-kanit-bold text-body text-title-1 px-xsm">{label}</Text>}
+        <View className="gap-y-sm">
+            {label && <Text className="font-kanit-medium text-body text-title-1 px-xsm">{label}</Text>}
             <MemoTextInput state={error ? "error" : "default"} {...props} />
             <MemoErrorMessage error={error}/>
         </View>

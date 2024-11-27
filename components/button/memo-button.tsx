@@ -5,6 +5,7 @@ interface MemoButtonProps {
     variant: keyof MemoButtonVariant
     size?: keyof MemoButtonSize
     name: string
+    className?: string
     onPress?: (event: GestureResponderEvent) => void
 }
 interface MemoButtonVariant {
@@ -17,7 +18,7 @@ interface MemoButtonSize {
     medium: string
 }
 
-const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, size = "medium" }, ref) => {
+const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, className, size = "medium" }, ref) => {
     const variants = {
         primary: { color: "bg-primary-2 hover:bg-primary-2-hover", text: "text-system-white" },
         secondary: { color: "bg-secondary-2 hover:bg-secondary-2-hover", text: "text-system-white" },
@@ -31,7 +32,7 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, 
     const { height, width, rounded } = sizes[size]
 
     return (
-        <Pressable onPress={onPress} ref={ref} className={`flex justify-center items-center ${color} ${height} ${width} ${rounded}`}>
+        <Pressable onPress={onPress} ref={ref} className={`flex justify-center items-center ${color} ${height} ${width} ${rounded} ${className}`}>
             <Text className={`font-kanit-medium text-title ${text} pointer-events-none`}>{name}</Text>
         </Pressable>
     )

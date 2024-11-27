@@ -9,8 +9,8 @@ interface MemoDatePickerHelperProps extends MemoDatePickerProps {
 
 export default function MemoDatePickerHelper({ label, error, ...props }: Readonly<MemoDatePickerHelperProps>) {
     return (
-        <View className="flex-1 gap-y-md">
-            {label && <Text className="font-kanit-bold text-body text-title-1 px-xsm">{label}</Text>}
+        <View className="flex-1 gap-y-sm">
+            {label && <Text className="font-kanit-medium text-body text-title-1 px-xsm">{label}</Text>}
             <MemoDatePicker state={error ? "error" : "default"} {...props} />
             <MemoErrorMessage error={error}/>
         </View>

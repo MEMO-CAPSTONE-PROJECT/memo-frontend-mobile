@@ -1,4 +1,5 @@
-import { mockTeacherContents } from "@/app/teacher/(tabs)/home/contents.mock";
+import { mockTeacherContents } from "@/app/teacher/(tabs)/home/mock/contents.mock";
+import { mockUser } from "@/app/teacher/(tabs)/home/mock/user.mock";
 import BrandingBackground from "@/components/background/branding-background";
 import MemoSearchBar from "@/components/bar/memo-searchbar";
 import MemoSelectionButton from "@/components/button/memo-selection-button";
@@ -12,16 +13,17 @@ import { useState } from "react";
 import { View } from "react-native";
 
 export default function TeacherHomeScreen() {
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOwner, setIsOwner] = useState(true)
     const buttons = [
-      { name: "เป้าหมายทั้งหมด", active: isOpen, onPress: () => setIsOpen(true) },
-      { name: "เป้าหมายของฉัน", active: !isOpen, onPress: () => setIsOpen(false) }
+      { name: "เป้าหมายทั้งหมด", active: !isOwner, onPress: () => setIsOwner(false) },
+      { name: "เป้าหมายของฉัน", active: isOwner, onPress: () => setIsOwner(true) }
     ]
     const sections: MemoSection[] = [
       { id: "reward", name: "รางวัล", icon: Medal, secondary: true },
       { id: "date", name: "วันที่ปิดรับ", icon: CalendarDots, secondary: false },
       { id: "organizer", name: "คุณครูผู้ดูแล", icon: GraduationCap, secondary: false }
     ]
+    const user = mockUser
     const contents = mockTeacherContents
     return (
         <BrandingBackground variant="secondary">
@@ -31,7 +33,7 @@ export default function TeacherHomeScreen() {
                     <MemoSelectionButton buttons={buttons} />
                 </View>
                 <ScrollableView border={false} gap={false} className="gap-y-xl">
-                    {contents.filter(content => content.open === isOpen).map((content, index, contents) => (
+                    {contents.filter(content => !isOwner || (isOwner && content.owner === user.id)).map((content, index, contents) => (
                         <MemoContentCard
                             divider={index !== contents.length - 1}
                             key={`${index}_${content.name}`}

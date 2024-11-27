@@ -1,5 +1,6 @@
 import MemoErrorMessage from "@/components/helper/memo-error-message"
-import { InputStates } from "@/shared/themes/input-variants"
+import { getMemoBorderWidth } from "@/constants/theme/border-width"
+import { InputStateColors } from "@/shared/themes/input-variants"
 import { createRef, RefObject, useState } from "react"
 import { TextInput, View } from "react-native"
 
@@ -17,8 +18,7 @@ export default function MemoOtpTextInput({
     const [codes, setCodes] = useState<string[]>(Array(length).fill(""))
     const refs: RefObject<TextInput>[] = Array(length).fill(null).map(() => createRef<TextInput>())
 
-    const { bgColor, placeholderColor, borderColor, textColor } = error ? InputStates.error : InputStates.default
-    const borderClasses = borderColor ? `border-xsm ${borderColor}` : ""
+    const { bgColor, borderColor, textColor } = error ? InputStateColors.error : InputStateColors.default
 
     const handleCodeChange = (text: string, index: number) => {
         if (text.length > 1) {
@@ -55,8 +55,13 @@ export default function MemoOtpTextInput({
                         enterKeyHint="next"
                         className={`
                             font-kanit-bold text-header text-body-1 h-[65px] w-[65px] rounded-sm text-center 
-                            ${borderClasses} ${bgColor} ${placeholderColor} ${textColor}
                         `}
+                        style={{
+                            borderWidth: getMemoBorderWidth("xsm"),
+                            borderColor: borderColor,
+                            backgroundColor: bgColor,
+                            color: textColor
+                        }}
                         inputMode="numeric"
                         onChangeText={(text: string) => handleCodeChange(text, index)}
                         value={code}

@@ -5,7 +5,7 @@ import MemoCard from "@/components/container/memo-card"
 import MemoOtpTextInput from "@/components/input/memo-otp-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
 import { Link } from "expo-router"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Text, View } from "react-native"
 
 interface OtpUIKitsProps {
@@ -21,8 +21,9 @@ interface OtpUIKitsState {
 }
 
 export default function OtpUIKits({ email, otp, resend, verify }: Readonly<OtpUIKitsProps>) {
-    const TIMER = 60
+    const TIMER = 30
     const [timer, setTimer] = useState(TIMER)    
+    const emailFormatted = useMemo(() => email.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1xxx@$2"), [email])
     const timeoutCallback = useCallback(() => setTimer(current => current - 1), [])
 
     useEffect(() => { 
@@ -54,7 +55,7 @@ export default function OtpUIKits({ email, otp, resend, verify }: Readonly<OtpUI
                                 กรุณายืนยันตัวตนด้วยรหัส OTP
                             </Text>
                             <Text className="text-body-1 font-kanit-regular text-body text-center">
-                                เราจะส่งรหัสให้คุณผ่านทางอีเมล{"\n"}{email}
+                                เราจะส่งรหัสให้คุณผ่านทางอีเมล{"\n"}{emailFormatted}
                             </Text>
                         </View>
                         <MemoOtpTextInput

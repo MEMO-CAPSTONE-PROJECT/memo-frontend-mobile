@@ -1,12 +1,12 @@
 import { ImageAssets } from "@/assets/images/image-assets";
-import { MemoContent } from "@/components/ui/kits/container/memo-content";
+import { MemoContentOwner } from "@/components/ui/kits/container/memo-content";
 
-export const mockTeacherContents: MemoContent[] = [
+export const mockTeacherContents: MemoContentOwner[] = [
     {
       id: "1",
       name: "แข่งเพชรยอดมงกุฎ",
       src: ImageAssets.diamond,
-      open: true,
+      owner: "19528",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
@@ -18,7 +18,7 @@ export const mockTeacherContents: MemoContent[] = [
       id: "2",
       name: "แข่งเพชรยอดมงกุฎ",
       src: ImageAssets.diamond,
-      open: true,
+      owner: "19528",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
@@ -30,7 +30,7 @@ export const mockTeacherContents: MemoContent[] = [
       id: "3",
       name: "แข่งเพชรยอดมงกุฎ",
       src: ImageAssets.diamond,
-      open: false,
+      owner: "19526",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
@@ -41,7 +41,7 @@ export const mockTeacherContents: MemoContent[] = [
     {
       id: "4",
       name: "แข่งเพชรยอดมงกุฎ",
-      open: false,
+      owner: "19526",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
@@ -52,7 +52,7 @@ export const mockTeacherContents: MemoContent[] = [
     {
       id: "5",
       name: "แข่งเพชรยอดมงกุฎ",
-      open: false,
+      owner: "19524",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",

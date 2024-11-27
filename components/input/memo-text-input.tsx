@@ -1,5 +1,6 @@
+import { getMemoBorderWidth } from "@/constants/theme/border-width";
 import { Color } from "@/constants/theme/color";
-import { InputStates } from "@/shared/themes/input-variants";
+import { InputStateColors } from "@/shared/themes/input-variants";
 import { MemoInputStates } from "@/shared/types/input-state-type";
 import { CheckCircle, PencilSimpleSlash, XCircle } from "phosphor-react-native";
 import { useState } from "react";
@@ -20,17 +21,24 @@ export default function MemoTextInput({ placeholder, state = "default", classNam
         success: <CheckCircle size={24} weight="bold" color={Color["system-success"]}/>,
         disabled: <PencilSimpleSlash size={24} weight="bold" color={Color["body-2"]}/>,
     }
-    const { bgColor, placeholderColor, borderColor, textColor } = focus ? InputStates.focus : InputStates[state]
-    const DecorationIcon = icons[state]
-    const borderClasses = borderColor ? `border-xsm ${borderColor}` : ""
+    const { bgColor, placeholderColor, borderColor, textColor } = focus ? InputStateColors.focus : InputStateColors[state]
+    const DecorationIcon = focus ? icons.focus : icons[state]
     return (
         <View 
-            className={`flex-row justify-between items-center h-5xl rounded-sm  ${borderClasses} ${bgColor} ${placeholderColor} ${className}`}
+            className={`flex-row justify-between items-center h-5xl rounded-sm ${className}`}
+            style={{
+                backgroundColor: bgColor,
+                borderWidth: getMemoBorderWidth("xsm"),
+                borderColor: borderColor
+            }}
         >
             <TextInput 
                 placeholder={placeholder}
                 placeholderTextColor={placeholderColor}
-                className={`font-kanit-medium ${textColor} pl-lg flex-1 ease-in-out transition `}
+                className={`font-kanit-medium pl-lg flex-1 ease-in-out transition `}
+                style={{
+                    color: textColor
+                }}
                 editable={state !== "disabled"}
                 selectTextOnFocus={state !== "disabled"}
                 onFocus={() => setFocus(true)}

@@ -12,7 +12,7 @@ export default function MemoErrorMessage({ error, className }: Readonly<MemoErro
     return (
         <View className={`flex-row items-center ${className}`}>
             <Warning size={16} weight="bold" color={Color["system-error"]}/>
-            <Text className="font-kanit-regular text-system-error text-caption-1 ml-sm">{ error }</Text>
+            <Text className="font-kanit-medium text-system-error text-caption-1 ml-sm">{ error }</Text>
         </View>
     )
 }

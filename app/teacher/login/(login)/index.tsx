@@ -1,15 +1,28 @@
-import BrandingBackground from "@/components/background/branding-background";
-import MemoButton from "@/components/button/memo-button";
-import MemoTextButton from "@/components/button/memo-text-button";
-import MemoCard from "@/components/container/memo-card";
-import MemoErrorMessage from "@/components/helper/memo-error-message";
-import MemoTextInput from "@/components/input/memo-text-input";
-import KeyboardView from "@/components/scrollable/keyboard-view";
-import TeacherBlackboardSvg from "@/components/ui/kits/teacher-blackboard-svg";
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
+import BrandingBackground from "@/components/background/branding-background"
+import MemoButton from "@/components/button/memo-button"
+import MemoTextButton from "@/components/button/memo-text-button"
+import MemoCard from "@/components/container/memo-card"
+import MemoErrorMessage from "@/components/helper/memo-error-message"
+import MemoTextInput from "@/components/input/memo-text-input"
+import KeyboardView from "@/components/scrollable/keyboard-view"
+import TeacherBlackboardSvg from "@/components/ui/kits/teacher-blackboard-svg"
+import { sendTeacherOTP } from "@/constants/services/otp-service"
+import { Link, router } from "expo-router"
+import { useState } from "react"
+import { Text, View } from "react-native"
 
 export default function TeacherLoginScreen() {
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [teacherId, setTeacherId] = useState("")
+
+    async function handleSendOTP() {
+        const email = await sendTeacherOTP(teacherId)
+        if (email) 
+            router.push({ pathname: "/teacher/login/otp", params: { teacherId: teacherId, teacherEmail: email }})
+        else
+            setError("รหัสคุณครูไม่ถูกต้อง")
+    }
+
     return (
         <KeyboardView>
             <BrandingBackground variant="secondary" className="justify-end items-center">
@@ -24,16 +37,14 @@ export default function TeacherLoginScreen() {
                                 กรุณาใส่รหัสคุณครู
                             </Text>
                         </View>
-                        <MemoTextInput state="default" placeholder="รหัสคุณครู" />
+                        <MemoTextInput state={error ? "error" : "default"} placeholder="รหัสคุณครู" value={teacherId} onChangeText={setTeacherId} />
                     </View>
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
-                            <MemoErrorMessage error="รหัสคุณครูไม่ถูกต้อง" />
+                            <MemoErrorMessage error={error} />
                             <MemoTextButton name="ลืมรหัสคุณครู?" />
                         </View>
-                        <Link href="/teacher/login/otp" asChild>
-                            <MemoButton name="เข้าสู่ระบบ" variant="primary" />
-                        </Link>
+                        <MemoButton name="เข้าสู่ระบบ" variant="primary" onPress={handleSendOTP} />
                         <Link href="/" asChild>
                             <MemoButton name="กลับสู่หน้าเริ่มต้น" variant="ghost" />
                         </Link>
