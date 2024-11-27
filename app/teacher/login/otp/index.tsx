@@ -1,7 +1,7 @@
 import OtpUIKits from "@/components/ui/kits/screen/otp";
 import { MEMO_APIS } from "@/constants/apis";
-import { sendTeacherOTP } from "@/constants/services/otp-service";
 import { useAuth } from "@/context/useAuth";
+import { sendTeacherOTP } from "@/shared/services/otp-service";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
