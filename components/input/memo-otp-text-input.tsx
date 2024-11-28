@@ -50,7 +50,7 @@ export default function MemoOtpTextInput({
             <View className="flex w-full flex-row justify-between">
                 {codes.map((code, index) => (
                     <TextInput
-                        key={index + code}
+                        key={index}
                         autoComplete="one-time-code"
                         enterKeyHint="next"
                         className={`
@@ -63,11 +63,11 @@ export default function MemoOtpTextInput({
                             color: textColor
                         }}
                         inputMode="numeric"
+                        onKeyPress={(event) => handleKeyPress(event.nativeEvent.key, index)}
                         onChangeText={(text: string) => handleCodeChange(text, index)}
                         value={code}
                         maxLength={1}
                         ref={refs[index]}
-                        onKeyPress={(event) => handleKeyPress(event.nativeEvent.key, index)}
                     />
                 ))}
             </View>

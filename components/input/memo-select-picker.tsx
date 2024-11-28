@@ -33,7 +33,7 @@ export default function MemoSelectPicker({ placeholder, state = "default", items
           style={{ color: props?.value ? textColor : placeholderColor }} 
           className={`font-kanit-medium`}
         >
-          {props?.value || placeholder}
+          {(props?.value ?? "") || placeholder}
         </Text>
       </Select.Trigger>
       <Adapt when="sm" platform="touch">

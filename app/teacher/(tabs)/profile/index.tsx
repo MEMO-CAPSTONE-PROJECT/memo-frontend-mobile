@@ -1,13 +1,21 @@
 import BrandingBackground from "@/components/background/branding-background";
 import MemoButton from "@/components/button/memo-button";
 import MemoCard from "@/components/container/memo-card";
+import useAuth from "@/context/useAuth";
 import { router } from "expo-router";
 
 export default function TeacherProfileScreen() {
+    const auth = useAuth()
+    
+    async function handleLogout() {
+        auth.logout()
+        router.navigate("/")
+    }
+
     return (
         <BrandingBackground variant="secondary">
             <MemoCard size="full">
-                <MemoButton name="ออกจากระบบ" variant="primary" onPress={() => router.navigate("/")} />
+                <MemoButton name="ออกจากระบบ" variant="primary" onPress={handleLogout} />
             </MemoCard>
         </BrandingBackground>
     )

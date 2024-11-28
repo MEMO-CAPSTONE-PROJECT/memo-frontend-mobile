@@ -6,7 +6,7 @@ import MemoErrorMessage from "@/components/helper/memo-error-message"
 import MemoTextInput from "@/components/input/memo-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
 import TeacherBlackboardSvg from "@/components/ui/kits/teacher-blackboard-svg"
-import { sendTeacherOTP } from "@/shared/services/otp-service"
+import { useTeacherOTP } from "@/hooks/useOTP"
 import { Link, router } from "expo-router"
 import { useState } from "react"
 import { Text, View } from "react-native"
@@ -14,13 +14,17 @@ import { Text, View } from "react-native"
 export default function TeacherLoginScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const [teacherId, setTeacherId] = useState("")
+    const { mutateAsync, isPending } = useTeacherOTP()
 
     async function handleSendOTP() {
-        const email = await sendTeacherOTP(teacherId)
-        if (email) 
-            router.push({ pathname: "/teacher/login/otp", params: { teacherId: teacherId, teacherEmail: email }})
-        else
+        const result = await mutateAsync({ teacherId: teacherId }).catch(error => null)
+        const email = result?.data?.emailTeacher
+        
+        if (email) {
+            router.replace({ pathname: "/teacher/login/otp", params: { teacherId: teacherId, teacherEmail: email } })
+        } else {
             setError("รหัสคุณครูไม่ถูกต้อง")
+        }
     }
 
     return (
@@ -44,7 +48,12 @@ export default function TeacherLoginScreen() {
                             <MemoErrorMessage error={error} />
                             <MemoTextButton name="ลืมรหัสคุณครู?" />
                         </View>
-                        <MemoButton name="เข้าสู่ระบบ" variant="primary" onPress={handleSendOTP} />
+                        <MemoButton 
+                            isLoading={isPending}
+                            name="เข้าสู่ระบบ" 
+                            variant="primary" 
+                            onPress={handleSendOTP}
+                        />
                         <Link href="/" asChild>
                             <MemoButton name="กลับสู่หน้าเริ่มต้น" variant="ghost" />
                         </Link>

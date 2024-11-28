@@ -7,11 +7,27 @@ import MemoErrorMessage from '@/components/helper/memo-error-message';
 import MemoTextInput from '@/components/input/memo-text-input';
 import KeyboardView from '@/components/scrollable/keyboard-view';
 import SurpriseStudentSvg from '@/components/ui/kits/surprise-student-svg';
-import { Link } from 'expo-router';
-import React from 'react';
+import { useStudentOTP } from '@/hooks/useOTP';
+import { Link, router } from 'expo-router';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 
 export default function StudentLoginScreen() {
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [studentId, setStudentId] = useState("")
+    const { mutateAsync, isPending } = useStudentOTP()
+
+    async function handleSendOTP() {
+        const result = await mutateAsync({ studentId: studentId }).catch(error => null)
+        const email = result?.data?.emailStudent
+        
+        if (email) {
+            router.replace({ pathname: "/student/login/otp", params: { studentId: studentId, studentEmail: email } })
+        } else {
+            setError("รหัสนักเรียนไม่ถูกต้อง")
+        }
+    }
+
     return (
         <KeyboardView>
             <BrandingBackground variant="secondary" className="justify-end items-center">
@@ -26,16 +42,14 @@ export default function StudentLoginScreen() {
                                 กรุณาใส่รหัสนักเรียน
                             </Text>
                         </View>
-                        <MemoTextInput state="default" placeholder="รหัสนักเรียน" />
+                        <MemoTextInput state={error ? "error" : "default"} placeholder="รหัสนักเรียน" value={studentId} onChangeText={setStudentId} />
                     </View>
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
-                            <MemoErrorMessage error="รหัสนักเรียนไม่ถูกต้อง" />
-                            <MemoTextButton name="ลืมรหัสนักเรียน?" />
+                            <MemoErrorMessage error={error} />
+                            <MemoTextButton name="ลืมรหัสนักเรียน?"/>
                         </View>
-                        <Link href="/student/login/otp" asChild>
-                            <MemoButton name="เข้าสู่ระบบ" variant="primary" />
-                        </Link>
+                        <MemoButton isLoading={isPending} name="เข้าสู่ระบบ" variant="primary" onPress={handleSendOTP} />
                         <Link href="/" asChild>
                             <MemoButton name="กลับสู่หน้าเริ่มต้น" variant="ghost" />
                         </Link>

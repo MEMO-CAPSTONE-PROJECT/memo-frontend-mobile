@@ -14,6 +14,9 @@ import { View } from "react-native";
 
 export default function TeacherHomeScreen() {
     const [isOwner, setIsOwner] = useState(true)
+    const [contents, setContents] = useState(mockTeacherContents)
+    const user = mockUser
+    
     const buttons = [
       { name: "เป้าหมายทั้งหมด", active: !isOwner, onPress: () => setIsOwner(false) },
       { name: "เป้าหมายของฉัน", active: isOwner, onPress: () => setIsOwner(true) }
@@ -23,13 +26,16 @@ export default function TeacherHomeScreen() {
       { id: "date", name: "วันที่ปิดรับ", icon: CalendarDots, secondary: false },
       { id: "organizer", name: "คุณครูผู้ดูแล", icon: GraduationCap, secondary: false }
     ]
-    const user = mockUser
-    const contents = mockTeacherContents
+
+    function handleSearch(text: string) {
+        setContents(mockTeacherContents.filter(content => content.name.includes(text)))
+    }
+
     return (
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="relative gap-y-xl !p-0">
                 <View className="gap-y-xl px-[1.5rem]">
-                    <MemoSearchBar placeholder="ค้นหา" />
+                    <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
                     <MemoSelectionButton buttons={buttons} />
                 </View>
                 <ScrollableView border={false} gap={false} className="gap-y-xl">
@@ -40,8 +46,8 @@ export default function TeacherHomeScreen() {
                             content={content}
                             sections={sections}
                             href={{
-                                pathname: "/teacher/home/[detail]",
-                                params: { detail: content.id, name: content.name }
+                                pathname: "/teacher/home/detail",
+                                params: { id: content.id, name: content.name }
                             }}
                         />
                     ))}

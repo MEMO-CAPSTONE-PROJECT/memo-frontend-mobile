@@ -1,19 +1,21 @@
-import { MEMO_BASE_URL } from "@/constants/apis"
-import axios from "axios"
+import { MemoBaseURL } from "@/constants/apis";
+import { MemoKey } from "@/constants/key";
+import StorageServiceInstance from "@/shared/services/storage-service";
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: MEMO_BASE_URL.public
+    baseURL: MemoBaseURL.PUBLIC
 })
 
 api.interceptors.request.use(
     async config => {
-        // const value = await Keychain.getGenericPassword()
-        // if (!config.headers.Authorization && value)
-        //     config.headers.Authorization = `Bearer ${value.password}`
+        const value = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
+        if (!config.headers.Authorization && value)
+            config.headers.Authorization = `Bearer ${value}`
         return config
     },
     error => {
-        return Promise.reject(error)
+        return error
     }
 )
 

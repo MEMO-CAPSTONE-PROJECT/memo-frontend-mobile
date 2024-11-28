@@ -5,10 +5,27 @@ import MemoErrorMessage from "@/components/helper/memo-error-message";
 import MemoTextInput from "@/components/input/memo-text-input";
 import KeyboardView from "@/components/scrollable/keyboard-view";
 import SurpriseParentSvg from "@/components/ui/kits/surprise-parent-svg";
-import { Link } from "expo-router";
+import { useParentOTP } from "@/hooks/useOTP";
+import { Link, router } from "expo-router";
+import { useState } from "react";
 import { Text, View } from "react-native";
 
 export default function ParentLoginScreen() {
+    const [error, setError] = useState<string | undefined>(undefined)
+    const [parentPhoneNumber, setParentPhoneNumber] = useState("")
+    const { mutateAsync, isPending } = useParentOTP()
+
+    async function handleSendOTP() {
+        const result = await mutateAsync({ phoneNumber: parentPhoneNumber }).catch(error => null)
+        const email = result?.data?.emailParent
+        
+        if (email) {
+            router.replace({ pathname: "/parent/login/otp", params: { parentPhoneNumber: parentPhoneNumber, parentEmail: email } })
+        } else {
+            setError("เบอร์ผู้ปกครองไม่ถูกต้อง")
+        }
+    }
+
     return (
         <KeyboardView>
             <BrandingBackground variant="secondary" className="justify-end items-center">
@@ -23,15 +40,13 @@ export default function ParentLoginScreen() {
                                 กรุณาใส่เบอร์โทรศัพท์
                             </Text>
                         </View>
-                        <MemoTextInput state="default" placeholder="เบอร์ผู้ปกครอง" />
+                        <MemoTextInput state={error ? "error" : "default"} placeholder="เบอร์ผู้ปกครอง" value={parentPhoneNumber} onChangeText={setParentPhoneNumber} />
                     </View>
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
-                            <MemoErrorMessage error="เบอร์ผู้ปกครองไม่ถูกต้อง" />
+                            <MemoErrorMessage error={error} />
                         </View>
-                        <Link href="/parent/login/otp" asChild>
-                            <MemoButton name="เข้าสู่ระบบ" variant="primary" />
-                        </Link>
+                        <MemoButton isLoading={isPending} name="เข้าสู่ระบบ" variant="primary" onPress={handleSendOTP} />
                         <Link href="/" asChild>
                             <MemoButton name="กลับสู่หน้าเริ่มต้น" variant="ghost" />
                         </Link>

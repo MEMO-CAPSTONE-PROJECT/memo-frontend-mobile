@@ -1,7 +1,10 @@
+import { Color } from "@/constants/theme/color";
 import { forwardRef } from "react";
 import { GestureResponderEvent, Pressable, Text, View } from "react-native";
+import { Spinner } from "tamagui";
 
 interface MemoButtonProps {
+    isLoading?: boolean
     variant: keyof MemoButtonVariant
     size?: keyof MemoButtonSize
     name: string
@@ -18,7 +21,7 @@ interface MemoButtonSize {
     medium: string
 }
 
-const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, className, size = "medium" }, ref) => {
+const MemoButton = forwardRef<View, MemoButtonProps>(({ isLoading, onPress, name, variant, className, size = "medium" }, ref) => {
     const variants = {
         primary: { color: "bg-primary-2 hover:bg-primary-2-hover", text: "text-system-white" },
         secondary: { color: "bg-secondary-2 hover:bg-secondary-2-hover", text: "text-system-white" },
@@ -30,6 +33,15 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ onPress, name, variant, 
 
     const { color, text } = variants[variant]
     const { height, width, rounded } = sizes[size]
+
+    if (isLoading) {
+        return (
+            <Pressable ref={ref} className={`flex-row gap-x-md justify-center items-center bg-system-gray ${height} ${width} ${rounded} ${className}`}>
+                <Text className={`font-kanit-medium text-title text-system-white pointer-events-none`}>{name}</Text>
+                <Spinner color={Color["title-1"]}/>
+            </Pressable>
+        )
+    }
 
     return (
         <Pressable onPress={onPress} ref={ref} className={`flex justify-center items-center ${color} ${height} ${width} ${rounded} ${className}`}>

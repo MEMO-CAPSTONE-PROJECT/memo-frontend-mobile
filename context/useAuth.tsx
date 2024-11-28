@@ -1,27 +1,28 @@
+import { MemoApis } from "@/constants/apis";
+import { MemoKey } from "@/constants/key";
 import api from "@/shared/api-handler";
-import { createContext, useContext, useState } from "react";
-import * as Keychain from "react-native-keychain";
-
-export const JWT_ACCESS_TOKEN_KEY = "jwt-access-token"
+import { MemoConfig } from "@/shared/config";
+import StorageServiceInstance from "@/shared/services/storage-service";
+import { createContext, useContext, useMemo, useState } from "react";
 
 const AuthContext = createContext({
     state: {
         accessToken: null,
         authenticated: false
     },
-    login: async (url: string, body: {}) => false,
-    logout: () => {}
+    login: async (url: keyof typeof MemoApis, body: {}) => false,
+    logout: async () => {}
 })
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
     const [state, setState] = useState({
         accessToken: null,
         authenticated: false
     })
 
-    async function login(url: string, body: any): Promise<boolean> {
+    async function login(url: keyof typeof MemoApis, body: any): Promise<boolean> {
         try {
-            const result = await api.post(url, body)
+            const result = MemoConfig.isMock ? { data: { data: { token: "FakeToken" } } } : await api.post(MemoApis[url], body)
             const { 
                 data: { 
                     token: accessToken 
@@ -32,8 +33,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
                 accessToken,
                 authenticated: true
             })
+            await StorageServiceInstance.setItem(MemoKey.JWT_ACCESS_TOKEN, accessToken)
 
-            // await Keychain.setGenericPassword(JWT_ACCESS_TOKEN_KEY, accessToken)
             return true
         } catch (error) {
             console.log("[MEMO] Login failed", error)
@@ -42,24 +43,26 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     async function logout() {
-        await Keychain.resetGenericPassword()
+        await StorageServiceInstance.deleteItem(MemoKey.JWT_ACCESS_TOKEN)
         setState({
             accessToken: null,
             authenticated: false
         })
     }
 
+    const value = useMemo(() => ({ state, login, logout }), [state])
+
     return (
-        <AuthContext.Provider value={{ state, login, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )
 
 }
-
-function useAuth() {
+export default function useAuth() {
     const authContext = useContext(AuthContext)
     return authContext
 }
 
-export { AuthProvider, useAuth };
+export { AuthContext, AuthProvider, useAuth };
+

@@ -25,6 +25,7 @@ interface CreateAchievementForm {
     }[]
     description: string;
 }
+
 const MAX_TYPE = 3
 const MEMO_TYPES = [
     { name: "จิตอาสา" }, 
@@ -46,6 +47,14 @@ const CreateAchievementSchema = z.object({
     description: z.string().min(1, "กรุณาใส่รายละเอียด")
 })
 
+function DeleteButton({ onPress }: Readonly<{ onPress: () => void }>) {
+    return (
+        <Pressable onPress={onPress} className="bg-system-error rounded-xsm px-md">
+            <Text className="font-kanit-medium text-caption-1 text-system-white">ลบกลุ่มนี้</Text>
+        </Pressable>
+    )
+}
+
 export default function TeacherHomeCreateScreen() {
     const [types, setTypes] = useState(0)
     const { form, update } = useForm<CreateAchievementForm>(
@@ -59,6 +68,7 @@ export default function TeacherHomeCreateScreen() {
         }
     )
     const [errors, setErrors] = useState<ZodFormattedError<CreateAchievementForm, string>>()
+
     function handleAddType() {
         if (types > MAX_TYPE) return
         update("points", [...form.points, { type: "", point: ""}])
@@ -77,20 +87,13 @@ export default function TeacherHomeCreateScreen() {
 
         if (result.success) {
             setErrors(undefined)
-            console.log("PASSING " + form)
+            // console.log("PASSING " + form)
         } else {
             const errors = result.error.format()
             setErrors(errors)
         }
     }
 
-    function RightIcon(index: number) {
-        return (
-            <Pressable onPress={() => handleRemoveType(index)} className="bg-system-error rounded-xsm px-md">
-                <Text className="font-kanit-medium text-caption-1 text-system-white">ลบกลุ่มนี้</Text>
-            </Pressable>
-        )
-    }
     function getTypes() {
         const children: React.ReactNode[] = []
         for (let i = 0; i < types && i < MAX_TYPE; i++) {
@@ -98,7 +101,9 @@ export default function TeacherHomeCreateScreen() {
                 <Fragment key={uuidv4()}>
                     <MemoSelectPickerHelper
                         label="กลุ่มสาระการเรียนรู้"
-                        rightIcon={() => RightIcon(i)}
+                        rightIcon={() => DeleteButton({ 
+                            onPress: () => handleRemoveType(i) 
+                        })}
                         placeholder="กลุ่มสาระการเรียนรู้"
                         items={MEMO_TYPES}
                         value={form.points[i]?.type}

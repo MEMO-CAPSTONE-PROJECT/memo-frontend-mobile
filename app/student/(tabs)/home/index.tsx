@@ -1,4 +1,4 @@
-import { mockStudentContents } from "@/app/student/(tabs)/home/contents.mock"
+import { mockStudentContents } from "@/app/student/(tabs)/home/mock/contents.mock"
 import BrandingBackground from "@/components/background/branding-background"
 import MemoSearchBar from "@/components/bar/memo-searchbar"
 import MemoSelectionButton from "@/components/button/memo-selection-button"
@@ -11,6 +11,8 @@ import { View } from "react-native"
 
 export default function StudentHomeScreen() {
   const [isOpen, setIsOpen] = useState(true)
+  const [contents, setContents] = useState(mockStudentContents)
+
   const buttons = [
     { name: "เป้าหมายที่เปิดรับ", active: isOpen, onPress: () => setIsOpen(true) },
     { name: "เป้าหมายที่ปิดรับ", active: !isOpen, onPress: () => setIsOpen(false) }
@@ -20,12 +22,16 @@ export default function StudentHomeScreen() {
     { id: "date", name: "วันที่ปิดรับ", icon: CalendarDots, secondary: false },
     { id: "organizer", name: "คุณครูผู้ดูแล", icon: GraduationCap, secondary: false }
   ]
-  const contents = mockStudentContents
+
+  function handleSearch(text: string) {
+    setContents(mockStudentContents.filter(content => content.name.includes(text)))
+  }
+  
   return (
     <BrandingBackground variant="secondary">
       <MemoCard size="full" className="gap-y-xl !p-0">
         <View className="gap-y-xl px-[1.5rem]">
-          <MemoSearchBar placeholder="ค้นหา" />
+          <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
           <MemoSelectionButton buttons={buttons} />
         </View>
         <ScrollableView border={false} gap={false} className="gap-y-xl">

@@ -1,7 +1,6 @@
 import OtpUIKits from "@/components/ui/kits/screen/otp";
-import { MEMO_APIS } from "@/constants/apis";
-import { useAuth } from "@/context/useAuth";
-import { sendTeacherOTP } from "@/shared/services/otp-service";
+import useAuth from "@/context/useAuth";
+import { useTeacherOTP } from "@/hooks/useOTP";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
@@ -10,6 +9,7 @@ export default function TeacherOtpScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const auth = useAuth()
     const { teacherId, teacherEmail } = useLocalSearchParams()
+    const { mutateAsync } = useTeacherOTP()
 
     const handleChangeCode = (codes: string[]) => {
         //clear error
@@ -17,18 +17,18 @@ export default function TeacherOtpScreen() {
         setCodes(codes)
     }
 
-    async function handleLogin() {
+    async function login() {
         const otp = codes.join("")
-        const result = await auth.login(MEMO_APIS.verify.teacher, { emailTeacher: teacherEmail, otp: otp })
+        const result = await auth.login("VERIFY_LOGIN_TEACHER", { emailTeacher: teacherEmail, otp: otp })
         if (result) {
-            router.push("/teacher/home")
+            router.replace("/teacher/home")
         } else {
             setError("รหัส OTP ไม่ถูกต้อง")
         }
     }
     function resend() {
         if (!teacherId) return
-        sendTeacherOTP((teacherId as string))
+        mutateAsync({ teacherId: teacherId as string }).catch(error => null)
     }
 
     return (
@@ -36,7 +36,7 @@ export default function TeacherOtpScreen() {
             email={teacherEmail as string} 
             otp={{ error, onChangeCode: handleChangeCode }} 
             resend={resend}
-            verify={handleLogin} 
+            verify={login} 
         />
     )
 }

@@ -44,7 +44,7 @@ export default function ParentStudentsScreen() {
                     </ScrollableView>
                 </View>
                 <View className="gap-y-lg">
-                    <Link href="/parent/home" asChild>
+                    <Link replace href="/parent/home" asChild>
                         <MemoButton name="ยืนยัน" variant="primary" />
                     </Link>
                     <Link href="/" asChild>
