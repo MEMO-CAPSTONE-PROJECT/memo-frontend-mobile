@@ -2,38 +2,38 @@ import BrandingBackground from "@/components/background/branding-background";
 import MemoButton from "@/components/button/memo-button";
 import MemoInputButton from "@/components/button/memo-input-button";
 import MemoCard from "@/components/container/memo-card";
+import MemoErrorMessage from "@/components/helper/memo-error-message";
 import MemoDatePickerHelper from "@/components/input/helper/memo-date-picker-helper";
-import MemoSelectPickerHelper from "@/components/input/helper/memo-select-picker-helper";
 import MemoTextAreaInputHelper from "@/components/input/helper/memo-text-area-input-helper";
 import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper";
-import { Color } from "@/constants/theme/color";
+import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker";
+import { useCreateTeacherAchievement, useTeacherAchievements } from "@/hooks/useAchievement";
 import useForm from "@/hooks/useForm";
+import { useTeacherToken } from "@/hooks/useUserToken";
+import { getDateString } from "@/shared/utils/date-util";
 import { uuidv4 } from "@/shared/utils/random-util";
-import { PlusCircle, Trash } from "phosphor-react-native";
-import React, { Fragment, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { AxiosError } from "axios";
+import { router } from "expo-router";
+import { PlusCircle } from "phosphor-react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { z, ZodFormattedError } from "zod";
 
 interface CreateAchievementForm {
-    name: string;
-    amount: string;
-    startDate: Date;
-    endDate: Date;
+    name: string
+    amount: string
+    startDate: Date
+    endDate: Date
     points: { 
-        type: string; 
-        point: string 
+        id: string
+        normal: string 
+        excellent: string
     }[]
-    description: string;
+    description: string
 }
 
-const MAX_TYPE = 3
-const MEMO_TYPES = [
-    { name: "จิตอาสา" }, 
-    { name: "กล้าแสดงออก" }, 
-    { name: "ความเป็นผู้นำ" }
-]
-
+const MAX_TYPE = 2
 const CreateAchievementSchema = z.object({
     name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย"),
     amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม"),
@@ -41,22 +41,18 @@ const CreateAchievementSchema = z.object({
     endDate: z.date({ message: "กรุณาใส่เวลาปิด" }),
     points: z.array(
         z.object({
-            type: z.string().min(1, "กรุณาใส่กลุ่มสาระการเรียนรู้"),
-            point: z.string().min(1, "กรุณาใส่คะแนน")
+            id: z.string().min(1, "กรุณาใส่กลุ่มสาระการเรียนรู้"),
+            normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน"),
+            excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง")
         }
     )),
     description: z.string().min(1, "กรุณาใส่รายละเอียด")
 })
 
-function DeleteButton({ onPress }: Readonly<{ onPress: () => void }>) {
-    return (
-        <TouchableOpacity onPress={onPress} className="bg-system-error rounded-xsm justify-center items-center p-xsm">
-            <Trash color={Color["system-white"]} size={20} weight="bold" />
-        </TouchableOpacity>
-    )
-}
-
 export default function TeacherHomeCreateScreen() {
+    const { mutateAsync, isPending } = useCreateTeacherAchievement()
+    const { refetch } = useTeacherAchievements()
+    const { data: teacher } = useTeacherToken()
     const [types, setTypes] = useState(0)
     const { form, update } = useForm<CreateAchievementForm>(
         {
@@ -69,10 +65,11 @@ export default function TeacherHomeCreateScreen() {
         }
     )
     const [errors, setErrors] = useState<ZodFormattedError<CreateAchievementForm, string>>()
+    const [error, setError] = useState<string>()
 
     function handleAddType() {
         if (types > MAX_TYPE) return
-        update("points", [...form.points, { type: "", point: ""}])
+        update("points", [...form.points, { id: "", normal: "", excellent: "" }])
         setTypes(types + 1)
     }
     function handleRemoveType(index: number) {
@@ -83,45 +80,32 @@ export default function TeacherHomeCreateScreen() {
         const updatedPoints = form.points.filter((_, i) => i !== index)
         update("points", updatedPoints)
     }
-    function handleSubmit() {
+    async function handleSubmit() {
         const result = CreateAchievementSchema.safeParse(form)
 
         if (result.success) {
             setErrors(undefined)
-            // console.log("PASSING " + form)
+            setError(undefined)
+            const formattedForm = {
+                ...form,
+                teacherId: String(teacher?.sub ?? ""),
+                startDate: getDateString(form.startDate),
+                endDate: getDateString(form.endDate),
+            }
+            
+            const result = await mutateAsync(formattedForm).catch(error => console.log((error as AxiosError).response?.data))
+        
+            if (result) {
+                router.replace("/teacher/home")
+                refetch()
+            } else {
+                setError("เกิดข้อผิดพลาดในการสร้างเป้าหมาย")
+            }
         } else {
             const errors = result.error.format()
             setErrors(errors)
+            setError("กรุณากรอกข้อมูลทั้งหมดให้ถูกต้อง")
         }
-    }
-
-    function getTypes() {
-        const children: React.ReactNode[] = []
-        for (let i = 0; i < types && i < MAX_TYPE; i++) {
-            children.push(
-                <Fragment key={uuidv4()}>
-                    <MemoSelectPickerHelper
-                        label="กลุ่มสาระการเรียนรู้"
-                        rightIcon={() => DeleteButton({ 
-                            onPress: () => handleRemoveType(i) 
-                        })}
-                        placeholder="กลุ่มสาระการเรียนรู้"
-                        items={MEMO_TYPES}
-                        value={form.points[i]?.type}
-                        error={errors?.points?.[i]?.type?._errors[0]}
-                        onValueChange={(text) => update(`points.${i}.type`, text)}
-                    />
-                    <MemoTextInputHelper
-                        placeholder="จำนวนคะแนน"
-                        keyboardType="number-pad"
-                        value={form.points[i]?.point}
-                        error={errors?.points?.[i]?.point?._errors[0]}
-                        onChangeText={(text) => update(`points.${i}.point`, text)}
-                    />
-                </Fragment>
-            )
-        }
-        return children
     }
     
     return (
@@ -161,7 +145,29 @@ export default function TeacherHomeCreateScreen() {
                                 error={errors?.amount?._errors[0]}
                                 onChangeText={(text) => update("amount", text)}
                             />
-                            {getTypes()}
+                            {Array.from({ length: Math.min(types, MAX_TYPE) }).map((_, i) => (
+                                <MemoAptitudePicker
+                                    key={uuidv4()}
+                                    onRemove={() => handleRemoveType(i)}
+                                    data={{
+                                        id: {
+                                            value: form.points[i]?.id,
+                                            error: errors?.points?.[i]?.id?._errors[0],
+                                            onChange: (text) => update(`points.${i}.id`, text),
+                                        },
+                                        normal: {
+                                            value: form.points[i]?.normal,
+                                            error: errors?.points?.[i]?.normal?._errors[0],
+                                            onChange: (text) => update(`points.${i}.normal`, text),
+                                        },
+                                        excellent: {
+                                            value: form.points[i]?.excellent,
+                                            error: errors?.points?.[i]?.excellent?._errors[0],
+                                            onChange: (text) => update(`points.${i}.excellent`, text),
+                                        },
+                                    }}
+                                />
+                            ))}
                             {types < MAX_TYPE && <MemoInputButton
                                 icon={PlusCircle}
                                 iconVariant="success"
@@ -177,7 +183,8 @@ export default function TeacherHomeCreateScreen() {
                                 onChangeText={(text) => update("description", text)}
                             />
                         </View>
-                        <MemoButton name="สร้างเป้าหมายใหม่" variant="primary" onPress={handleSubmit} />
+                        <MemoErrorMessage error={error}/>
+                        <MemoButton isLoading={isPending} name="สร้างเป้าหมายใหม่" variant="primary" onPress={handleSubmit} />
                     </View>
                 </KeyboardAwareScrollView>
             </MemoCard>

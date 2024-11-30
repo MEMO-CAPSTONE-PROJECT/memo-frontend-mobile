@@ -6,7 +6,6 @@ import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-
 export interface MemoContent {
     id: string
     name: string
-    open: boolean
     src?: ImageSourcePropType,
     sections: {
         reward: string

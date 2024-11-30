@@ -1,7 +1,6 @@
 import { ImageAssets } from "@/assets/images/image-assets";
-import { MemoContent } from "@/components/ui/kits/container/memo-content";
 
-export const mockStudentContents: MemoContent[] = [
+export const mockStudentContents = [
     {
       id: "1",
       name: "แข่งเพชรยอดมงกุฎ",

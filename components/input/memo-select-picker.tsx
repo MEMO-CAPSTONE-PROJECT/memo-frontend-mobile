@@ -15,6 +15,7 @@ export interface MemoSelectPickerProps extends SelectProps {
 
 interface MemoSelectPickerItem {
   name: string
+  value: string
 }
 
 export default function MemoSelectPicker({ placeholder, state = "default", items, ...props }: Readonly<MemoSelectPickerProps>) {
@@ -33,7 +34,7 @@ export default function MemoSelectPicker({ placeholder, state = "default", items
           style={{ color: props?.value ? textColor : placeholderColor }} 
           className={`font-kanit-medium`}
         >
-          {(props?.value ?? "") || placeholder}
+          {(items.find(item => item.value === props?.value)?.name ?? "") || placeholder}
         </Text>
       </Select.Trigger>
       <Adapt when="sm" platform="touch">
@@ -75,7 +76,7 @@ export default function MemoSelectPicker({ placeholder, state = "default", items
               <Select.Item 
                 index={index} 
                 key={index + "_" + item.name} 
-                value={item.name}
+                value={item.value}
                 borderBottomWidth={1}
               >
                 <Text className="font-kanit-medium">{item.name}</Text>

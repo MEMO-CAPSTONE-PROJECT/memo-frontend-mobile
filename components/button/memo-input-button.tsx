@@ -35,7 +35,7 @@ const MemoInputButton = forwardRef<TouchableOpacity, MemoInputButtonProps>(({ on
     return (
         <TouchableOpacity onPress={onPress} ref={ref} className={`flex-row justify-center items-center border-xsm border-dotted border-body-2 rounded-sm gap-x-md ${height} ${width} ${rounded}`}>
             <Icon size={24} color={iconVariants[iconVariant]} weight="fill"/>
-            <Text className={`font-kanit-regular text-body text-body-2 pointer-events-none`}>{name}</Text>
+            <Text className={`font-kanit-medium text-caption-1 text-body-2 pointer-events-none`}>{name}</Text>
         </TouchableOpacity>
     )
 })

@@ -22,11 +22,14 @@ export const Color = {
     "system-error-2": "#D33C3C",
     "system-error-2-hover": "#B62D2D",
     "system-error-light": "#FFDEDE",
+    "system-green": "#24BB6A",
     "system-dark-green": "#7EAC67",
     "system-brown": "#82685E",
     "system-dark-brown": "#694F45",
     "system-light-blue": "#E1F5FE",
     "system-light-purple": "#EBDBF1",
     "system-light-orange": "#FFE7D9",
-    "system-blue": "#3F3DA3"
+    "system-light-yellow": "#FFF9E6",
+    "system-blue": "#3F3DA3",
+    "system-blue-2": "#2889DE"
   }

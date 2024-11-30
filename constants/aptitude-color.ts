@@ -10,12 +10,12 @@ export const AptitudeColor: { [key:string]: { icon: Icon, light: string, color: 
     },
     purple: {
         icon: Star,
-        color: Color["primary-2"],
+        color: Color["primary-3"],
         light: Color["system-light-purple"]
     },
-    "light-purple": {
+    "light_purple": {
         icon: Trophy,
-        color: Color["system-light-purple"],
+        color: Color["primary-2"],
         light: Color["system-light-purple"]
     },
     red: {
@@ -25,12 +25,12 @@ export const AptitudeColor: { [key:string]: { icon: Icon, light: string, color: 
     },
     orange: {
         icon: ListChecks,
-        color: Color["secondary-2"],
+        color: Color["secondary-2-hover"],
         light: Color["system-light-orange"]
     },
     yellow: {
         icon: Crown,
-        color: Color["secondary-3"],
-        light: Color["system-light-orange"]
+        color: Color["secondary-2"],
+        light: Color["system-light-yellow"]
     }
 }

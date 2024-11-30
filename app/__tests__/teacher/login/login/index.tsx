@@ -1,6 +1,5 @@
 
 import TeacherLoginScreen from '@/app/teacher/login/(login)'
-import { useTeacherOTP } from '@/hooks/useOTP'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import { router } from 'expo-router'
 

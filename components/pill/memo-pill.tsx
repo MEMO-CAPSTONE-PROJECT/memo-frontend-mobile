@@ -2,13 +2,14 @@ import { Color } from "@/constants/theme/color";
 import { Text, View } from "react-native";
 
 interface MemoPillProps {
-    name: string  
+    name?: string  
     borderColor?: string
     textColor?: string
     backgroundColor?: string
 }
 
 export default function MemoPill({ name, borderColor = Color["primary-2"], backgroundColor = Color["system-light-purple"], textColor = Color["primary-2"] }: Readonly<MemoPillProps>) {
+    if (!name) return <></>
     return (
         <View 
             className={`border-2xsm rounded-xsm w-fit justify-center items-center`}

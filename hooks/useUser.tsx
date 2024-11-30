@@ -1,5 +1,5 @@
 import { MemoApis } from "@/constants/apis";
-import { mockUseParentById } from "@/hooks/mock/useUser.mock";
+import { mockUseParentById, mockUseStudentById } from "@/hooks/mock/useUser.mock";
 import api from "@/shared/api-handler";
 import { MemoConfig } from "@/shared/config";
 import { useQuery } from "@tanstack/react-query";
@@ -61,6 +61,7 @@ export function useStudentById(id: string) {
     return useQuery<null, AxiosError, StudentResponse>({
         queryKey: ["student", id],
         queryFn: async () => {
+            if (MemoConfig.isMock) return mockUseStudentById
             const result = await api.get(MemoApis.STUDENT_DETAIL(id))
             return result.data
         },

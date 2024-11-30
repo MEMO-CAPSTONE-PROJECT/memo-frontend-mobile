@@ -97,26 +97,32 @@ export const mockUseStudentById = {
             points: [
                 {
                     type: "จิตอาสา",
+                    color: "blue",
                     point: 4006
                 },
                 {
                     type: "ความกล้าแสดงออก",
+                    color: "purple",
                     point: 2003
                 },
                 {
                     type: "ความแข่งขัน",
+                    color: "light_purple",
                     point: 2003
                 },
                 {
                     type: "ระเบียบวินัย",
+                    color: "red",
                     point: 0
                 },
                 {
                     type: "ความรับผิดชอบ",
+                    color: "orange",
                     point: 0
                 },
                 {
                     type: "ความเป็นผู้นำ",
+                    color: "yellow",
                     point: 0
                 }
             ]
