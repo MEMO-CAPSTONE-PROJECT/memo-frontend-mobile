@@ -1,4 +1,5 @@
-import OtpUIKits from "@/components/ui/kits/screen/otp";
+import OTPUIKit from "@/components/ui/kits/screen/otp";
+import { MemoApis } from "@/constants/apis";
 import useAuth from "@/context/useAuth";
 import { useParentOTP } from "@/hooks/useOTP";
 import { router, useLocalSearchParams } from "expo-router";
@@ -19,7 +20,7 @@ export default function ParentOtpScreen() {
 
     async function login() {
         const otp = codes.join("")
-        const result = await auth.login("VERIFY_LOGIN_PARENT", { emailParent: parentEmail, otp: otp })
+        const result = await auth.login(MemoApis.VERIFY_LOGIN_PARENT, { emailParent: parentEmail, otp: otp })
         if (result) {
             router.replace("/parent/login/students")
         } else {
@@ -32,7 +33,7 @@ export default function ParentOtpScreen() {
     }
 
     return (
-        <OtpUIKits  
+        <OTPUIKit  
             email={parentEmail as string} 
             otp={{ error, onChangeCode: handleChangeCode }} 
             resend={resend}

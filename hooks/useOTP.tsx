@@ -1,4 +1,5 @@
 import { MemoApis } from "@/constants/apis"
+import { mockUseParentOTP, mockUseStudentOTP, mockUseTeacherOTP } from "@/hooks/mock/useOTP.mock"
 import api from "@/shared/api-handler"
 import { MemoConfig } from "@/shared/config"
 import { useMutation, UseMutationResult } from "@tanstack/react-query"
@@ -17,7 +18,7 @@ function useTeacherOTP(): UseMutationResult<TeacherOTPResponse, AxiosError, Teac
 
     return useMutation<TeacherOTPResponse, AxiosError, TeacherOTPRequest>({
         mutationFn: async (request) => {
-            if (MemoConfig.isMock) return { data: { emailTeacher: "duangcharoen@gmail.com" } }
+            if (MemoConfig.isMock) return mockUseTeacherOTP
 
             const response = await api.post<TeacherOTPResponse>(MemoApis.LOGIN_TEACHER, { teacherId: request.teacherId })
             return response.data
@@ -38,7 +39,7 @@ function useStudentOTP(): UseMutationResult<StudentOTPResponse, AxiosError, Stud
 
     return useMutation<StudentOTPResponse, AxiosError, StudentOTPRequest>({
         mutationFn: async (request) => {
-            if (MemoConfig.isMock) return { data: { emailStudent: "duangcharoen@gmail.com" } }
+            if (MemoConfig.isMock) return mockUseStudentOTP
 
             const response = await api.post<StudentOTPResponse>(MemoApis.LOGIN_STUDENT, { studentId: request.studentId })
             return response.data
@@ -58,7 +59,7 @@ interface ParentOTPResponse {
 function useParentOTP(): UseMutationResult<ParentOTPResponse, AxiosError, ParentOTPRequest> {
     return useMutation<ParentOTPResponse, AxiosError, ParentOTPRequest>({
         mutationFn: async (request) => {
-            if (MemoConfig.isMock) return { data: { emailParent: "duangcharoen@gmail.com" } }
+            if (MemoConfig.isMock) return mockUseParentOTP
 
             const response = await api.post<ParentOTPResponse>(MemoApis.LOGIN_PARENT, { phoneNumber: request.phoneNumber })
             return response.data

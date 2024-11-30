@@ -6,11 +6,12 @@ import MemoDatePickerHelper from "@/components/input/helper/memo-date-picker-hel
 import MemoSelectPickerHelper from "@/components/input/helper/memo-select-picker-helper";
 import MemoTextAreaInputHelper from "@/components/input/helper/memo-text-area-input-helper";
 import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper";
+import { Color } from "@/constants/theme/color";
 import useForm from "@/hooks/useForm";
-import { uuidv4 } from "@/shared/utils";
-import { PlusCircle } from "phosphor-react-native";
+import { uuidv4 } from "@/shared/utils/random-util";
+import { PlusCircle, Trash } from "phosphor-react-native";
 import React, { Fragment, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { z, ZodFormattedError } from "zod";
 
@@ -49,9 +50,9 @@ const CreateAchievementSchema = z.object({
 
 function DeleteButton({ onPress }: Readonly<{ onPress: () => void }>) {
     return (
-        <Pressable onPress={onPress} className="bg-system-error rounded-xsm px-md">
-            <Text className="font-kanit-medium text-caption-1 text-system-white">ลบกลุ่มนี้</Text>
-        </Pressable>
+        <TouchableOpacity onPress={onPress} className="bg-system-error rounded-xsm justify-center items-center p-xsm">
+            <Trash color={Color["system-white"]} size={20} weight="bold" />
+        </TouchableOpacity>
     )
 }
 

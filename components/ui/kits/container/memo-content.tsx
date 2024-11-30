@@ -1,7 +1,7 @@
 import MemoContentIconBox from "@/components/container/box/memo-content-icon-box"
 import MemoPill from "@/components/pill/memo-pill"
-import { Href, Link } from "expo-router"
-import { Image, ImageSourcePropType, Text, View } from "react-native"
+import { Href, router } from "expo-router"
+import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native"
 
 export interface MemoContent {
     id: string
@@ -31,7 +31,9 @@ export interface MemoContentOwner {
 
 export interface MemoContentTag {
     id: string,
-    variant: "primary" | "secondary"
+    borderColor?: string
+    backgroundColor?: string
+    textColor?: string
 }
 
 export interface MemoSection {
@@ -55,6 +57,9 @@ export default function MemoContentCard({
     href,
 }: Readonly<MemoContentCardProps>) {
     const border = divider ? "border-b-sm border-system-light-gray" : ""
+    function navigate() {
+        router.push(href)
+    }
     return (
         <View className={`gap-y-lg px-[1.5rem] pb-xl ${border}`}>
             <View className="gap-y-sm">
@@ -65,7 +70,9 @@ export default function MemoContentCard({
                         <MemoPill
                             key={`${index}_${tag.id}`} 
                             name={tag.id} 
-                            variant={tag.variant} 
+                            backgroundColor={tag.backgroundColor}
+                            borderColor={tag.borderColor}
+                            textColor={tag.textColor}
                         />
                     ))}
                 </View>
@@ -79,9 +86,9 @@ export default function MemoContentCard({
                     variant={secondary ? "secondary" : "primary"} 
                 />
             ))}
-            <Link href={href} asChild>
+            <TouchableOpacity onPress={navigate}>
                 <Text className="font-kanit-regular text-system-blue">รายละเอียดเพิ่มเติม &raquo;</Text>
-            </Link>
+            </TouchableOpacity>
         </View>
     )
 }

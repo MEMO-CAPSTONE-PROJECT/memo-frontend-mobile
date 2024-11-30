@@ -10,6 +10,7 @@ const api = axios.create({
 api.interceptors.request.use(
     async config => {
         const value = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
+        
         if (!config.headers.Authorization && value)
             config.headers.Authorization = `Bearer ${value}`
         return config

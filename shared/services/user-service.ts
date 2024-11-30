@@ -1,25 +1,29 @@
 import { MemoKey } from "@/constants/key";
+import { MemoConfig } from "@/shared/config";
 import StorageServiceInstance from "@/shared/services/storage-service";
-import { StudentUser, TeacherUser } from "@/shared/types/user-type";
+import { ParentUser, StudentUser, TeacherUser } from "@/shared/types/user-type";
 import { jwtDecode } from "jwt-decode";
 
-class TokenService {
+class UserService {
 
     async getTeacher(): Promise<TeacherUser | null> {
+        if (MemoConfig.isMock) return { sub: "1", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "woman", class: { room: 5, level: 4 } }
         const token = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
         return token ? jwtDecode<TeacherUser>(token) : null
     }
 
     async getStudent(): Promise<StudentUser | null> {
+        if (MemoConfig.isMock) return { sub: "2", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "man", class: { room: 2, level: 5 } }
         const token = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
         return token ? jwtDecode<StudentUser>(token) : null
     }
 
-    async getParent(): Promise<TeacherUser | null> {
+    async getParent(): Promise<ParentUser | null> {
+        if (MemoConfig.isMock) return { sub: "3", phoneNumber: "0812345678", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "man" }
         const token = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
-        return token ? jwtDecode<TeacherUser>(token) : null
+        return token ? jwtDecode<ParentUser>(token) : null
     }
 }
 
-const TokenServiceInstance = new TokenService()
-export default TokenServiceInstance
+const UserServiceInstance = new UserService()
+export default UserServiceInstance

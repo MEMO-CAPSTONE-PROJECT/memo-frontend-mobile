@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 
 interface MemoContentIconBoxProps {
     title: string
-    detail: string
+    detail?: string
     icon: Icon
     variant: keyof MemoIconBoxVariant
 }

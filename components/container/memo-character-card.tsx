@@ -2,9 +2,9 @@ import StudentBoyDefaultSvg from "@/components/ui/icons/student/boy/default-svg"
 import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-svg"
 import clsx from "clsx"
 import React, { Fragment } from "react"
-import { Pressable, Text, View } from "react-native"
+import { Pressable, PressableProps, Text, View } from "react-native"
 
-interface MemoCharacterCardProps {
+interface MemoCharacterCardProps extends PressableProps {
     active?: boolean
     texts?: MemoCharacterCardText[]
     character?: React.ReactNode
@@ -18,7 +18,7 @@ interface MemoCharacterCardText {
     extraClassName: string
 }
 
-export default function MemoCharacterCard({ active, character, gender, onPress, texts = [] }: Readonly<MemoCharacterCardProps>) {
+export default function MemoCharacterCard({ active, character, gender, onPress, texts = [], ...props }: Readonly<MemoCharacterCardProps>) {
     const states = {
         default: { container: "bg-[transparent] border-xsm border-system-gray", textContainer: "text-body-1" },
         active: { container: "bg-primary-2 border-xsm border-primary-2", textContainer: "text-system-white" },
@@ -30,18 +30,23 @@ export default function MemoCharacterCard({ active, character, gender, onPress, 
         mascot = character
     } else {
         switch (gender) {
+            case "woman":
+            case "girl":
             case "หญิง":
                 mascot = <StudentGirlDefaultSvg container="medium" size={70} />
                 break;
+            case "man":
+            case "boy":
             case "ชาย":
                 mascot = <StudentBoyDefaultSvg container="medium" size={75} />
                 break;
             default:
+                mascot = <StudentBoyDefaultSvg container="medium" size={75} />
                 break;
         }
     }
     return (
-        <Pressable onPress={onPress} className={`flex-row items-center h-[110] rounded-sm p-xl gap-x-xl overflow-hidden ${container}`}>
+        <Pressable onPress={onPress} className={`flex-row items-center h-[110] rounded-sm p-xl gap-x-xl overflow-hidden ${container}`} {...props}>
             {
                 active && (
                     <Fragment>

@@ -16,9 +16,18 @@ export default function MemoOtpTextInput({
     onChangeCode,
 }: Readonly<MemoOtpTextInputProps>) {
     const [codes, setCodes] = useState<string[]>(Array(length).fill(""))
+    const [focuses, setFocuses] = useState<boolean[]>(Array(length).fill(false))
     const refs: RefObject<TextInput>[] = Array(length).fill(null).map(() => createRef<TextInput>())
 
-    const { bgColor, borderColor, textColor } = error ? InputStateColors.error : InputStateColors.default
+    const getStyles = (index: number) => {
+        if (error) {
+            return InputStateColors.error
+        } else if (focuses[index]) {
+            return InputStateColors.focus
+        } else {
+            return InputStateColors.default
+        }
+    }
 
     const handleCodeChange = (text: string, index: number) => {
         if (text.length > 1) {
@@ -58,9 +67,9 @@ export default function MemoOtpTextInput({
                         `}
                         style={{
                             borderWidth: getMemoBorderWidth("xsm"),
-                            borderColor: borderColor,
-                            backgroundColor: bgColor,
-                            color: textColor
+                            borderColor: getStyles(index).borderColor,
+                            backgroundColor: getStyles(index).bgColor,
+                            color: getStyles(index).textColor
                         }}
                         inputMode="numeric"
                         onKeyPress={(event) => handleKeyPress(event.nativeEvent.key, index)}
@@ -68,6 +77,8 @@ export default function MemoOtpTextInput({
                         value={code}
                         maxLength={1}
                         ref={refs[index]}
+                        onFocus={() => setFocuses(prev => prev.map((_, i) => i === index ? true : false))}
+                        onBlur={() => setFocuses(Array(length).fill(false))}
                     />
                 ))}
             </View>

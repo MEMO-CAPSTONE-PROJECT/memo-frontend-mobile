@@ -12,7 +12,7 @@ export const mockStudentContents: MemoContent[] = [
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
         organizer: "คุณครูนงเยาว ใจดี",
       },
-      tags: [{ id: "จิตอาสา", variant: "primary" }, { id: "กล้าแสดงออก", variant: "secondary" }]
+      tags: [{ id: "จิตอาสา" }, { id: "กล้าแสดงออก" }]
     },
     {
       id: "2",
@@ -24,7 +24,7 @@ export const mockStudentContents: MemoContent[] = [
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
         organizer: "คุณครูนงเยาว ใจดี",
       },
-      tags: [{ id: "จิตอาสา", variant: "primary" }, { id: "กล้าแสดงออก", variant: "secondary" }]
+      tags: [{ id: "จิตอาสา" }, { id: "กล้าแสดงออก" }]
     },
     {
       id: "3",
@@ -36,7 +36,7 @@ export const mockStudentContents: MemoContent[] = [
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
         organizer: "คุณครูนงเยาว ใจดี",
       },
-      tags: [{ id: "จิตอาสา", variant: "primary" }, { id: "กล้าแสดงออก", variant: "secondary" }]
+      tags: [{ id: "จิตอาสา" }, { id: "กล้าแสดงออก" }]
     },
     {
       id: "4",
@@ -47,7 +47,7 @@ export const mockStudentContents: MemoContent[] = [
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
         organizer: "คุณครูนงเยาว ใจดี",
       },
-      tags: [{ id: "จิตอาสา", variant: "primary" }, { id: "กล้าแสดงออก", variant: "secondary" }]
+      tags: [{ id: "จิตอาสา" }, { id: "กล้าแสดงออก" }]
     },
     {
       id: "5",
@@ -58,6 +58,6 @@ export const mockStudentContents: MemoContent[] = [
         date: "วันที่ 01/09/67 12:00 PM ถึง 02/09/67 11:59 PM",
         organizer: "คุณครูนงเยาว ใจดี",
       },
-      tags: [{ id: "จิตอาสา", variant: "primary" }, { id: "กล้าแสดงออก", variant: "secondary" }]
+      tags: [{ id: "จิตอาสา" }, { id: "กล้าแสดงออก" }]
     }
   ]

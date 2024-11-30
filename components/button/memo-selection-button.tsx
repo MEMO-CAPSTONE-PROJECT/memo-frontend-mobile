@@ -1,4 +1,4 @@
-import { Pressable, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 interface MemoSelectionButtonProps {
     buttons: MemoSelectionButtonItem[]
@@ -18,13 +18,13 @@ export default function MemoSelectionButton({ buttons }: Readonly<MemoSelectionB
     return (
         <View className="flex-row justify-between items-center h-4xl rounded-sm bg-primary-2 p-2xsm">
             {buttons.map(({ name, active, onPress }, index) =>
-                <Pressable 
+                <TouchableOpacity 
                     onPress={onPress} 
                     className={`h-full w-full flex-1 justify-center rounded-[8px] ${active ? states.active.container : states.default.container}`} 
                     key={name}
                 >
                     <Text className={`text-center ${active ? states.active.text : states.default.text}`}>{name}</Text>
-                </Pressable>
+                </TouchableOpacity>
             )}
         </View>
     )

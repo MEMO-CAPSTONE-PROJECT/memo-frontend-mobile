@@ -1,24 +1,25 @@
+import { Color } from "@/constants/theme/color";
 import { Text, View } from "react-native";
 
 interface MemoPillProps {
     name: string  
-    variant?: keyof MemoPillVariant
+    borderColor?: string
+    textColor?: string
+    backgroundColor?: string
 }
 
-interface MemoPillVariant {
-    primary: string
-    secondary: string
-}
-
-export default function MemoPill({ name, variant = "primary" }: Readonly<MemoPillProps>) {
-    const variants = {
-        primary: { container: "border-2xsm rounded-xsm border-primary-2 bg-system-light-purple", text: "font-kanit-medium text-primary-2" },
-        secondary: { container: "border-2xsm rounded-xsm border-secondary-2 bg-system-light-orange", text: "font-kanit-medium text-secondary-2" },
-    }
-    const { container, text } = variants[variant]
+export default function MemoPill({ name, borderColor = Color["primary-2"], backgroundColor = Color["system-light-purple"], textColor = Color["primary-2"] }: Readonly<MemoPillProps>) {
     return (
-        <View className={`${container} w-fit justify-center items-center`}>
-            <Text className={`px-md ${text}`}>{name}</Text>
+        <View 
+            className={`border-2xsm rounded-xsm w-fit justify-center items-center`}
+            style={{ borderColor, backgroundColor, }}
+        >
+            <Text 
+                className={`px-md font-kanit-medium`} 
+                style={{ color: textColor }}
+            >
+                {name}
+            </Text>
         </View>
     )
 }

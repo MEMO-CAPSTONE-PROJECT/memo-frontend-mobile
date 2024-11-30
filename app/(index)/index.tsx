@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
   function handlePress() {
     if (active === -1 || active >= characters.length) {
-      setError("กรุณาเลือกประเภทผู้ใช้")
+      setError("กรุณาเลือกประเภทผู้ใช้ก่อน")
       return
     }
     const character = characters[active]
@@ -61,6 +61,7 @@ export default function HomeScreen() {
           <ScrollableView scrollEnabled={characters.length > 3} className="gap-y-lg">
               {characters.map((character, index) =>
                 <MemoCharacterCard
+                  testID={`MemoCharacterCard`}
                   key={index + character.name}
                   character={character.icon}
                   active={index === active}

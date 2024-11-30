@@ -1,21 +1,28 @@
-import { mockTeacherContents } from "@/app/teacher/(tabs)/home/mock/contents.mock";
-import { mockUser } from "@/app/teacher/(tabs)/home/mock/user.mock";
 import BrandingBackground from "@/components/background/branding-background";
 import MemoSearchBar from "@/components/bar/memo-searchbar";
+import MemoIconButton from "@/components/button/memo-icon-button";
 import MemoSelectionButton from "@/components/button/memo-selection-button";
 import MemoCard from "@/components/container/memo-card";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content";
-import { Color } from "@/constants/theme/color";
-import { Link } from "expo-router";
+import { AptitudeColor } from "@/constants/aptitude-color";
+import { Achievement, useTeacherAchievements } from "@/hooks/useAchievement";
+import { useTeacherToken } from "@/hooks/useUserToken";
+import { router } from "expo-router";
 import { CalendarDots, GraduationCap, Medal, Plus } from "phosphor-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 
 export default function TeacherHomeScreen() {
     const [isOwner, setIsOwner] = useState(true)
-    const [contents, setContents] = useState(mockTeacherContents)
-    const user = mockUser
+    const [contents, setContents] = useState<Achievement[]>([])
+    const { data } = useTeacherAchievements()
+    const { data: teacher} = useTeacherToken()
+    const achievements = data?.data?.achievementTeacher
+    useEffect(() => {
+        if (achievements) 
+            setContents(achievements ?? [])
+    }, [achievements])
     
     const buttons = [
       { name: "เป้าหมายทั้งหมด", active: !isOwner, onPress: () => setIsOwner(false) },
@@ -28,7 +35,10 @@ export default function TeacherHomeScreen() {
     ]
 
     function handleSearch(text: string) {
-        setContents(mockTeacherContents.filter(content => content.name.includes(text)))
+        setContents(achievements?.filter(achievement => achievement.name.includes(text)) ?? [])
+    }
+    function handleCreate() {
+        router.push("/teacher/home/create")
     }
 
     return (
@@ -39,11 +49,31 @@ export default function TeacherHomeScreen() {
                     <MemoSelectionButton buttons={buttons} />
                 </View>
                 <ScrollableView border={false} gap={false} className="gap-y-xl">
-                    {contents.filter(content => !isOwner || (isOwner && content.owner === user.id)).map((content, index, contents) => (
+                    {contents.filter(content => !isOwner || (isOwner && content.teacherId === teacher?.sub)).map((content, index, contents) => (
                         <MemoContentCard
                             divider={index !== contents.length - 1}
                             key={`${index}_${content.name}`}
-                            content={content}
+                            content={{
+                                id: content.id,
+                                name: content.name,
+                                open: false,
+                                // src: content.src,
+                                sections: {
+                                    reward: "รางวัล",
+                                    date: content.sections.startDate + "-" + content.sections.endDate,
+                                    organizer: content.sections.organizer
+                                },
+                                tags: content.points.map((point) => {
+                                    const detail = point.details[0]
+                                    const color = detail.color in AptitudeColor ? AptitudeColor[detail.color] : undefined
+                                    return {
+                                        id: detail.type,
+                                        borderColor: color?.color,
+                                        backgroundColor: color?.light,
+                                        textColor: color?.color
+                                    }
+                                })
+                            }}
                             sections={sections}
                             href={{
                                 pathname: "/teacher/home/detail",
@@ -52,11 +82,7 @@ export default function TeacherHomeScreen() {
                         />
                     ))}
                 </ScrollableView>
-                <Link href="/teacher/home/create" className="absolute bottom-6 right-6">
-                    <View className="w-14 h-14 rounded-circle bg-primary-3 justify-center items-center">
-                        <Plus color={Color["system-white"]} weight="bold" size={32} />
-                    </View>
-                </Link>
+                <MemoIconButton icon={Plus} className="absolute bottom-4 right-4" onPress={handleCreate} />
             </MemoCard>
         </BrandingBackground>
     )

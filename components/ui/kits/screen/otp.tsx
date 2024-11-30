@@ -8,19 +8,19 @@ import { Link } from "expo-router"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Text, View } from "react-native"
 
-interface OtpUIKitsProps {
+interface OTPUIKitProps {
     email: string
-    otp: OtpUIKitsState
+    otp: OTPUIKitState
     resend: () => void
     verify: () => void
 }
 
-interface OtpUIKitsState {
+interface OTPUIKitState {
     error?: string
     onChangeCode: (codes: string[]) => void
 }
 
-export default function OtpUIKits({ email, otp, resend, verify }: Readonly<OtpUIKitsProps>) {
+export default function OTPUIKit({ email, otp, resend, verify }: Readonly<OTPUIKitProps>) {
     const TIMER = 30
     const [timer, setTimer] = useState(TIMER)    
     const emailFormatted = useMemo(() => email.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1xxx@$2"), [email])

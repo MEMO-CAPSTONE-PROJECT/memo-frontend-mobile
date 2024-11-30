@@ -1,4 +1,3 @@
-import { MemoApis } from "@/constants/apis";
 import { MemoKey } from "@/constants/key";
 import api from "@/shared/api-handler";
 import { MemoConfig } from "@/shared/config";
@@ -10,7 +9,7 @@ const AuthContext = createContext({
         accessToken: null,
         authenticated: false
     },
-    login: async (url: keyof typeof MemoApis, body: {}) => false,
+    login: async (url: string, body: {}) => false,
     logout: async () => {}
 })
 
@@ -20,9 +19,9 @@ function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
         authenticated: false
     })
 
-    async function login(url: keyof typeof MemoApis, body: any): Promise<boolean> {
+    async function login(url: string, body: any): Promise<boolean> {
         try {
-            const result = MemoConfig.isMock ? { data: { data: { token: "FakeToken" } } } : await api.post(MemoApis[url], body)
+            const result = MemoConfig.isMock ? { data: { data: { token: "FakeToken" } } } : await api.post(url, body)
             const { 
                 data: { 
                     token: accessToken 

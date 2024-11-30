@@ -12,4 +12,10 @@ export const MemoApis = {
     VERIFY_LOGIN_STUDENT: `/verify/login/student`,
     VERIFY_LOGIN_TEACHER: `/verify/login/teacher`,
     VERIFY_LOGIN_PARENT: `/verify/login/parent`,
+    PARENTS: `/parents`, //required Bearer token
+    ACHIEVEMENTS_TEACHER: `/achievements/teachers`, //required Bearer token
+    ACHIEVEMENTS_TEACHER_DETAIL: (id: string) => `/achievements/teacher/${id}`, //required Bearer token
+
+    PARENT_DETAIL: (id: string) => `/parent/${id}`, //required Bearer token
+    STUDENT_DETAIL: (id: string) => `/student/${id}`, //required Bearer token
 }

@@ -8,7 +8,7 @@ interface TeacherManDefaultSvgProps {
     className?: string
 }
 
-export default function TeacherManDefaultSvg({ size, flip, className = "" }: Readonly<TeacherManDefaultSvgProps>) {
+export default function TeacherManDefaultSvg({ size, flip = false, className = "" }: Readonly<TeacherManDefaultSvgProps>) {
     return (
         <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
             <Svg width={size} height={size} viewBox="0 0 147 145" fill="none">

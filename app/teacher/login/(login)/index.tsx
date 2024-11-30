@@ -46,7 +46,9 @@ export default function TeacherLoginScreen() {
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
                             <MemoErrorMessage error={error} />
-                            <MemoTextButton name="ลืมรหัสคุณครู?" />
+                            <Link href="/teacher/login/forgot" asChild>
+                                <MemoTextButton name="ลืมรหัสคุณครู?" />
+                            </Link>
                         </View>
                         <MemoButton 
                             isLoading={isPending}

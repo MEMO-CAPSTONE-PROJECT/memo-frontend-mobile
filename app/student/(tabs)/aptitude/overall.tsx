@@ -1,8 +1,12 @@
 import BrandingBackground from "@/components/background/branding-background"
 import MemoCard from "@/components/container/memo-card"
 import ScrollableView from "@/components/scrollable/scrollable-view"
+import { AptitudeColor } from "@/constants/aptitude-color"
 import { Color } from "@/constants/theme/color"
-import { Clock, Crown, Heart, Icon, ListChecks, Star, Trophy } from "phosphor-react-native"
+import { useStudentById } from "@/hooks/useUser"
+import { useStudentToken } from "@/hooks/useUserToken"
+import { Icon } from "phosphor-react-native"
+import { useEffect, useState } from "react"
 import { Text, View } from "react-native"
 
 interface ProgressBarProps {
@@ -46,26 +50,34 @@ function SummaryCircle({ totalPoints, pointsToNextLevel }: Readonly<SummaryCircl
 interface AptitudeItemProps {
     type: string
     point: number
-    icon: {
-        Icon: Icon
-        color: string
-        text: string
+    icon?: {
+        Icon?: Icon
+        color?: string
+        text?: string
     }
 }
 
 function AptitudeItem({
     type,
     point,
-    icon: { Icon, color, text },
+    icon,
 }: Readonly<AptitudeItemProps>) {
     return (
         <View className="w-full bg-system-lightest-gray flex-row items-center justify-between p-md rounded-sm">
             <View className="flex-row gap-x-lg">
-                <View className={`w-12 h-12 rounded-sm items-center justify-center ${color}`}>
-                    <Icon color={Color["system-white"]} weight="fill" size={26} />
+                <View 
+                    className={`w-12 h-12 rounded-sm items-center justify-center`}
+                    style={{ backgroundColor: icon?.color ?? "" }}
+                >
+                    {icon?.Icon && <icon.Icon color={Color["system-white"]} weight="fill" size={26} />}
                 </View>
                 <View>
-                    <Text className={`font-kanit-medium ${text}`}>{type}</Text>
+                    <Text 
+                        className={`font-kanit-medium`}
+                        style={{ color: icon?.text ?? "" }}
+                    >
+                        {type}
+                    </Text>
                     <Text className="font-kanit-regular">({point} คะแนน)</Text>
                 </View>
             </View>
@@ -75,24 +87,30 @@ function AptitudeItem({
 }
 
 export default function StudentAptitudeOverallScreen() {
-    const totalPoints = 8012
+    const { data: student } = useStudentToken()
+    const [totalPoints, setTotalPoints] = useState(0)
+    const { data } = useStudentById(student?.sub ?? "")
+
+    // Calculate total points when data is available
+    useEffect(() => {
+        if (data?.data?.student?.points) {
+            const points = data.data.student.points.reduce((acc: number, { point }) => acc + point, 0)
+            setTotalPoints(points)
+        }
+    }, [data])
+    const aptitudes = data?.data?.student?.points?.map(
+        ({ type, color, point }, index) => {
+            const { icon, color: colorCode } = color in AptitudeColor ? AptitudeColor[color] : {}
+            return <AptitudeItem type={type} point={point} icon={{ Icon: icon, color: colorCode, text: colorCode }} key={index + type} />
+    }) ?? []
     const pointsToNextLevel = 1327
-    const aptitudes = [
-        { type: "จิตอาสา", point: 4006, icon: { Icon: Heart, color: "bg-system-blue", text: "text-system-blue" } },
-        { type: "ความกล้าแสดงออก", point: 2003, icon: { Icon: Star, color: "bg-primary-3", text: "text-primary-3" } },
-        { type: "ความแข่งขัน", point: 2003, icon: { Icon: Trophy, color: "bg-primary-2", text: "text-primary-2" } },
-        { type: "ระเบียบวินัย", point: 0, icon: { Icon: Clock, color: "bg-secondary-3", text: "text-secondary-3" } },
-        { type: "ความรับผิดชอบ", point: 0, icon: { Icon: ListChecks, color: "bg-system-error-2", text: "text-system-error-2" } },
-        { type: "ความเป็นผู้นำ", point: 0, icon: { Icon: Crown, color: "bg-secondary-2", text: "text-secondary-2" } },
-    ]
+
     return (
         <BrandingBackground>
             <MemoCard size="full" className="gap-y-lg !p-0">
                 <SummaryCircle totalPoints={totalPoints} pointsToNextLevel={pointsToNextLevel} />
                 <ScrollableView border={false} className="gap-y-lg px-[1.5rem]">
-                    {aptitudes.map(({ type, point, icon }, index) => (
-                        <AptitudeItem type={type} point={point} icon={icon} key={index + type} />
-                    ))}
+                    {aptitudes}
                 </ScrollableView>
             </MemoCard>
         </BrandingBackground>

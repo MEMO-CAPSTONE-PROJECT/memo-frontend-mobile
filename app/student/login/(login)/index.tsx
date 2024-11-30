@@ -47,7 +47,9 @@ export default function StudentLoginScreen() {
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
                             <MemoErrorMessage error={error} />
-                            <MemoTextButton name="ลืมรหัสนักเรียน?"/>
+                            <Link href="/student/login/forgot" asChild>
+                                <MemoTextButton name="ลืมรหัสนักเรียน?"/>
+                            </Link>
                         </View>
                         <MemoButton isLoading={isPending} name="เข้าสู่ระบบ" variant="primary" onPress={handleSendOTP} />
                         <Link href="/" asChild>
