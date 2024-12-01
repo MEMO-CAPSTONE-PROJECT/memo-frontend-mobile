@@ -18,7 +18,7 @@ interface Point {
 
 export const formattedReward = (points?: Point[]) => {
     return points?.map(({ normal, excellent, details }, index) => {
-        if (!details?.[0] || !details?.[0]?.type) return "ไม่มีรางวัล"
+        if (!details?.[0]?.type) return "ไม่มีรางวัล"
         return `${details[0]?.type} ${normal}-${excellent} คะแนน`
     }).join(", ") ?? ""
 }

@@ -1,21 +1,21 @@
-import SessionStorageInstance from "@/shared/session-storage"
-
+// import SessionStorageInstance from "@/shared/session-storage"
+import * as SecureStore from "expo-secure-store"
 
 class StorageService {
 
     async getItem(key: string) {
-        return SessionStorageInstance.getItem(key)
-        // return SecureStore.getItemAsync(key)
+        // return SessionStorageInstance.getItem(key)
+        return SecureStore.getItemAsync(key)
     }
 
     async deleteItem(key: string) {
-        return SessionStorageInstance.removeItem(key)
-        // return SecureStore.deleteItemAsync(key)
+        // return SessionStorageInstance.removeItem(key)
+        return SecureStore.deleteItemAsync(key)
     }
 
     async setItem(key: string, value: string) {
-        return SessionStorageInstance.setItem(key, value)
-        // return SecureStore.setItemAsync(key, value)
+        // return SessionStorageInstance.setItem(key, value)
+        return SecureStore.setItemAsync(key, value)
     }
 }
 const StorageServiceInstance = new StorageService()
