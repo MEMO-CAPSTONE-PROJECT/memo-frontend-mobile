@@ -21,7 +21,7 @@ export default function ParentHomeScreen() {
     function handleAptitude() {
         // router.push("/student/aptitude/overall")
     }
-    const name = `คุณ ${parent?.firstName} ${parent?.lastName}`
+    const name = `คุณ ${parent?.firstName} ${parent?.lastName} `
     const classroom = `ดูข้อมูลของ ${student?.firstName ?? ""} ${student?.lastName ?? ""}`
 
     return (

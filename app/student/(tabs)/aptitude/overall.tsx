@@ -12,9 +12,10 @@ import { Color } from "@/constants/theme/color"
 import { useStudentById } from "@/hooks/useUser"
 import { useStudentToken } from "@/hooks/useUserToken"
 import { getAptitudeColor } from "@/shared/utils/aptitude-util"
-import { Icon } from "phosphor-react-native"
+import { Icon, Info } from "phosphor-react-native"
 import { useEffect, useState } from "react"
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
+import { Adapt, Dialog, Sheet } from "tamagui"
 
 // interface ProgressBarProps {
 //     progress: number
@@ -65,6 +66,35 @@ interface AptitudeItemProps {
     }
 }
 
+const TIER_ICON_SIZE = 70
+const Criteria = [
+    {
+        name: "เชี่ยวชาญ",
+        percent: 30,
+        icon: <AptitudeTierEmeraldSvg size={TIER_ICON_SIZE} />,
+    },
+    {
+        name: "เหนือชั้น",
+        percent: 20,
+        icon: <AptitudeTierDiamondSvg size={TIER_ICON_SIZE} />,
+    },
+    {
+        name: "เก่ง",
+        percent: 10,
+        icon: <AptitudeTierGoldSvg size={TIER_ICON_SIZE} />,
+    },
+    {
+        name: "ขยัน",
+        percent: 5,
+        icon: <AptitudeTierSilverSvg size={TIER_ICON_SIZE} />,
+    },
+    {
+        name: "ธรรมดา",
+        percent: 0,
+        icon: <AptitudeTierWoodSvg size={TIER_ICON_SIZE} />,
+    },
+];
+
 function AptitudeItem({
     type,
     point,
@@ -72,25 +102,7 @@ function AptitudeItem({
     icon,
 }: Readonly<AptitudeItemProps>) {
     const percent = point/totalPoint*100
-    const size = 70
-    let tier: React.ReactNode
-    let name: string
-    if (percent > 30) {
-        name = "เชี่ยวชาญ"
-        tier = <AptitudeTierEmeraldSvg size={size}/>
-    } else if (percent > 20) {
-        name = "เหนือชั้น"
-        tier = <AptitudeTierDiamondSvg size={size}/>
-    } else if (percent > 10) {
-        name = "เก่ง"
-        tier = <AptitudeTierGoldSvg size={size}/>
-    } else if (percent > 5) {
-        name = "ขยัน"
-        tier = <AptitudeTierSilverSvg size={size}/>
-    } else {
-        name = "ธรรมดา"   
-        tier = <AptitudeTierWoodSvg size={size}/>
-    }   
+    const { name, icon: tier } = Criteria.find((criterion) => percent > criterion.percent) ?? Criteria[Criteria.length - 1]
 
     return (
         <View className="w-full bg-system-lightest-gray flex-row items-center justify-between pl-lg p-md rounded-sm">
@@ -111,7 +123,6 @@ function AptitudeItem({
                     <Text className="font-kanit-regular text-caption-2">{point} คะแนน ({percent.toFixed(1)}%)</Text>
                 </View>
             </View>
-            {/* <Text className="font-kanit-bold text-body">{point/totalPoint*100}%</Text> */}
             <Text className="pr-[62] font-kanit-bold text-title-1">{name}</Text>
             <View className="absolute bottom-0 right-0">{tier}</View>
         </View>
@@ -127,16 +138,26 @@ export default function StudentAptitudeOverallScreen() {
 
     // Calculate total points when data is available
     useEffect(() => {
-        setPoints([])
-        setColors([])
-        setTotalPoints(0)
         if (data?.data?.student?.points) {
+            const updatedPoints = []
+            const updatedColors = []
+            let updatedTotalPoints = 0
+    
             for (const { point, color } of data.data.student.points) {
                 const aptitude = getAptitudeColor(color)
-                setPoints(prev => [...prev, point])
-                setColors(prev => [...prev, aptitude?.color ?? Color["primary-2"]])
-                setTotalPoints(totalPoint => totalPoint + point)
+                updatedPoints.push(point)
+                updatedColors.push(aptitude?.color ?? Color["primary-2"])
+                updatedTotalPoints += point
             }
+    
+            setPoints(updatedPoints)
+            setColors(updatedColors)
+            setTotalPoints(updatedTotalPoints)
+        } else {
+            // Reset states if data is not available
+            setPoints([])
+            setColors([])
+            setTotalPoints(0)
         }
     }, [data])
     const aptitudes = data?.data?.student?.points?.map(
@@ -158,12 +179,55 @@ export default function StudentAptitudeOverallScreen() {
         <BrandingBackground>
             <MemoCard size="full" className="gap-y-lg !p-0 items-center">
                 {/* <SummaryCircle totalPoints={totalPoints} pointsToNextLevel={pointsToNextLevel} /> */}
-                <Text className="font-kanit-bold text-title">ความสามารถที่โดดเด่นในแต่ละด้าน</Text>
-                {(colors.length > 0 && colors.length === points.length) && <MemoDonutChart 
+                <View className="flex-row items-center gap-x-sm">
+                    <Text className="font-kanit-bold text-title">ความสามารถที่โดดเด่นในแต่ละด้าน</Text>
+                    <Dialog modal>
+                        <Dialog.Trigger asChild>
+                            <TouchableOpacity>
+                                <Info color={Color["system-blue"]} size={24} weight="fill" />
+                            </TouchableOpacity>
+                        </Dialog.Trigger>
+                        <Adapt when="sm" platform="touch">
+                            <Sheet animation="medium" zIndex={200000} modal dismissOnSnapToBottom>
+                                <Sheet.Frame padding="$4" gap="$4">
+                                    <Adapt.Contents />
+                                </Sheet.Frame>
+                                <Sheet.Overlay
+                                    animation="lazy"
+                                    enterStyle={{ opacity: 0 }}
+                                    exitStyle={{ opacity: 0 }}
+                                />
+                            </Sheet>
+                        </Adapt>
+
+                        <Dialog.Portal>
+                            <Dialog.Overlay />
+                            <Dialog.Content
+                                key="dialog-content"
+                            >
+                                <Text className="font-kanit-bold text-title text-title-1">เกี่ยวกับความสามารถที่โดดเด่น</Text>
+                                {Criteria.map(({ name, icon, percent }, index) => (
+                                    <View key={name} className="p-xl flex-row items-center justify-between">
+                                        <View className="flex-row gap-x-5xl">
+                                            <View className="w-6 h-6 rounded-sm items-center justify-center">
+                                                {icon}
+                                            </View>
+                                            <Text className="font-kanit-medium text-body w-24 text-start">{name}</Text>
+                                        </View>
+                                        <View className="bg-system-lightest-gray rounded-sm px-lg py-sm w-32">
+                                            <Text className="font-kanit-medium text-title text-center">&gt; {percent}%</Text>
+                                        </View>
+                                    </View>
+                                ))}
+                            </Dialog.Content>
+                        </Dialog.Portal>
+                    </Dialog>
+                </View>
+                <MemoDonutChart 
                     point={totalPoints}
                     series={points} 
                     colors={colors} 
-                />}
+                />
                 <ScrollableView border={false} className="gap-y-xl p-[1.5rem]" onRefresh={handleRefresh}>
                     {aptitudes}
                 </ScrollableView>

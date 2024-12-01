@@ -7,8 +7,18 @@
 // import { useState } from "react";
 // import { Alert, Text, TouchableOpacity, View } from "react-native";
 
+import BrandingBackground from "@/components/background/branding-background";
+import MemoCard from "@/components/container/memo-card";
+import { Text } from "react-native";
+
 export default function StudentQRCodeScannerScreen() {
-    return <></>
+    return (
+        <BrandingBackground>
+            <MemoCard size="full" className="justify-center items-center">
+                <Text className="font-kanit-medium">Future release</Text>
+            </MemoCard>
+        </BrandingBackground>
+    )
     // const [facing, setFacing] = useState<CameraType>("back")
     // const [permission, requestPermission] = useCameraPermissions()
 

@@ -4,7 +4,6 @@ import MemoNavigatorCard from "@/components/container/memo-navigator-card";
 import MedalSvg from "@/components/ui/icons/medal-svg";
 import StudentBoyDefaultSvg from "@/components/ui/icons/student/boy/default-svg";
 import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-svg";
-import { useStudentById } from "@/hooks/useUser";
 import { useStudentToken } from "@/hooks/useUserToken";
 import { isMan } from "@/shared/utils/gender-util";
 import { useRouter } from "expo-router";
@@ -13,10 +12,8 @@ import { Text, View } from "react-native";
 
 export default function StudentAptitudeScreen() {
     const { data: token } = useStudentToken()
-    const { data } = useStudentById(token?.sub ?? "")
-    const student = data?.data?.student
     const name = `${token?.firstName} ${token?.lastName}`
-    const classroom = `ชั้นประถมศึกษาปีที่ ${student?.classLevel}/${student?.classRoom}`
+    const classroom = `ชั้นประถมศึกษาปีที่ ${token?.classLevel}/${token?.classRoom} `
     const router = useRouter()
 
     function handlePressChart() {

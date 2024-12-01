@@ -32,7 +32,7 @@ export default function StudentHomeScreen() {
         (achievement) =>
           achievement.name.includes(searchQuery) &&
           // (achievement.open === isOpen)
-          (Math.random() < 0.5 === isOpen)
+          (achievement?.isOpen === isOpen)
       )
     }, [achievements, isOpen, searchQuery])
 

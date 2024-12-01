@@ -7,13 +7,13 @@ import { jwtDecode } from "jwt-decode";
 class UserService {
 
     async getTeacher(): Promise<TeacherUser | null> {
-        if (MemoConfig.isMock) return { sub: "1", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "woman", class: { room: 5, level: 4 } }
+        if (MemoConfig.isMock) return { sub: "1", firstName: "ธัณย์นิชา", lastName: "สมภาร", position: "คุณครูผู้ดูแล", gender: "woman",classLevel: "4",classRoom: "5" }
         const token = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
         return token ? jwtDecode<TeacherUser>(token) : null
     }
 
     async getStudent(): Promise<StudentUser | null> {
-        if (MemoConfig.isMock) return { sub: "2", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "man", class: { room: 2, level: 5 } }
+        if (MemoConfig.isMock) return { sub: "2", firstName: "ธัณย์นิชา", lastName: "สมภาร", gender: "man",classLevel: "5",classRoom: "2" }
         const token = await StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN)
         return token ? jwtDecode<StudentUser>(token) : null
     }

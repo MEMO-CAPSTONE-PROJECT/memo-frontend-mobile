@@ -4,10 +4,9 @@ export interface TeacherUser {
     firstName: string
     lastName: string
     gender: string
-    class: {
-        room: number
-        level: number
-    }
+    position: string
+    classRoom: string
+    classLevel: string
 }
 
 export interface StudentUser {
@@ -15,10 +14,8 @@ export interface StudentUser {
     firstName: string
     lastName: string
     gender: string
-    class: {
-        room: number
-        level: number
-    }
+    classRoom: string
+    classLevel: string
 }
 
 export interface ParentUser {

@@ -3,6 +3,7 @@ import { AuthProvider } from '@/context/useAuth'
 import tamaguiConfig from '@/tamagui.config'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { TamaguiProvider } from "@tamagui/core"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
@@ -11,7 +12,6 @@ import { Text } from 'react-native'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
 import './global.css'
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient()
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -36,20 +36,20 @@ export default function RootLayout() {
 
   return (
     <PortalProvider shouldAddRootHost>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <AnimatedAppLoader>
-            <TamaguiProvider config={tamaguiConfig}>
-              <ThemeProvider value={DefaultTheme}>
-                <Stack screenOptions={{ headerShown: false, }}>
-                  <Stack.Screen name="(index)" />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
-              </ThemeProvider>
-            </TamaguiProvider>
-          </AnimatedAppLoader>
-        </AuthProvider>
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <AnimatedAppLoader>
+              <TamaguiProvider config={tamaguiConfig}>
+                <ThemeProvider value={DefaultTheme}>
+                  <Stack screenOptions={{ headerShown: false, }}>
+                    <Stack.Screen name="(index)" />
+                    <Stack.Screen name="+not-found" />
+                  </Stack>
+                </ThemeProvider>
+              </TamaguiProvider>
+            </AnimatedAppLoader>
+          </AuthProvider>
+        </QueryClientProvider>
     </PortalProvider>
   )
 }

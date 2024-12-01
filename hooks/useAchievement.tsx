@@ -107,7 +107,7 @@ function useCreateTeacherAchievement() {
 
 interface StudentAchievementResponse {
     data: {
-        achievementStudent: Omit<Achievement, "teacherId">[]
+        achievementStudent: (Omit<Achievement, "teacherId"> & { isOpen: boolean })[]
     }
 }
 
@@ -124,7 +124,7 @@ function useStudentAchievements() {
 
 interface StudentAchievementByIdResponse {
     data: {
-        achievementStudent: Omit<AchievementById, "teacherId">
+        achievementStudent: (Omit<AchievementById, "teacherId"> & { isOpen: boolean })
     }
 }
 function useStudentAchievementById(id: string) {

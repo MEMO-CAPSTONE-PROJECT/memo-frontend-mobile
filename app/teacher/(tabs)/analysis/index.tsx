@@ -11,7 +11,7 @@ import { Text, View } from "react-native";
 export default function TeacherAnalysisScreen() {
     const { data: teacher, isLoading } = useTeacherToken()
     const name = `คุณครู ${teacher?.firstName} ${teacher?.lastName}`
-    const classroom = `ชั้นประถมศึกษาปีที่ ${teacher?.class?.level}/${teacher?.class?.room}`
+    const classroom = `ตำแหน่ง ${teacher?.position}`
     return (
       <BrandingBackground variant="secondary">
           <MemoCard size="full" className="gap-y-3xl">

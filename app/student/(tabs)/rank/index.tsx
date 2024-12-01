@@ -5,8 +5,8 @@ import { Text } from "react-native";
 export default function StudentRankScreen() {
     return (
         <BrandingBackground variant="secondary">
-            <MemoCard size="full">
-                <Text>Rank</Text>
+           <MemoCard size="full" className="justify-center items-center">
+                <Text className="font-kanit-medium">Rank fภจจuture release</Text>
             </MemoCard>
         </BrandingBackground>
     )
