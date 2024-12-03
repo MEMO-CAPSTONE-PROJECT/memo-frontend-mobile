@@ -5,6 +5,7 @@ import MemoCharacterCard from '@/components/container/memo-character-card';
 import MemoErrorMessage from '@/components/helper/memo-error-message';
 import ScrollableView from '@/components/scrollable/scrollable-view';
 import ParentManDefaultSvg from '@/components/ui/icons/parent/man/default-svg';
+import ParentWomanDefaultSvg from '@/components/ui/icons/parent/woman/default-svg';
 import StudentBoyDefaultSvg from '@/components/ui/icons/student/boy/default-svg';
 import TeacherWomanDefaultSvg from '@/components/ui/icons/teacher/woman/default-svg';
 import { router } from 'expo-router';
@@ -26,7 +27,7 @@ export default function HomeScreen() {
       navigate: () => router.push("/student/login")
     },
     {
-      icon: <ParentManDefaultSvg container="medium" size={75} />,
+      icon: <ParentWomanDefaultSvg container="medium" size={75} />,
       name: "ผู้ปกครองของนักเรียน",
       navigate: () => router.push("/parent/login")
     },

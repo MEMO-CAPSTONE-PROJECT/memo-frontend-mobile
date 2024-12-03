@@ -6,7 +6,7 @@ export default function StudentRankScreen() {
     return (
         <BrandingBackground variant="secondary">
            <MemoCard size="full" className="justify-center items-center">
-                <Text className="font-kanit-medium">Rank fภจจuture release</Text>
+                <Text className="font-kanit-medium">Rank future release</Text>
             </MemoCard>
         </BrandingBackground>
     )

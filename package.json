@@ -10,6 +10,8 @@
     "prebuild:react-native": "npx expo prebuild --skip-dependency-update react-native,react",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "ios:prod": "expo run:ios --device --configuration Release",
+    "android:prod": "expo run:android --device --variant Release",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint"
@@ -27,7 +29,6 @@
     "axios": "^1.7.8",
     "clsx": "^2.1.1",
     "expo": "^51.0.0",
-    "expo-camera": "~15.0.16",
     "expo-constants": "~16.0.2",
     "expo-dev-client": "~4.0.27",
     "expo-font": "~12.0.9",

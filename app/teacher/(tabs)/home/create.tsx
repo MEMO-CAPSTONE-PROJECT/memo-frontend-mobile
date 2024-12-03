@@ -10,8 +10,7 @@ import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker";
 import { useCreateTeacherAchievement, useTeacherAchievements } from "@/hooks/useAchievement";
 import useForm from "@/hooks/useForm";
 import { useTeacherToken } from "@/hooks/useUserToken";
-import { getDateString } from "@/shared/utils/date-util";
-import { uuidv4 } from "@/shared/utils/random-util";
+import { getDateISOString, removeHours } from "@/shared/utils/date-util";
 import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { PlusCircle } from "phosphor-react-native";
@@ -35,18 +34,26 @@ interface CreateAchievementForm {
 
 const MAX_TYPE = 2
 const CreateAchievementSchema = z.object({
-    name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย"),
-    amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม"),
-    startDate: z.date({ message: "กรุณาใส่เวลาเปิด" }),
-    endDate: z.date({ message: "กรุณาใส่เวลาปิด" }),
+    name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย").max(50, "ไม่สามารถเกิน 50 ได้"),
+    amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม").max(3, "ไม่สามารถเกิน 999 ได้"),
+    startDate: z.coerce.date({ message: "กรุณาใส่เวลาเปิด" }).refine((date) => removeHours(date) >= removeHours(new Date()), {
+        message: "ไม่สามารถเป็นเวลาในอดีตได้"
+    }),
+    endDate: z.coerce.date({ message: "กรุณาใส่เวลาปิด" }),
     points: z.array(
         z.object({
-            id: z.string().min(1, "กรุณาใส่กลุ่มสาระการเรียนรู้"),
-            normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน"),
-            excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง")
+            id: z.string().min(1, "กรุณาใส่กลุ่มความถนัด"),
+            normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน").max(3, "ไม่สามารถเกิน 999 ได้"),
+            excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง").max(3, "ไม่สามารถเกิน 999 ได้")
         }
     )),
-    description: z.string().min(1, "กรุณาใส่รายละเอียด")
+    description: z
+        .string()
+        .min(1, "กรุณาใส่รายละเอียด")
+        .max(500, "ไม่สามารถเขียนเกิน 500 ได้")
+}).refine((data) => data.endDate > data.startDate, {
+    message: "วันที่ปิดควรมากกว่าวันที่เปิด",
+    path: ["endDate"],
 })
 
 export default function TeacherHomeCreateScreen() {
@@ -89,8 +96,8 @@ export default function TeacherHomeCreateScreen() {
             const formattedForm = {
                 ...form,
                 teacherId: String(teacher?.sub ?? ""),
-                startDate: getDateString(form.startDate),
-                endDate: getDateString(form.endDate),
+                startDate: getDateISOString(form.startDate),
+                endDate: getDateISOString(form.endDate),
             }
             
             const result = await mutateAsync(formattedForm).catch(error => console.log((error as AxiosError).response?.data))
@@ -147,7 +154,7 @@ export default function TeacherHomeCreateScreen() {
                             />
                             {Array.from({ length: Math.min(types, MAX_TYPE) }).map((_, i) => (
                                 <MemoAptitudePicker
-                                    key={uuidv4()}
+                                    key={form.points[i]?.id || i}
                                     onRemove={() => handleRemoveType(i)}
                                     data={{
                                         id: {
@@ -171,7 +178,7 @@ export default function TeacherHomeCreateScreen() {
                             {types < MAX_TYPE && <MemoInputButton
                                 icon={PlusCircle}
                                 iconVariant="success"
-                                name="เพิ่มกลุ่มสาระการเรียนรู้"
+                                name="เพิ่มกลุ่มความถนัด"
                                 onPress={handleAddType}
                             />}
 

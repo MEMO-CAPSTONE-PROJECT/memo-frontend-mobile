@@ -11,7 +11,6 @@ export default function KeyboardView({ children, padding = true }: Readonly<Keyb
         <KeyboardAvoidingView 
             behavior="position"
             style={{
-            height: Platform.OS === 'android' ? Dimensions.get('window').height -  Constants.statusBarHeight : '100%',
             alignItems: 'center',
             }}
         >

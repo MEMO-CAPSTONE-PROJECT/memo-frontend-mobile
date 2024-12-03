@@ -9,7 +9,7 @@ import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helpe
 import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker"
 import useForm from "@/hooks/useForm"
 import { useTeacherToken } from "@/hooks/useUserToken"
-import { getDateString } from "@/shared/utils/date-util"
+import { getDateISOString } from "@/shared/utils/date-util"
 import { uuidv4 } from "@/shared/utils/random-util"
 import { PlusCircle } from "phosphor-react-native"
 import { useState } from "react"
@@ -38,7 +38,7 @@ const EditAchievementSchema = z.object({
     endDate: z.date({ message: "กรุณาใส่เวลาปิด" }),
     points: z.array(
         z.object({
-            id: z.string().min(1, "กรุณาใส่กลุ่มสาระการเรียนรู้"),
+            id: z.string().min(1, "กรุณาใส่กลุ่มความถนัด"),
             normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน"),
             excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง")
         }
@@ -84,8 +84,8 @@ export default function TeacherHomeEditScreen() {
             const formattedForm = {
                 ...form,
                 teacherId: String(teacher?.sub ?? ""),
-                startDate: getDateString(form.startDate),
-                endDate: getDateString(form.endDate),
+                startDate: getDateISOString(form.startDate),
+                endDate: getDateISOString(form.endDate),
             }
             // TODO: Send request to update achievement
             console.log(formattedForm)
@@ -159,7 +159,7 @@ export default function TeacherHomeEditScreen() {
                         {types < MAX_TYPE && <MemoInputButton
                             icon={PlusCircle}
                             iconVariant="success"
-                            name="เพิ่มกลุ่มสาระการเรียนรู้"
+                            name="เพิ่มกลุ่มความถนัด"
                             onPress={handleAddType}
                         />}
 

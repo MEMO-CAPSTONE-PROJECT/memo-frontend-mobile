@@ -28,7 +28,7 @@ export default function StudentHomeScreen() {
   ]
   const filteredAchievements = useMemo(
     () => {
-      return achievements.filter(
+      return achievements.sort().filter(
         (achievement) =>
           achievement.name.includes(searchQuery) &&
           // (achievement.open === isOpen)

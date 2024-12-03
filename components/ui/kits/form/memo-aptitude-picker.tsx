@@ -38,11 +38,11 @@ export default function MemoAptitudePicker({ data, onRemove }: Readonly<MemoApti
     return (
         <Fragment>
             <MemoSelectPickerHelper
-                label="กลุ่มสาระการเรียนรู้"
+                label="กลุ่มความถนัด"
                 rightIcon={() => MemoDeleteButton({
                     onPress: onRemove
                 })}
-                placeholder="กลุ่มสาระการเรียนรู้"
+                placeholder="กลุ่มความถนัด"
                 items={MEMO_TYPES}
                 value={data.id?.value}
                 error={data.id?.error}

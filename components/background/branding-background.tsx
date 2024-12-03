@@ -21,11 +21,12 @@ export default function BrandingBackground({ variant = "secondary", children, cl
     }
     const { background, border } = variants[variant]
     const flex = Platform.OS === "android" ? "flex-[0.03]" : "flex-[0]"
+    const appbar = Platform.OS === "android" ? "pt-[80]" : ""
 
     return (
         <View className={`flex-[1] overflow-hidden ${background}`}>
             <SafeAreaView className={`${flex} ${background}`} />
-            <View className={`flex-[1] relative ${background} ${className}`} >
+            <View className={`flex-[1] relative ${background} ${className} ${appbar}`} >
                 <View className={`absolute -top-56 -left-[23rem] ${border} border-[125px] opacity-20 w-[488px] h-[488px] rounded-circle`} />
                 <View className={`absolute -top-[22rem] -right-[16rem] ${border} border-[100px] opacity-20 w-[388px] h-[388px] rounded-circle`} />
                 <View className={`absolute top-36 -right-48 ${border} border-[75px] opacity-20 w-[288px] h-[288px] rounded-circle`} />

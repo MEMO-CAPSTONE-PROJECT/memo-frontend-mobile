@@ -23,7 +23,7 @@ export default function TeacherHomeScreen() {
     
     const buttons = [
       { name: "เป้าหมายทั้งหมด", active: !isOwner, onPress: () => setIsOwner(false) },
-      { name: "เป้าหมายของฉัน", active: isOwner, onPress: () => setIsOwner(true) }
+      { name: "เป้าหมายที่ฉันสร้าง", active: isOwner, onPress: () => setIsOwner(true) }
     ]
     const sections: MemoSection[] = [
       { id: "reward", name: "รางวัล", icon: Medal, secondary: true },
@@ -33,7 +33,7 @@ export default function TeacherHomeScreen() {
     const filteredAchievements = useMemo(
         () => {
             const teacherId = teacher?.sub ?? ""
-            return achievements.filter(
+            return achievements.sort().filter(
                 (achievement) =>
                     achievement.name.includes(searchQuery) &&
                     (!isOwner || (isOwner && achievement.teacherId === teacherId))
@@ -79,6 +79,7 @@ export default function TeacherHomeScreen() {
                                 pathname: "/teacher/home/detail",
                                 params: { id: content.id, name: content.name }
                             }}
+                            isOwner={teacher?.sub === content.teacherId}
                         />
                     ))}
                 </ScrollableView>

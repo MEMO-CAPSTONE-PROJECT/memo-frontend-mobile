@@ -6,20 +6,24 @@ export const MemoBaseURL = {
 }
 
 export const MemoApis = {
-    LOGIN_TEACHER: `/login/teacher`,
-    LOGIN_STUDENT: `/login/student`,
-    LOGIN_PARENT: `/login/parent`,
-    VERIFY_LOGIN_STUDENT: `/verify/login/student`,
-    VERIFY_LOGIN_TEACHER: `/verify/login/teacher`,
-    VERIFY_LOGIN_PARENT: `/verify/login/parent`,
-    PARENTS: `/parents`, //required Bearer token
-    ACHIEVEMENTS_TEACHER: `/achievements/teachers`, //required Bearer token
-    ACHIEVEMENTS_STUDENT: `/achievements/students`, //required Bearer token
-    CREATE_ACHIEVEMENTS_TEACHER: `/achievements/teacher`, //required Bearer token
-    ACHIEVEMENTS_TEACHER_DETAIL: (id: string) => `/achievements/teacher/${id}`, //required Bearer token
-    ACHIEVEMENTS_STUDENT_DETAIL: (id: string) => `/achievements/student/${id}`, //required Bearer token
+    LOGIN_TEACHER: `/v1/teacher/login`,
+    LOGIN_STUDENT: `/v1/student/login`,
+    LOGIN_PARENT: `/v1/parent/login`,
 
-    PARENT_DETAIL: (id: string) => `/parent/${id}`, //required Bearer token
-    STUDENT_DETAIL: (id: string) => `/student/${id}`, //required Bearer token
-    APTITUDES: `/aptitudes`, //required Bearer token
+    VERIFY_LOGIN_STUDENT: `/v1/student/login/verify`,
+    VERIFY_LOGIN_TEACHER: `/v1/teacher/login/verify`,
+    VERIFY_LOGIN_PARENT: `/v1/parent/login/verify`,
+
+    PARENTS: `/v1/parents`, //required Bearer token
+    APTITUDES: `/v1/aptitudes`, //required Bearer token
+
+    ACHIEVEMENTS_TEACHER: `/v1/achievement/teachers`, //required Bearer token
+    ACHIEVEMENTS_STUDENT: `/v1/achievement/students`, //required Bearer token
+    CREATE_ACHIEVEMENTS_TEACHER: `/v1/achievement/teacher`, //required Bearer token
+    ACHIEVEMENTS_TEACHER_DETAIL: (id: string) => `/v1/achievement/teacher/${id}`, //required Bearer token
+    ACHIEVEMENTS_STUDENT_DETAIL: (id: string) => `/v1/achievement/student/${id}`, //required Bearer token
+
+    PARENT_DETAIL: (phoneNumber: string) => `/v1/parent/${phoneNumber}`, //required Bearer token
+    STUDENT_DETAIL: (id: string) => `/v1/student/${id}`, //required Bearer token
+    
 }

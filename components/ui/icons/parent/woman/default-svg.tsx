@@ -1,3 +1,4 @@
+import { ContainerSize } from "@/constants/container-size";
 import { Color } from "@/constants/theme/color";
 import { View } from "react-native";
 import Svg, { Ellipse, G, Mask, Path, Rect } from "react-native-svg";
@@ -6,11 +7,12 @@ interface ParentWomanDefaultSvgProps {
     size: number
     className?: string
     flip?: boolean
+    container?: keyof typeof ContainerSize
 }
 
-export default function ParentWomanDefaultSvg({ size, className = "", flip = false }: Readonly<ParentWomanDefaultSvgProps>) {
+export default function ParentWomanDefaultSvg({ size, className = "", flip = false, container = "none" }: Readonly<ParentWomanDefaultSvgProps>) {
     return (
-        <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
+        <View className={`${ContainerSize[container]} ${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
             <Svg width={size} height={size} viewBox="0 0 147 145" fill="none" >
                 <Rect x="5" y="50" width="136" height="94" rx="20" fill={Color["title-1"]} />
                 <Path d="M12 54C12 42.9543 20.9543 34 32 34H114C125.046 34 134 42.9543 134 54V90C134 101.046 125.046 110 114 110H32C20.9543 110 12 101.046 12 90V54Z" fill={Color["title-1"]} />
