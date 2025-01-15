@@ -1,9 +1,11 @@
 import { AptitudeColor } from "@/constants/aptitude-color";
 
-export const AptitudeType: { [key: string]: keyof typeof AptitudeColor } = {
+type AptitudeColorKeys = keyof typeof AptitudeColor
+
+export const AptitudeType: Record<string, AptitudeColorKeys> = {
     "จิตอาสา": "blue",
     "ความกล้าแสดงออก": "purple",
-    "ความแข่งขัน": "light-purple",
+    "ความแข่งขัน": "light_purple",
     "ความมีระเบียบวินัย": "red",
     "ความรับผิดชอบ": "orange",  
     "ความเป็นผู้นำ": "yellow"

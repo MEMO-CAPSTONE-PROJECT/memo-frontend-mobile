@@ -1,8 +1,7 @@
 import { Color } from "@/constants/theme/color";
-import { Clock, Crown, Heart, Icon, ListChecks, Star, Trophy } from "phosphor-react-native";
+import { Clock, Crown, Heart, ListChecks, Star, Trophy } from "phosphor-react-native";
 
-
-export const AptitudeColor: { [key:string]: { icon: Icon, light: string, color: string } } = {
+export const AptitudeColor = {
     blue: {
         icon: Heart,
         color: Color["system-blue"],

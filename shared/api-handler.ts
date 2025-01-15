@@ -17,7 +17,7 @@ api.interceptors.request.use(
         return config
     },
     error => {
-        console.log(error);
+        console.log("Error " + error);
         router.navigate("/")
         return error
     }
