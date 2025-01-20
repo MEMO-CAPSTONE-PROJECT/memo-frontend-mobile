@@ -5,15 +5,14 @@ import MemoSelectionButton from "@/components/button/memo-selection-button"
 import MemoCard from "@/components/container/memo-card"
 import ScrollableView from "@/components/scrollable/scrollable-view"
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content"
-import { Color } from "@/constants/theme/color"
 import { useTeacherAchievements } from "@/hooks/useAchievement"
 import { useTeacherToken } from "@/hooks/useUserToken"
 import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
 import { formattedDate } from "@/shared/utils/date-util"
 import { router } from "expo-router"
-import { CalendarDots, GraduationCap, Medal, Plus, Megaphone } from "phosphor-react-native"
+import { CalendarDots, GraduationCap, Medal, Plus } from "phosphor-react-native"
 import { useMemo, useState } from "react"
-import { View, Text } from "react-native"
+import { Text, View } from "react-native"
 
 export default function TeacherHomeScreen() {
     const [isOwner, setIsOwner] = useState(true)
@@ -85,9 +84,8 @@ export default function TeacherHomeScreen() {
                             />
                         ))}
                     </ScrollableView> :
-                    <View className="flex-1 items-center justify-center gap-y-2">
-                        <Text className="font-kanit-medium text-body text-title-1">ไม่มีพบเป้าหมายที่ต้องการ</Text>
-                        <Megaphone size={64} weight="light" color={Color["title-1"]} />
+                    <View className="flex-1 items-center justify-center">
+                        <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
                     </View>
                 }
                 <MemoIconButton icon={Plus} className="absolute bottom-4 right-4" onPress={handleCreate} />

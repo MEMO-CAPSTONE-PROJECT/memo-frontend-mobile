@@ -4,13 +4,12 @@ import MemoSelectionButton from "@/components/button/memo-selection-button"
 import MemoCard from "@/components/container/memo-card"
 import ScrollableView from "@/components/scrollable/scrollable-view"
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content"
-import { Color } from "@/constants/theme/color"
 import { useStudentAchievements } from "@/hooks/useAchievement"
 import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
 import { formattedDate } from "@/shared/utils/date-util"
-import { CalendarDots, GraduationCap, Medal, Megaphone } from "phosphor-react-native"
+import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
 import { useMemo, useState } from "react"
-import { View, Text } from "react-native"
+import { Text, View } from "react-native"
 
 export default function StudentHomeScreen() {
   const [isOpen, setIsOpen] = useState(true)
@@ -76,9 +75,8 @@ export default function StudentHomeScreen() {
               />
             ))}
           </ScrollableView> :
-          <View className="flex-1 items-center justify-center gap-y-2">
-            <Text className="font-kanit-medium text-body text-title-1">ไม่มีพบเป้าหมายที่ต้องการ</Text>
-            <Megaphone size={64} weight="light" color={Color["title-1"]} />
+          <View className="flex-1 items-center justify-center">
+            <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
           </View>
         }
       </MemoCard>
