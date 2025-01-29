@@ -7,13 +7,16 @@ import MemoDatePickerHelper from "@/components/input/helper/memo-date-picker-hel
 import MemoTextAreaInputHelper from "@/components/input/helper/memo-text-area-input-helper"
 import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper"
 import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker"
+import { useDeleteTeacherAchievement, useEditTeacherAchievement, useTeacherAchievementById, useTeacherAchievements } from "@/hooks/useAchievement"
 import useForm from "@/hooks/useForm"
 import { useTeacherToken } from "@/hooks/useUserToken"
-import { getDateISOString } from "@/shared/utils/date-util"
+import { getDateISOString, removeHours } from "@/shared/utils/date-util"
 import { uuidv4 } from "@/shared/utils/random-util"
+import { AxiosError } from "axios"
+import { router, useLocalSearchParams } from "expo-router"
 import { PlusCircle } from "phosphor-react-native"
-import { useState } from "react"
-import { View } from "react-native"
+import { useEffect, useState } from "react"
+import { Alert, View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { z, ZodFormattedError } from "zod"
 
@@ -32,24 +35,38 @@ interface EditAchievementForm {
 
 const MAX_TYPE = 2
 const EditAchievementSchema = z.object({
-    name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย"),
-    amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม"),
-    startDate: z.date({ message: "กรุณาใส่เวลาเปิด" }),
-    endDate: z.date({ message: "กรุณาใส่เวลาปิด" }),
+    name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย").max(50, "ไม่สามารถเกิน 50 ได้"),
+    amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม").max(3, "ไม่สามารถเกิน 999 ได้"),
+    startDate: z.coerce.date({ message: "กรุณาใส่เวลาเปิด" }).refine((date) => removeHours(date) >= removeHours(new Date()), {
+        message: "ไม่สามารถเป็นเวลาในอดีตได้"
+    }),
+    endDate: z.coerce.date({ message: "กรุณาใส่เวลาปิด" }),
     points: z.array(
         z.object({
             id: z.string().min(1, "กรุณาใส่กลุ่มความถนัด"),
-            normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน"),
-            excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง")
+            normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน").max(3, "ไม่สามารถเกิน 999 ได้"),
+            excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง").max(3, "ไม่สามารถเกิน 999 ได้")
         }
-    )),
-    description: z.string().min(1, "กรุณาใส่รายละเอียด")
+        )),
+    description: z
+        .string()
+        .min(1, "กรุณาใส่รายละเอียด")
+        .max(500, "ไม่สามารถเขียนเกิน 500 ได้")
+}).refine((data) => data.endDate > data.startDate, {
+    message: "วันที่ปิดควรมากกว่าวันที่เปิด",
+    path: ["endDate"],
 })
 
 export default function TeacherHomeEditScreen() {
+    const { id: achievementId } = useLocalSearchParams()
     const { data: teacher } = useTeacherToken()
-    const [types, setTypes] = useState(0)
-    const { form, update } = useForm<EditAchievementForm>(
+    const { refetch: refetchAchievements } = useTeacherAchievements()
+    const { data, refetch } = useTeacherAchievementById(achievementId as string)
+    const { mutateAsync: editAchievement } = useEditTeacherAchievement(achievementId as string)
+    const { mutateAsync: deleteAchievement } = useDeleteTeacherAchievement(achievementId as string)
+    const achievement = data?.data?.achievementTeacher
+
+    const { form, update, reset } = useForm<EditAchievementForm>(
         {
             name: "",
             amount: "",
@@ -59,19 +76,33 @@ export default function TeacherHomeEditScreen() {
             description: ""
         }
     )
+    
+    useEffect(() => {
+        if (!achievement) return
+    
+        const formattedData = {
+            name: achievement?.name ?? "",
+            amount: String(achievement?.people.max ?? ""),
+            startDate: new Date(achievement?.sections.startDate),
+            endDate: new Date(achievement?.sections.endDate),
+            points: achievement?.points?.map(point => ({ 
+                id: point.id, 
+                normal: String(point.normal), 
+                excellent: String(point.excellent) 
+            })) ?? [],
+            description: achievement?.description ?? "",
+        }
+        reset(formattedData)
+    }, [achievement, reset])
+    
     const [errors, setErrors] = useState<ZodFormattedError<EditAchievementForm, string>>()
     const [error, setError] = useState<string>()
 
     function handleAddType() {
-        if (types > MAX_TYPE) return
+        if (form.points.length >= MAX_TYPE) return
         update("points", [...form.points, { id: "", normal: "", excellent: "" }])
-        setTypes(types + 1)
     }
     function handleRemoveType(index: number) {
-        if (types <= 0 || index >= types) return
-        setTypes(types - 1)
-        
-        // Remove the point and its corresponding UI node by index
         const updatedPoints = form.points.filter((_, i) => i !== index)
         update("points", updatedPoints)
     }
@@ -83,17 +114,53 @@ export default function TeacherHomeEditScreen() {
             setError(undefined)
             const formattedForm = {
                 ...form,
-                teacherId: String(teacher?.sub ?? ""),
                 startDate: getDateISOString(form.startDate),
-                endDate: getDateISOString(form.endDate),
+                endDate:  getDateISOString(form.endDate),
+                teacherId: String(teacher?.sub ?? ""),
             }
-            // TODO: Send request to update achievement
-            console.log(formattedForm)
+            // Send request to update achievement
+            const result = await editAchievement(formattedForm).catch(error => console.log((error as AxiosError).response?.data))
+            
+            if (result) {
+                router.back()
+                refetch()
+                refetchAchievements()
+            } else {
+                setError("เกิดข้อผิดพลาดในการสร้างเป้าหมาย")
+            }
         } else {
             const errors = result.error.format()
             setErrors(errors)
             setError("กรุณากรอกข้อมูลทั้งหมดให้ถูกต้อง")
         }
+    }
+
+    async function handleDelete() {
+        const confirm = () => {
+            deleteAchievement()
+                .then(result => {
+                    if (result) {
+                        router.push("/teacher/home")
+                        refetchAchievements()
+                    }
+                })
+                .catch((error) => {
+                    const errorMessage = (error as AxiosError).response?.data || 'An error occurred while deleting the achievement'
+                    console.log(errorMessage)
+                })
+        }
+
+        Alert.alert("คุณต้องการลบเป้าหมายนี้ใช่ไหม", undefined, [
+            {
+                text: "ลบ",
+                onPress: confirm,
+                style: "destructive"
+            },
+            {
+                text: "ยกเลิก",
+                style: "cancel"
+            }
+        ])
     }
 
     return (
@@ -133,30 +200,26 @@ export default function TeacherHomeEditScreen() {
                             error={errors?.amount?._errors[0]}
                             onChangeText={(text) => update("amount", text)}
                         />
-                        {Array.from({ length: Math.min(types, MAX_TYPE) }).map((_, i) => (
-                            <MemoAptitudePicker
-                                key={uuidv4()}
-                                onRemove={() => handleRemoveType(i)}
-                                data={{
-                                    id: {
-                                        value: form.points[i]?.id,
-                                        error: errors?.points?.[i]?.id?._errors[0],
-                                        onChange: (text) => update(`points.${i}.id`, text),
-                                    },
-                                    normal: {
-                                        value: form.points[i]?.normal,
-                                        error: errors?.points?.[i]?.normal?._errors[0],
-                                        onChange: (text) => update(`points.${i}.normal`, text),
-                                    },
-                                    excellent: {
-                                        value: form.points[i]?.excellent,
-                                        error: errors?.points?.[i]?.excellent?._errors[0],
-                                        onChange: (text) => update(`points.${i}.excellent`, text),
-                                    },
-                                }}
-                            />
+                        {form?.points.map((point, index) => (
+                            <MemoAptitudePicker key={uuidv4()} onRemove={() => handleRemoveType(index)} data={{
+                                id: {
+                                    value: point.id,
+                                    error: errors?.points?.[index]?.id?._errors[0],
+                                    onChange: (text) => update(`points.${index}.id`, text),
+                                },
+                                normal: {
+                                    value: point.normal,
+                                    error: errors?.points?.[index]?.normal?._errors[0],
+                                    onChange: (text) => update(`points.${index}.normal`, text),
+                                },
+                                excellent: {
+                                    value: point.excellent,
+                                    error: errors?.points?.[index]?.excellent?._errors[0],
+                                    onChange: (text) => update(`points.${index}.excellent`, text),
+                                },
+                            }} />
                         ))}
-                        {types < MAX_TYPE && <MemoInputButton
+                        {form?.points.length < MAX_TYPE && <MemoInputButton
                             icon={PlusCircle}
                             iconVariant="success"
                             name="เพิ่มกลุ่มความถนัด"
@@ -172,7 +235,8 @@ export default function TeacherHomeEditScreen() {
                         />
                     </View>
                     <MemoErrorMessage error={error}/>
-                    <MemoButton isLoading={false} name="สร้างเป้าหมายใหม่" variant="primary" onPress={handleSubmit} />
+                    <MemoButton isLoading={false} name="แก้ไขเป้าหมาย" variant="primary" onPress={handleSubmit} />
+                    <MemoButton isLoading={false} name="ลบเป้าหมาย" variant="error" onPress={handleDelete} />
                 </View>
             </KeyboardAwareScrollView>
         </MemoCard>

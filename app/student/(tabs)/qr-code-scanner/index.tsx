@@ -2,6 +2,8 @@ import BrandingBackground from "@/components/background/branding-background";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
 import { Color } from "@/constants/theme/color";
+import { useCreateStudentScoreByCode } from "@/hooks/useCode";
+import { useStudentToken } from "@/hooks/useUserToken";
 import { useIsFocused } from "@react-navigation/native";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { CameraRotate, Lightning, LightningSlash } from "phosphor-react-native";
@@ -43,6 +45,9 @@ export default function StudentQRCodeScannerScreen() {
     const [facing, setFacing] = useState<CameraType>("back")
     const [permission, requestPermission] = useCameraPermissions()
 
+    const { data: student } = useStudentToken()
+    const { mutateAsync } = useCreateStudentScoreByCode()
+
     if (!permission) {
         return <View></View>
     }
@@ -66,25 +71,40 @@ export default function StudentQRCodeScannerScreen() {
         setIsFlash(!isFlash)
     }
 
-    function handleBarCodeScanned(result: BarcodeScanningResult) {
+    async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
         setIsScanned(true)
-        Alert.alert('Barcode Scanned', result.data, [
-            {
-                text: 'Cancel',
-                onPress: () => {
-                    setIsScanned(false)
-                    console.log('Cancel Pressed')
+        const result = JSON.parse(rawResult.data) as { achievementId: string, code?: string }
+        const response = await mutateAsync({
+            studentId: student?.sub ?? "",
+            achievementId: result.achievementId,
+            code: result.code ?? ""
+        })
+
+        if (response) {
+            Alert.alert('Barcode Successfully', result.code, [
+                {
+                    text: 'Cancel',
+                    onPress: () => { setIsScanned(false) },
+                    style: 'cancel',
                 },
-                style: 'cancel',
-            },
-            {
-                text: 'OK', 
-                onPress: () => {
-                    setIsScanned(false)
-                    console.log('OK Pressed')
-                }
-            },
-          ])
+                {
+                    text: 'OK', 
+                    onPress: () => { setIsScanned(false) }
+                },
+              ])
+        } else {
+            Alert.alert('Barcode Failed', result.code, [
+                {
+                    text: 'Cancel',
+                    onPress: () => { setIsScanned(false) },
+                    style: 'cancel',
+                },
+                {
+                    text: 'OK', 
+                    onPress: () => { setIsScanned(false) }
+                },
+              ])
+        }
     }
 
     const FlashIcon = isFlash ? Lightning : LightningSlash

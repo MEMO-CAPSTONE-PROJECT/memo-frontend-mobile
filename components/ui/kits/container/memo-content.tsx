@@ -47,7 +47,7 @@ interface MemoContentCardProps {
     content: MemoContent | MemoContentOwner
     sections: MemoSection[]
     href: Href
-    isOwner?: boolean
+    secondaryView?: React.ReactNode
 }
 
 export default function MemoContentCard({
@@ -55,7 +55,7 @@ export default function MemoContentCard({
     content,
     sections,
     href,
-    isOwner = false,
+    secondaryView,
 }: Readonly<MemoContentCardProps>) {
     const border = divider ? "border-b-sm border-system-light-gray" : ""
     function navigate() {
@@ -87,9 +87,12 @@ export default function MemoContentCard({
                     variant={secondary ? "secondary" : "primary"} 
                 />
             ))}
-            <TouchableOpacity onPress={navigate} className="flex-row justify-between">
-                <Text className="font-kanit-regular text-system-blue">รายละเอียดเพิ่มเติม &raquo;</Text>
-            </TouchableOpacity>
+            <View className="flex-row justify-between items-end">
+                <TouchableOpacity onPress={navigate}>
+                    <Text className="font-kanit-regular text-system-blue">รายละเอียดเพิ่มเติม &raquo;</Text>
+                </TouchableOpacity>
+                {secondaryView}
+            </View>
         </View>
     )
 }

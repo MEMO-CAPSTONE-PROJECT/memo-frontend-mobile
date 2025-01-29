@@ -2,22 +2,26 @@ import BrandingBackground from "@/components/background/branding-background"
 import MemoSearchBar from "@/components/bar/memo-searchbar"
 import MemoIconButton from "@/components/button/memo-icon-button"
 import MemoSelectionButton from "@/components/button/memo-selection-button"
+import MemoIconBox from "@/components/container/box/memo-icon-box"
 import MemoCard from "@/components/container/memo-card"
+import { MemoCase, MemoSwitch } from "@/components/logic/memo-switch"
 import ScrollableView from "@/components/scrollable/scrollable-view"
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content"
+import { Color } from "@/constants/theme/color"
 import { useTeacherAchievements } from "@/hooks/useAchievement"
 import { useTeacherToken } from "@/hooks/useUserToken"
 import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
 import { formattedDate } from "@/shared/utils/date-util"
 import { router } from "expo-router"
-import { CalendarDots, GraduationCap, Medal, Plus } from "phosphor-react-native"
+import { CalendarDots, GraduationCap, Medal, Plus, QrCode } from "phosphor-react-native"
 import { useMemo, useState } from "react"
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
+import { Spinner } from "tamagui"
 
 export default function TeacherHomeScreen() {
     const [isOwner, setIsOwner] = useState(true)
     const [searchQuery, setSearchQuery] = useState("")
-    const { data, refetch } = useTeacherAchievements()
+    const { data, refetch, isLoading } = useTeacherAchievements()
     const { data: teacher } = useTeacherToken()
     const achievements = useMemo(() => data?.data?.achievementTeacher ?? [], [data])
 
@@ -43,12 +47,14 @@ export default function TeacherHomeScreen() {
     function handleSearch(text: string) {
         setSearchQuery(text)
     }
-
     function handleCreate() {
         router.push("/teacher/home/create")
     }
     async function handleRefresh() {
         refetch()
+    }
+    function handleQRCode(achievementId: string) {
+        router.push({ pathname: "/teacher/home/qr-code", params: { id: achievementId } })
     }
 
     return (
@@ -58,36 +64,50 @@ export default function TeacherHomeScreen() {
                     <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
                     <MemoSelectionButton buttons={buttons} />
                 </View>
-                {filteredAchievements.length > 0 ?
-                    <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
-                        {filteredAchievements.map((content, index, contents) => (
-                            <MemoContentCard
-                                divider={index !== contents.length - 1}
-                                key={`${index}_${content.name}`}
-                                content={{
-                                    id: content.id,
-                                    name: content.name,
-                                    // src: content.src,
-                                    sections: {
-                                        reward: formattedReward(content.points),
-                                        date: formattedDate(content.sections.startDate, content.sections.endDate),
-                                        organizer: content.sections.organizer
-                                    },
-                                    tags: formattedPointColor(content?.points)
-                                }}
-                                sections={sections}
-                                href={{
-                                    pathname: "/teacher/home/detail",
-                                    params: { id: content.id, name: content.name }
-                                }}
-                                isOwner={teacher?.sub === content.teacherId}
-                            />
-                        ))}
-                    </ScrollableView> :
-                    <View className="flex-1 items-center justify-center">
-                        <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
-                    </View>
-                }
+                <MemoSwitch test={filteredAchievements.length}>
+                    <MemoCase value={() => isLoading}>
+                        <View className="flex-1 items-center justify-center">
+                            <Spinner size="large" color={Color["primary-2"]}/>
+                        </View>
+                    </MemoCase>
+                    <MemoCase value={(test: number) => test > 0}>
+                        <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
+                            {filteredAchievements.map((content, index, contents) => (
+                                <MemoContentCard
+                                    divider={index !== contents.length - 1}
+                                    key={`${index}_${content.name}`}
+                                    content={{
+                                        id: content.id,
+                                        name: content.name,
+                                        // src: content.src,
+                                        sections: {
+                                            reward: formattedReward(content.points),
+                                            date: formattedDate(content.sections.startDate, content.sections.endDate),
+                                            organizer: content.sections.organizer
+                                        },
+                                        tags: formattedPointColor(content?.points)
+                                    }}
+                                    sections={sections}
+                                    href={{
+                                        pathname: "/teacher/home/detail",
+                                        params: { id: content.id, name: content.name }
+                                    }}
+                                    secondaryView={(
+                                        teacher?.sub === content.teacherId && //isOwner of this achievement
+                                        <TouchableOpacity onPress={() => handleQRCode(content.id)}>
+                                            <MemoIconBox variant="darkPrimary" size="medium" icon={QrCode} />
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                            ))}
+                        </ScrollableView>
+                    </MemoCase>
+                    <MemoCase default>
+                        <View className="flex-1 items-center justify-center">
+                            <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
+                        </View>
+                    </MemoCase>
+                </MemoSwitch>
                 <MemoIconButton icon={Plus} className="absolute bottom-4 right-4" onPress={handleCreate} />
             </MemoCard>
         </BrandingBackground>

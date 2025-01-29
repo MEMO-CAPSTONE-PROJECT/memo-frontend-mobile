@@ -1,4 +1,5 @@
 import BrandingBackground from "@/components/background/branding-background";
+import MemoIconTextButton from "@/components/button/memo-icon-text-button";
 import MemoContentIconBox from "@/components/container/box/memo-content-icon-box";
 import MemoCard from "@/components/container/memo-card";
 import MemoPill from "@/components/pill/memo-pill";
@@ -8,7 +9,7 @@ import { useStudentAchievementById } from "@/hooks/useAchievement";
 import { formattedPeople, formattedReward, getAptitudeColor } from "@/shared/utils/aptitude-util";
 import { formattedDate } from "@/shared/utils/date-util";
 import { useLocalSearchParams } from "expo-router";
-import { CalendarDots, GraduationCap, Medal, Users } from "phosphor-react-native";
+import { CalendarDots, GraduationCap, Medal, NotePencil, QrCode, Users } from "phosphor-react-native";
 import { Text, View } from "react-native";
 
 export default function StudentDetailScreen() {
@@ -27,10 +28,11 @@ export default function StudentDetailScreen() {
             <MemoCard size="full" className="!p-0 !pt-0 !rounded-t-none">
                 <ScrollableView border={false}>
                     {/* <Image source={ImageAssets.diamond} className="w-full h-[200] object-fill" /> */}
-                    <View className="flex-col p-[1.5rem] gap-y-sm">
-                        <Text className="font-kanit-bold text-title text-title-1">{achievement?.name}</Text>
-                        <View className="flex-row gap-x-md">
-                            {achievement?.points?.map((point, index) => {
+                    <View className="p-[1.5rem] flex-row justify-between">
+                        <View className="flex-1 flex-col gap-y-sm">
+                            <Text className="font-kanit-bold text-title text-title-1">{achievement?.name}</Text>
+                            <View className="flex-row gap-x-md">
+                                {achievement?.points?.map((point, index) => {
                                     const detail = point.details?.[0]
                                     const color = getAptitudeColor(detail?.color)
                                     return (
@@ -42,7 +44,12 @@ export default function StudentDetailScreen() {
                                             textColor={color?.color}
                                         />
                                     )
-                            })}
+                                })}
+                            </View>
+                        </View>
+                        <View className="flex-col gap-y-md">
+                            <MemoIconTextButton name="ลงทะเบียน" icon={NotePencil} variant="primary" />
+                            <MemoIconTextButton name="กรอกรหัส" icon={QrCode} variant="secondary" />
                         </View>
                     </View>
                     <MemoSeperator />

@@ -105,6 +105,28 @@ function useCreateTeacherAchievement() {
     })
 }
 
+function useEditTeacherAchievement(achievementId: string) {
+    return useMutation<null, AxiosError, CreateAchievementRequest>({
+        mutationFn: async (request) => {
+            if (MemoConfig.isMock) return mockUseCreateTeacherAchievement
+            
+            const result = await api.put(MemoApis.EDIT_ACHIEVEMENT_TEACHER(achievementId), request)
+            return result.data
+        },
+    })
+}
+
+function useDeleteTeacherAchievement(achievementId: string) {
+    return useMutation<null, AxiosError>({
+        mutationFn: async () => {
+            if (MemoConfig.isMock) return mockUseCreateTeacherAchievement
+            
+            const result = await api.delete(MemoApis.DELETE_ACHIEVEMENT_TEACHER(achievementId))
+            return result.data
+        },
+    })
+}
+
 interface StudentAchievementResponse {
     data: {
         achievementStudent: (Omit<Achievement, "teacherId"> & { isOpen: boolean })[]
@@ -138,5 +160,5 @@ function useStudentAchievementById(id: string) {
     })
 }
 
-export { useCreateTeacherAchievement, useStudentAchievementById, useStudentAchievements, useTeacherAchievementById, useTeacherAchievements };
+export { useCreateTeacherAchievement, useDeleteTeacherAchievement, useStudentAchievementById, useStudentAchievements, useTeacherAchievementById, useTeacherAchievements, useEditTeacherAchievement };
 

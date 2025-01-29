@@ -4,8 +4,10 @@ import MemoTextButton from "@/components/button/memo-text-button"
 import MemoCard from "@/components/container/memo-card"
 import MemoOtpTextInput from "@/components/input/memo-otp-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
+import { MemoTimer } from "@/components/timer/memo-timer"
+import { getTimeMinuteSecond } from "@/shared/utils/date-util"
 import { Link } from "expo-router"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useMemo } from "react"
 import { Text, View } from "react-native"
 
 interface OTPUIKitProps {
@@ -21,30 +23,10 @@ interface OTPUIKitState {
 }
 
 export default function OTPUIKit({ email, otp, resend, verify }: Readonly<OTPUIKitProps>) {
-    const TIMER = 30
-    const [timer, setTimer] = useState(TIMER)    
+    const TIMER = 30   
     const emailFormatted = useMemo(() => email.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1xxx@$2"), [email])
-    const timeoutCallback = useCallback(() => setTimer(current => current - 1), [])
-
-    useEffect(() => { 
-        if (timer > 0) {
-            const timeout = setTimeout(timeoutCallback, 1000)
-            return () => clearTimeout(timeout)
-        }
-    }, [timer, timeoutCallback])
-
-    function getTime(time: number) {
-        const minutes = Math.floor(time / 60)
-        const seconds = time % 60
-        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-    }
-
-    function reset() {
-        setTimer(TIMER)
-        resend()
-    }
-
     const { error, onChangeCode } = otp
+    
     return (
         <KeyboardView>
             <BrandingBackground variant="secondary" className="justify-end items-center">
@@ -65,12 +47,23 @@ export default function OTPUIKit({ email, otp, resend, verify }: Readonly<OTPUIK
                         />
                     </View>
                     <View className="gap-y-lg">
-                        <View className="flex-row justify-between">
-                            <Text className="text-body-2 font-kanit-regular text-caption-1">
-                                กดส่งรหัสได้อีกครั้งใน {getTime(timer)} นาที
-                            </Text>
-                            <MemoTextButton name="ส่งอีกครั้ง?" onPress={reset} disabled={timer > 0} />
-                        </View>
+                        <MemoTimer initialTime={TIMER}>
+                            {(time, reset) => (
+                                <View className="flex-row justify-between">
+                                    <Text className="text-body-2 font-kanit-regular text-caption-1">
+                                        กดส่งรหัสได้อีกครั้งใน {getTimeMinuteSecond(time)} นาที
+                                    </Text>
+                                    <MemoTextButton 
+                                        name="ส่งอีกครั้ง?" 
+                                        onPress={() =>{
+                                            reset()
+                                            resend()
+                                        }} 
+                                        disabled={time > 0} 
+                                    />
+                                </View>
+                            )}
+                        </MemoTimer>
                         <MemoButton name="ยืนยัน" variant="primary" onPress={verify} />
                         <Link href=".." asChild>
                             <MemoButton name="ย้อนกลับ" variant="ghost" />

@@ -14,6 +14,7 @@ interface MemoButtonProps {
 interface MemoButtonVariant {
     primary: string
     secondary: string
+    error: string
     ghost: string
 }
 
@@ -25,6 +26,7 @@ const MemoButton = forwardRef<TouchableOpacity, MemoButtonProps>(({ isLoading, o
     const variants = {
         primary: { color: "bg-primary-2 hover:bg-primary-2-hover", text: "text-system-white" },
         secondary: { color: "bg-secondary-2 hover:bg-secondary-2-hover", text: "text-system-white" },
+        error: { color: "bg-system-error-2 hover:bg-system-error-2-hover", text: "text-system-white" },
         ghost: { color: "border-body-1 border-xsm hover:bg-body-1", text: "text-body-1 hover:text-system-white" },
     }
     const sizes = {

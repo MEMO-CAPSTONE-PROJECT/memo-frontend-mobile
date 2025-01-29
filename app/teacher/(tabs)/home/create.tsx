@@ -46,7 +46,7 @@ const CreateAchievementSchema = z.object({
             normal: z.string().min(1, "กรุณาใส่คะแนนคนที่ผ่าน").max(3, "ไม่สามารถเกิน 999 ได้"),
             excellent: z.string().min(1, "กรุณาใส่คะแนนคนเก่ง").max(3, "ไม่สามารถเกิน 999 ได้")
         }
-    )),
+        )),
     description: z
         .string()
         .min(1, "กรุณาใส่รายละเอียด")
