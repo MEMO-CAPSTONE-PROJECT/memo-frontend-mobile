@@ -46,7 +46,7 @@ export default function StudentHomeScreen() {
 
   return (
     <BrandingBackground variant="secondary">
-      <MemoCard size="full" className="gap-y-xl !p-0">
+      <MemoCard size="full" className="relative gap-y-xl !p-0">
         <View className="gap-y-xl px-[1.5rem]">
           <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
           <MemoSelectionButton buttons={buttons} />
@@ -54,7 +54,7 @@ export default function StudentHomeScreen() {
         <MemoContentSkeleton isLoading={isLoading}>
           <MemoSwitch test={filteredAchievements.length}>
             <MemoCase value={(test: number) => test > 0}>
-              <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
+              <ScrollableView border={false} gap={false} className="w-screen gap-y-xl" onRefresh={handleRefresh}>
                 {filteredAchievements.map((content, index, contents) => (
                   <MemoContentCard
                     divider={index !== contents.length - 1}

@@ -17,6 +17,7 @@ interface MemoIconBoxSize {
 export interface MemoIconBoxVariant {
     primary: string
     darkPrimary: string
+    darkRed: string
     secondary: string
 }
 
@@ -24,6 +25,7 @@ export default function MemoIconBox({ variant = "primary", size = "large", icon:
     const variants = {
         primary: { container: "bg-system-light-purple", iconColor: Color["primary-2"], weight: "fill" },
         darkPrimary: { container: "bg-primary-2", iconColor: Color["system-white"], weight: undefined },
+        darkRed: { container: "bg-secondary-3", iconColor: Color["system-white"], weight: undefined },
         secondary: { container: "bg-system-light-orange", iconColor: Color["secondary-3"], weight: "fill" },
     }
     const sizes = {

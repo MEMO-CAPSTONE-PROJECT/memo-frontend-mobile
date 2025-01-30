@@ -13,7 +13,7 @@ import { useTeacherToken } from "@/hooks/useUserToken"
 import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
 import { formattedDate } from "@/shared/utils/date-util"
 import { router } from "expo-router"
-import { CalendarDots, GraduationCap, Medal, Plus, QrCode } from "phosphor-react-native"
+import { CalendarDots, GraduationCap, Medal, NotePencil, Plus, QrCode } from "phosphor-react-native"
 import { useMemo, useState } from "react"
 import { Text, TouchableOpacity, View } from "react-native"
 
@@ -55,6 +55,9 @@ export default function TeacherHomeScreen() {
     function handleQRCode(achievementId: string) {
         router.push({ pathname: "/teacher/home/qr-code", params: { id: achievementId } })
     }
+    function handleEdit(achievementId: string) {
+        router.push({ pathname: "/teacher/home/edit", params: { id: achievementId } })
+    }
 
     return (
         <BrandingBackground variant="secondary">
@@ -66,7 +69,7 @@ export default function TeacherHomeScreen() {
                 <MemoContentSkeleton isLoading={isLoading}>
                     <MemoSwitch test={filteredAchievements.length}>
                         <MemoCase value={(test: number) => (test > 0)}>
-                            <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
+                            <ScrollableView border={false} gap={false} className="w-screen gap-y-xl" onRefresh={handleRefresh}>
                                 {filteredAchievements.map((content, index, contents) => (
                                     <MemoContentCard
                                         divider={index !== contents.length - 1}
@@ -88,10 +91,17 @@ export default function TeacherHomeScreen() {
                                             params: { id: content.id, name: content.name }
                                         }}
                                         secondaryView={(
-                                            teacher?.sub === content.teacherId && //isOwner of this achievement
-                                            <TouchableOpacity onPress={() => handleQRCode(content.id)}>
-                                                <MemoIconBox variant="darkPrimary" size="medium" icon={QrCode} />
-                                            </TouchableOpacity>
+                                            teacher?.sub === content.teacherId ? //isOwner of this achievement
+                                            (
+                                                <View className="flex-row gap-md">
+                                                    <TouchableOpacity onPress={() => handleQRCode(content.id)}>
+                                                        <MemoIconBox variant="darkPrimary" size="medium" icon={QrCode} />
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => handleEdit(content.id)}>
+                                                        <MemoIconBox variant="darkRed" size="medium" icon={NotePencil} />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            ) : null
                                         )}
                                     />
                                 ))}

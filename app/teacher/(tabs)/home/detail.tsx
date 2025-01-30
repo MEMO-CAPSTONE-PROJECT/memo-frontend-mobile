@@ -12,6 +12,7 @@ import { formattedPeople, formattedReward, getAptitudeColor } from "@/shared/uti
 import { formattedDate } from "@/shared/utils/date-util";
 import { router, useLocalSearchParams } from "expo-router";
 import { CalendarDots, GraduationCap, Medal, NotePencil, QrCode, Users } from "phosphor-react-native";
+import { Fragment } from "react";
 import { Text, View } from "react-native";
 
 export default function TeacherDetailScreen() {
@@ -49,7 +50,7 @@ export default function TeacherDetailScreen() {
                         <View className="p-[1.5rem] flex-row justify-between">
                             <View className="flex-1 flex-col gap-y-sm">
                                 <Text className="font-kanit-bold text-title text-title-1">{achievement?.name}</Text>
-                                <View className="flex-row gap-x-md">
+                                <View className="flex-row flex-wrap gap-md">
                                     {achievement?.points?.map((point, index) => {
                                         const achievement = point.details?.[0]
                                         const color = getAptitudeColor(achievement?.color)
@@ -65,12 +66,6 @@ export default function TeacherDetailScreen() {
                                     })}
                                 </View>
                             </View>
-                            {isOwner &&
-                                <View className="flex-col gap-y-md">
-                                    <MemoIconTextButton name="สร้าง" icon={QrCode} variant="primary" onPress={handleCreateQRCode} />
-                                    <MemoIconTextButton name="แก้ไข" icon={NotePencil} variant="darkRed" onPress={handleEdit} />
-                                </View>
-                            }
                         </View>
                         <MemoSeperator />
                         <View className="flex p-[1.5rem] gap-y-lg">
@@ -103,6 +98,15 @@ export default function TeacherDetailScreen() {
                                 <Text className="font-kanit-regular text-body text-body-1">{description}</Text>
                             </View>
                         </View>
+                        {isOwner && 
+                            <Fragment>
+                                <MemoSeperator />
+                                <View className="p-[1.5rem] flex-col gap-y-md">
+                                    <MemoIconTextButton name="สร้าง" icon={QrCode} variant="secondary" onPress={handleCreateQRCode} />
+                                    <MemoIconTextButton name="แก้ไข" icon={NotePencil} variant="darkRed" onPress={handleEdit} />
+                                </View>
+                            </Fragment>
+                        }
                     </MemoDetailSkeleton>
                 </ScrollableView>
             </MemoCard>

@@ -175,14 +175,14 @@ export default function TeacherHomeEditScreen() {
                                 placeholder="วันที่เปิด"
                                 value={form.startDate}
                                 error={errors?.startDate?._errors[0]}
-                                onConfirm={(date) => update("startDate", date)}
+                                onConfirm={(date) => date && update("startDate", date)}
                             />
                             <MemoDatePickerHelper
                                 label="วันที่ปิด"
                                 placeholder="วันที่ปิด"
                                 value={form.endDate}
                                 error={errors?.endDate?._errors[0]}
-                                onConfirm={(date) => update("endDate", date)}
+                                onConfirm={(date) => date && update("endDate", date)}
                             />
                         </View>
                         <MemoTextInputHelper
