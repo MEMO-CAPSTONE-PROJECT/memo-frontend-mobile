@@ -1,4 +1,5 @@
 import { Color } from "@/constants/theme/color";
+import React from 'react';
 import { Text, View } from "react-native";
 
 interface MemoPillProps {

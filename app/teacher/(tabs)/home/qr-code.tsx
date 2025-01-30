@@ -23,7 +23,10 @@ export default function QRCodeScreen() {
     ]
     const { data, refetch } = useAchievementCode(id as string ?? "")
     const QRCodeRawData = JSON.stringify(
-        { achievementId: id, code: data?.data?.code }
+        { 
+            achievementId: id, 
+            code: excellent ? data?.data?.excellenceCode : data?.data?.normalCode 
+        }
     )
     if (!QRCodeRawData) return <View></View>
 

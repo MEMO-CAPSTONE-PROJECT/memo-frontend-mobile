@@ -5,14 +5,13 @@ import MemoCard from "@/components/container/memo-card"
 import { MemoCase, MemoSwitch } from "@/components/logic/memo-switch"
 import ScrollableView from "@/components/scrollable/scrollable-view"
 import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content"
-import { Color } from "@/constants/theme/color"
+import MemoContentSkeleton from "@/components/ui/kits/skeleton/memo-content-skeleton"
 import { useStudentAchievements } from "@/hooks/useAchievement"
 import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
 import { formattedDate } from "@/shared/utils/date-util"
 import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
 import { useMemo, useState } from "react"
 import { Text, View } from "react-native"
-import { Spinner } from "tamagui"
 
 export default function StudentHomeScreen() {
   const [isOpen, setIsOpen] = useState(true)
@@ -34,18 +33,17 @@ export default function StudentHomeScreen() {
       return achievements.sort().filter(
         (achievement) =>
           achievement.name.includes(searchQuery) &&
-          // (achievement.open === isOpen)
           (achievement?.isOpen === isOpen)
       )
     }, [achievements, isOpen, searchQuery])
 
   function handleSearch(text: string) {
-      setSearchQuery(text)
+    setSearchQuery(text)
   }
   async function handleRefresh() {
     refetch()
   }
-  
+
   return (
     <BrandingBackground variant="secondary">
       <MemoCard size="full" className="gap-y-xl !p-0">
@@ -53,44 +51,41 @@ export default function StudentHomeScreen() {
           <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
           <MemoSelectionButton buttons={buttons} />
         </View>
-        <MemoSwitch test={filteredAchievements.length}>
-          <MemoCase value={() => isLoading}>
-            <View className="flex-1 items-center justify-center">
-              <Spinner size="large" color={Color["primary-2"]} />
-            </View>
-          </MemoCase>
-          <MemoCase value={(test: number) => test > 0}>
-            <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
-              {filteredAchievements.map((content, index, contents) => (
-                <MemoContentCard
-                  divider={index !== contents.length - 1}
-                  key={`${index}_${content.name}`}
-                  content={{
-                    id: content.id,
-                    name: content.name,
-                    // src: content.src,
-                    sections: {
-                      reward: formattedReward(content.points),
-                      date: formattedDate(content.sections.startDate, content.sections.endDate),
-                      organizer: content.sections.organizer
-                    },
-                    tags: formattedPointColor(content?.points)
-                  }}
-                  sections={sections}
-                  href={{
-                    pathname: "/student/home/detail",
-                    params: { id: content.id, name: content.name }
-                  }}
-                />
-              ))}
-            </ScrollableView>
-          </MemoCase>
-          <MemoCase default>
-            <View className="flex-1 items-center justify-center">
-              <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
-            </View>
-          </MemoCase>
-        </MemoSwitch>
+        <MemoContentSkeleton isLoading={isLoading}>
+          <MemoSwitch test={filteredAchievements.length}>
+            <MemoCase value={(test: number) => test > 0}>
+              <ScrollableView border={false} gap={false} className="gap-y-xl" onRefresh={handleRefresh}>
+                {filteredAchievements.map((content, index, contents) => (
+                  <MemoContentCard
+                    divider={index !== contents.length - 1}
+                    key={`${index}_${content.name}`}
+                    content={{
+                      id: content.id,
+                      name: content.name,
+                      // src: content.src,
+                      sections: {
+                        reward: formattedReward(content.points),
+                        date: formattedDate(content.sections.startDate, content.sections.endDate),
+                        organizer: content.sections.organizer
+                      },
+                      tags: formattedPointColor(content?.points)
+                    }}
+                    sections={sections}
+                    href={{
+                      pathname: "/student/home/detail",
+                      params: { id: content.id, name: content.name }
+                    }}
+                  />
+                ))}
+              </ScrollableView>
+            </MemoCase>
+            <MemoCase default>
+              <View className="flex-1 items-center justify-center">
+                <Text className="font-kanit-medium text-body text-title-1">ไม่พบเป้าหมายที่ต้องการ</Text>
+              </View>
+            </MemoCase>
+          </MemoSwitch>
+        </MemoContentSkeleton>
       </MemoCard>
     </BrandingBackground>
   )

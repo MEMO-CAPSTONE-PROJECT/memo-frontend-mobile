@@ -7,7 +7,8 @@ import { AxiosError } from "axios"
 
 interface AchievementCodeResponse {
     data: {
-        code: string
+        normalCode: string
+        excellenceCode: string
     } 
 }
 

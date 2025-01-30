@@ -1,5 +1,6 @@
 import MemoContentIconBox from "@/components/container/box/memo-content-icon-box"
 import MemoPill from "@/components/pill/memo-pill"
+import MemoSeperator from "@/components/seperator/memo-seperator"
 import { Href, router } from "expo-router"
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native"
 
@@ -57,16 +58,15 @@ export default function MemoContentCard({
     href,
     secondaryView,
 }: Readonly<MemoContentCardProps>) {
-    const border = divider ? "border-b-sm border-system-light-gray" : ""
     function navigate() {
         router.push(href)
     }
     return (
-        <View className={`gap-y-lg px-[1.5rem] pb-xl ${border}`}>
-            <View className="gap-y-sm">
-                {content.src && <Image alt={content.name} source={content.src} className="w-full h-[180] object-fill rounded-sm" />}
-                <Text className="font-kanit-bold text-title">{content.name}</Text>
-                <View className="flex-row gap-x-md">
+        <View className={`gap-y-lg`}>
+            <View className="gap-y-sm px-[1.5rem]">
+                {content.src && <Image alt={content.name} source={content.src} className="w-full h-[180] object-fill" />}
+                <Text className="font-kanit-bold text-title w-full">{content.name}</Text>
+                <View className="flex-row gap-x-md w-full">
                     {content.tags.map((tag, index) => (
                         <MemoPill
                             key={`${index}_${tag.id}`} 
@@ -85,14 +85,16 @@ export default function MemoContentCard({
                     detail={content.sections[id]} 
                     icon={icon} 
                     variant={secondary ? "secondary" : "primary"} 
+                    className="px-[1.5rem]"
                 />
             ))}
-            <View className="flex-row justify-between items-end">
+            <View className="flex-row justify-between items-end px-[1.5rem]">
                 <TouchableOpacity onPress={navigate}>
                     <Text className="font-kanit-regular text-system-blue">รายละเอียดเพิ่มเติม &raquo;</Text>
                 </TouchableOpacity>
                 {secondaryView}
             </View>
+            {divider && <MemoSeperator/>}
         </View>
     )
 }

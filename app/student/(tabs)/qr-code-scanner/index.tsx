@@ -46,7 +46,7 @@ export default function StudentQRCodeScannerScreen() {
     const [permission, requestPermission] = useCameraPermissions()
 
     const { data: student } = useStudentToken()
-    const { mutateAsync } = useCreateStudentScoreByCode()
+    const { mutateAsync: createStudentScoreByCode } = useCreateStudentScoreByCode()
 
     if (!permission) {
         return <View></View>
@@ -74,7 +74,7 @@ export default function StudentQRCodeScannerScreen() {
     async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
         setIsScanned(true)
         const result = JSON.parse(rawResult.data) as { achievementId: string, code?: string }
-        const response = await mutateAsync({
+        const response = await createStudentScoreByCode({
             studentId: student?.sub ?? "",
             achievementId: result.achievementId,
             code: result.code ?? ""

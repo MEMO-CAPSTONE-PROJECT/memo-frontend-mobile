@@ -7,11 +7,12 @@ interface MemoContentIconBoxProps {
     detail?: string
     icon: Icon
     variant: keyof MemoIconBoxVariant
+    className?: string
 }
 
-export default function MemoContentIconBox({ title, detail, icon, variant }: Readonly<MemoContentIconBoxProps>) {
+export default function MemoContentIconBox({ title, detail, icon, variant, className }: Readonly<MemoContentIconBoxProps>) {
     return (
-        <View className="flex-row gap-x-lg items-center">
+        <View className={`flex-row gap-x-lg items-center ${className}`}>
             <MemoIconBox icon={icon} variant={variant} />
             <View>
                 <Text className="font-kanit-regular text-title-1 text-body">{title}</Text>
