@@ -5,7 +5,7 @@ import MemoErrorMessage from "@/components/helper/memo-error-message";
 import MemoTextInput from "@/components/input/memo-text-input";
 import KeyboardView from "@/components/scrollable/keyboard-view";
 import SurpriseParentSvg from "@/components/ui/kits/surprise-parent-svg";
-import { useParentOTP } from "@/hooks/useOTP";
+import { useParentOTPMutation } from "@/hooks/query/useOTPMutation";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";
@@ -13,7 +13,7 @@ import { Text, View } from "react-native";
 export default function ParentLoginScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const [parentPhoneNumber, setParentPhoneNumber] = useState("")
-    const { mutateAsync, isPending } = useParentOTP()
+    const { mutateAsync, isPending } = useParentOTPMutation()
 
     async function handleSendOTP() {
         const result = await mutateAsync({ phoneNumber: parentPhoneNumber }).catch(error => null)

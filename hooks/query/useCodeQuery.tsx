@@ -12,7 +12,7 @@ interface AchievementCodeResponse {
     } 
 }
 
-function useAchievementCode(achievementId: string) {
+export function useAchievementCodeQuery(achievementId: string) {
     return useQuery<null, AxiosError, AchievementCodeResponse>({
         queryKey: ["createCode", achievementId],
         queryFn: async () => {
@@ -29,15 +29,12 @@ interface CreateStudentScoreByCodeRequest {
     code: string
 }
 
-function useCreateStudentScoreByCode() {
+export function useCreateStudentScoreByCodeQuery() {
     return useMutation<null, AxiosError, CreateStudentScoreByCodeRequest>({
         mutationFn: async (request) => {
             if (MemoConfig.isMock) return randomLetter(6)
-
             const result = await api.post(MemoApis.CREATE_STUDENT_SCORE, request)
             return result.data
         },
     })
 }
-
-export { useAchievementCode, useCreateStudentScoreByCode }

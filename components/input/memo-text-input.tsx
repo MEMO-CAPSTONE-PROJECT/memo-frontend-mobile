@@ -15,8 +15,8 @@ export interface MemoTextInputProps extends TextInputProps {
 export default function MemoTextInput({ placeholder, state = "default", className, ...textInputProps }: Readonly<MemoTextInputProps>) {
     const [focus, setFocus] = useState(false)
     const icons = {
-        default: <></>,
-        focus: <></>,
+        default: null,
+        focus: null,
         error: <XCircle size={24} weight="bold" color={Color["system-error"]}/>,
         success: <CheckCircle size={24} weight="bold" color={Color["system-success"]}/>,
         disabled: <PencilSimpleSlash size={24} weight="bold" color={Color["body-2"]}/>,

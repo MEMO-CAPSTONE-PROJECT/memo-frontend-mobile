@@ -4,7 +4,7 @@ import MemoCard from "@/components/container/memo-card";
 import MemoCharacterCard from "@/components/container/memo-character-card";
 import MemoErrorMessage from "@/components/helper/memo-error-message";
 import ScrollableView from "@/components/scrollable/scrollable-view";
-import { useParentByPhoneNumber } from "@/hooks/useUser";
+import { useParentByPhoneNumberQuery } from "@/hooks/query/useUserQuery";
 import { useParentToken } from "@/hooks/useUserToken";
 import { Link, router } from "expo-router";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export default function ParentStudentsScreen() {
     const [error, setError] = useState<string>()
     const [studentId, setStudentId] = useState<string>()
     const { data: parent } = useParentToken()
-    const { data } = useParentByPhoneNumber(parent?.phoneNumber ?? "")
+    const { data } = useParentByPhoneNumberQuery(parent?.phoneNumber ?? "")
     const students = data?.data?.parent?.students ?? []
 
     function handleCardPress(index: number, studentId: string) {

@@ -1,7 +1,7 @@
 import OTPUIKit from "@/components/ui/kits/screen/otp";
 import { MemoApis } from "@/constants/apis";
 import useAuth from "@/context/useAuth";
-import { useParentOTP } from "@/hooks/useOTP";
+import { useParentOTPMutation } from "@/hooks/query/useOTPMutation";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function ParentOtpScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const auth = useAuth()
     const { parentPhoneNumber, parentEmail } = useLocalSearchParams()
-    const { mutateAsync } = useParentOTP()
+    const { mutateAsync } = useParentOTPMutation()
 
     const handleChangeCode = (codes: string[]) => {
         //clear error

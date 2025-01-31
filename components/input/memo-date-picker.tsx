@@ -8,6 +8,7 @@ import { CalendarDots } from 'phosphor-react-native'
 import { Fragment, useState } from 'react'
 import { Modal, Pressable, Text, View } from 'react-native'
 import { Input, XStack } from 'tamagui'
+import dayjs from "dayjs"
 
 export interface MemoDatePickerProps {
     value?: Date
@@ -48,7 +49,7 @@ export default function MemoDatePicker({ value, state = "default", placeholder, 
                             style={{ color: value ? textColor : placeholderColor }}
                             className={`font-kanit-medium `}
                         >
-                            {value?.toLocaleDateString() ?? placeholder}
+                            {value ? dayjs(value).format("DD-MM-YYYY") : placeholder}
                         </Text>
                     </Input>
                     <XStack paddingRight={10} position='absolute'>

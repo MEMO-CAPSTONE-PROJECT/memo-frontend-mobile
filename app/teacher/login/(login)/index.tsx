@@ -6,7 +6,7 @@ import MemoErrorMessage from "@/components/helper/memo-error-message"
 import MemoTextInput from "@/components/input/memo-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
 import TeacherBlackboardSvg from "@/components/ui/kits/teacher-blackboard-svg"
-import { useTeacherOTP } from "@/hooks/useOTP"
+import { useTeacherOTPMutation } from "@/hooks/query/useOTPMutation"
 import { Link, router } from "expo-router"
 import { useState } from "react"
 import { Text, View } from "react-native"
@@ -14,7 +14,7 @@ import { Text, View } from "react-native"
 export default function TeacherLoginScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const [teacherId, setTeacherId] = useState("")
-    const { mutateAsync, isPending } = useTeacherOTP()
+    const { mutateAsync, isPending } = useTeacherOTPMutation()
 
     async function handleSendOTP() {
         const result = await mutateAsync({ teacherId: teacherId }).catch(error => null)

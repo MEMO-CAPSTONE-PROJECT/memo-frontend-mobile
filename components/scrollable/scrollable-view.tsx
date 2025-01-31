@@ -8,7 +8,7 @@ interface ScrollableViewProps {
     scrollEnabled?: boolean
     className?: string
     children: React.ReactNode
-    onRefresh?: () => Promise<void>
+    onRefresh?: () => void
 }
 
 export default function ScrollableView({ gap = false, border = true, scrollEnabled = true, className, children, onRefresh }: Readonly<ScrollableViewProps>) {

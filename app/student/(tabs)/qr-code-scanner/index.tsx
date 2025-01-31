@@ -2,7 +2,7 @@ import BrandingBackground from "@/components/background/branding-background";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
 import { Color } from "@/constants/theme/color";
-import { useCreateStudentScoreByCode } from "@/hooks/useCode";
+import { useCreateStudentScoreByCodeQuery } from "@/hooks/query/useCodeQuery";
 import { useStudentToken } from "@/hooks/useUserToken";
 import { useIsFocused } from "@react-navigation/native";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
@@ -46,7 +46,7 @@ export default function StudentQRCodeScannerScreen() {
     const [permission, requestPermission] = useCameraPermissions()
 
     const { data: student } = useStudentToken()
-    const { mutateAsync: createStudentScoreByCode } = useCreateStudentScoreByCode()
+    const { mutateAsync: createStudentScoreByCode } = useCreateStudentScoreByCodeQuery()
 
     if (!permission) {
         return <View></View>

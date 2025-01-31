@@ -1,7 +1,7 @@
 import OTPUIKit from "@/components/ui/kits/screen/otp";
 import { MemoApis } from "@/constants/apis";
 import useAuth from "@/context/useAuth";
-import { useStudentOTP } from "@/hooks/useOTP";
+import { useStudentOTPMutation } from "@/hooks/query/useOTPMutation";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function StudentOtpScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const auth = useAuth()
     const { studentId, studentEmail } = useLocalSearchParams()
-    const { mutateAsync } = useStudentOTP()
+    const { mutateAsync } = useStudentOTPMutation()
 
     const handleChangeCode = (codes: string[]) => {
         //clear error

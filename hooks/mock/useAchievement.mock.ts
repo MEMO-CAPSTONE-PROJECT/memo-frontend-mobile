@@ -1,4 +1,4 @@
-import { AchievementByIdResponse } from "@/hooks/useAchievement"
+import { AchievementByIdResponse } from "@/hooks/achievement/useAchievementQuery"
 
 export const mockUseTeacherAchievements = {
     data: {

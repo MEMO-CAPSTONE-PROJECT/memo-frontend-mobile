@@ -5,7 +5,7 @@ import ParentManDefaultSvg from "@/components/ui/icons/parent/man/default-svg"
 import ParentWomanDefaultSvg from "@/components/ui/icons/parent/woman/default-svg"
 import StudentBoyDefaultSvg from "@/components/ui/icons/student/boy/default-svg"
 import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-svg"
-import { useStudentById } from "@/hooks/useUser"
+import { useStudentByIdQuery } from "@/hooks/query/useUserQuery"
 import { useParentToken } from "@/hooks/useUserToken"
 import { isMan } from "@/shared/utils/gender-util"
 import { useLocalSearchParams } from "expo-router"
@@ -15,7 +15,7 @@ import { Text, View } from "react-native"
 export default function ParentHomeScreen() {
     const { studentId } = useLocalSearchParams()
     const { data: parent, isLoading } = useParentToken()
-    const { data } = useStudentById(studentId as string ?? "")
+    const { data } = useStudentByIdQuery(studentId as string ?? "")
     const student = data?.data?.student
     
     function handleAptitude() {

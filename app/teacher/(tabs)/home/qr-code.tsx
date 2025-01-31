@@ -6,7 +6,7 @@ import MemoCard from "@/components/container/memo-card";
 import MemoLongCard from "@/components/container/memo-long-card";
 import { MemoTimer } from "@/components/timer/memo-timer";
 import { Color } from "@/constants/theme/color";
-import { useAchievementCode } from "@/hooks/useCode";
+import { useAchievementCodeQuery } from "@/hooks/query/useCodeQuery";
 import { getTimeMinuteSecond } from "@/shared/utils/date-util";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -21,7 +21,7 @@ export default function QRCodeScreen() {
         { name: "นักเรียนที่ผ่าน", active: !excellent, onPress: () => setExcellent(false)},
         { name: "นักเรียนที่โดดเด่น", active: excellent, onPress: () => setExcellent(true)},
     ]
-    const { data, refetch } = useAchievementCode(id as string ?? "")
+    const { data, refetch } = useAchievementCodeQuery(id as string ?? "")
     const QRCodeRawData = JSON.stringify(
         { 
             achievementId: id, 

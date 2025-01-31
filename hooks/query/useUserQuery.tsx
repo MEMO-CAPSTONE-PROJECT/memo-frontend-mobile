@@ -38,8 +38,7 @@ interface ParentResponse {
     }
 }
 
-
-export function useParentByPhoneNumber(phoneNumber: string) {
+export function useParentByPhoneNumberQuery(phoneNumber: string) {
     return useQuery<null, AxiosError, ParentResponse>({
         queryKey: ["parent", phoneNumber],
         queryFn: async () => {
@@ -57,7 +56,7 @@ interface StudentResponse {
     }
 }
 
-export function useStudentById(id: string) {
+export function useStudentByIdQuery(id: string) {
     return useQuery<null, AxiosError, StudentResponse>({
         queryKey: ["student", id],
         queryFn: async () => {

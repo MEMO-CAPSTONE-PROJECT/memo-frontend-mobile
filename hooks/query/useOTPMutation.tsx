@@ -14,8 +14,7 @@ interface TeacherOTPResponse {
     }
 }
 
-function useTeacherOTP(): UseMutationResult<TeacherOTPResponse, AxiosError, TeacherOTPRequest> {
-
+export function useTeacherOTPMutation(): UseMutationResult<TeacherOTPResponse, AxiosError, TeacherOTPRequest> {
     return useMutation<TeacherOTPResponse, AxiosError, TeacherOTPRequest>({
         mutationFn: async (request) => {
             if (MemoConfig.isMock) return mockUseTeacherOTP
@@ -35,8 +34,7 @@ interface StudentOTPResponse {
     }
 }
 
-function useStudentOTP(): UseMutationResult<StudentOTPResponse, AxiosError, StudentOTPRequest> {
-
+export function useStudentOTPMutation(): UseMutationResult<StudentOTPResponse, AxiosError, StudentOTPRequest> {
     return useMutation<StudentOTPResponse, AxiosError, StudentOTPRequest>({
         mutationFn: async (request) => {
             if (MemoConfig.isMock) return mockUseStudentOTP
@@ -56,7 +54,7 @@ interface ParentOTPResponse {
     }
 }
 
-function useParentOTP(): UseMutationResult<ParentOTPResponse, AxiosError, ParentOTPRequest> {
+export function useParentOTPMutation(): UseMutationResult<ParentOTPResponse, AxiosError, ParentOTPRequest> {
     return useMutation<ParentOTPResponse, AxiosError, ParentOTPRequest>({
         mutationFn: async (request) => {
             if (MemoConfig.isMock) return mockUseParentOTP
@@ -67,4 +65,3 @@ function useParentOTP(): UseMutationResult<ParentOTPResponse, AxiosError, Parent
     })
 }
 
-export { useParentOTP, useStudentOTP, useTeacherOTP }

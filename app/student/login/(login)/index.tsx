@@ -7,7 +7,7 @@ import MemoErrorMessage from '@/components/helper/memo-error-message';
 import MemoTextInput from '@/components/input/memo-text-input';
 import KeyboardView from '@/components/scrollable/keyboard-view';
 import SurpriseStudentSvg from '@/components/ui/kits/surprise-student-svg';
-import { useStudentOTP } from '@/hooks/useOTP';
+import { useStudentOTPMutation } from '@/hooks/query/useOTPMutation';
 import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
@@ -15,7 +15,7 @@ import { Text, View } from 'react-native';
 export default function StudentLoginScreen() {
     const [error, setError] = useState<string | undefined>(undefined)
     const [studentId, setStudentId] = useState("")
-    const { mutateAsync, isPending } = useStudentOTP()
+    const { mutateAsync, isPending } = useStudentOTPMutation()
 
     async function handleSendOTP() {
         const result = await mutateAsync({ studentId: studentId }).catch(error => null)

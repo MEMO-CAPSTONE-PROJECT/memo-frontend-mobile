@@ -3,81 +3,72 @@ import MemoSearchBar from "@/components/bar/memo-searchbar"
 import MemoSelectionButton from "@/components/button/memo-selection-button"
 import MemoCard from "@/components/container/memo-card"
 import { MemoCase, MemoSwitch } from "@/components/logic/memo-switch"
-import ScrollableView from "@/components/scrollable/scrollable-view"
-import MemoContentCard, { MemoSection } from "@/components/ui/kits/container/memo-content"
+import MemoAchievementList from "@/components/ui/kits/achievement/memo-achievement-list"
+import { MemoSection } from "@/components/ui/kits/container/memo-content"
 import MemoContentSkeleton from "@/components/ui/kits/skeleton/memo-content-skeleton"
-import { useStudentAchievements } from "@/hooks/useAchievement"
-import { formattedPointColor, formattedReward } from "@/shared/utils/aptitude-util"
-import { formattedDate } from "@/shared/utils/date-util"
+import { useStudentAchievementFilters } from "@/hooks/achievement/useAchievementFilters"
+import { useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
 import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
-import { useMemo, useState } from "react"
+import { useMemo } from "react"
 import { Text, View } from "react-native"
 
+const ACHIEVEMENT_SECTIONS: MemoSection[] = [
+  { id: "reward", name: "รางวัล", icon: Medal, secondary: true },
+  { id: "date", name: "วันที่ปิดรับ", icon: CalendarDots, secondary: false },
+  { id: "organizer", name: "คุณครูผู้ดูแล", icon: GraduationCap, secondary: false }
+]
+
+const ACHIEVEMENT_FILTERS = {
+  OPEN: { name: "เป้าหมายที่เปิดรับ" },
+  CLOSED: { name: "เป้าหมายที่ปิดรับ" }
+}
+
 export default function StudentHomeScreen() {
-  const [isOpen, setIsOpen] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const { data, refetch, isLoading } = useStudentAchievements()
+  const { data, refetch, isLoading } = useStudentAchievementsQuery()
   const achievements = useMemo(() => data?.data?.achievementStudent ?? [], [data])
+  
+  const { 
+    filteredAchievements, 
+    isOpen, 
+    setIsOpen, 
+    setSearchQuery 
+  } = useStudentAchievementFilters(achievements)
 
-  const buttons = [
-    { name: "เป้าหมายที่เปิดรับ", active: isOpen, onPress: () => setIsOpen(true) },
-    { name: "เป้าหมายที่ปิดรับ", active: !isOpen, onPress: () => setIsOpen(false) }
+  const filterButtons = [
+    {
+      name: ACHIEVEMENT_FILTERS.OPEN.name,
+      active: isOpen,
+      onPress: () => setIsOpen(true)
+    },
+    {
+      name: ACHIEVEMENT_FILTERS.CLOSED.name,
+      active: !isOpen,
+      onPress: () => setIsOpen(false)
+    }
   ]
-  const sections: MemoSection[] = [
-    { id: "reward", name: "รางวัล", icon: Medal, secondary: true },
-    { id: "date", name: "วันที่ปิดรับ", icon: CalendarDots, secondary: false },
-    { id: "organizer", name: "คุณครูผู้ดูแล", icon: GraduationCap, secondary: false }
-  ]
-  const filteredAchievements = useMemo(
-    () => {
-      return achievements.sort().filter(
-        (achievement) =>
-          achievement.name.includes(searchQuery) &&
-          (achievement?.isOpen === isOpen)
-      )
-    }, [achievements, isOpen, searchQuery])
 
-  function handleSearch(text: string) {
-    setSearchQuery(text)
-  }
-  async function handleRefresh() {
-    refetch()
-  }
+  const handleSearch = (text: string) => setSearchQuery(text)
+  const handleRefresh = async () => refetch()
 
   return (
     <BrandingBackground variant="secondary">
       <MemoCard size="full" className="relative gap-y-xl !p-0">
         <View className="gap-y-xl px-[1.5rem]">
           <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
-          <MemoSelectionButton buttons={buttons} />
+          <MemoSelectionButton buttons={filterButtons} />
         </View>
         <MemoContentSkeleton isLoading={isLoading}>
           <MemoSwitch test={filteredAchievements.length}>
             <MemoCase value={(test: number) => test > 0}>
-              <ScrollableView border={false} gap={false} className="w-screen gap-y-xl" onRefresh={handleRefresh}>
-                {filteredAchievements.map((content, index, contents) => (
-                  <MemoContentCard
-                    divider={index !== contents.length - 1}
-                    key={`${index}_${content.name}`}
-                    content={{
-                      id: content.id,
-                      name: content.name,
-                      // src: content.src,
-                      sections: {
-                        reward: formattedReward(content.points),
-                        date: formattedDate(content.sections.startDate, content.sections.endDate),
-                        organizer: content.sections.organizer
-                      },
-                      tags: formattedPointColor(content?.points)
-                    }}
-                    sections={sections}
-                    href={{
-                      pathname: "/student/home/detail",
-                      params: { id: content.id, name: content.name }
-                    }}
-                  />
-                ))}
-              </ScrollableView>
+              <MemoAchievementList 
+                sections={ACHIEVEMENT_SECTIONS} 
+                achievements={filteredAchievements} 
+                onRefresh={handleRefresh} 
+                href={(id, name) => ({
+                  pathname: "/student/home/detail",
+                  params: { id, name }
+                })} 
+              />
             </MemoCase>
             <MemoCase default>
               <View className="flex-1 items-center justify-center">

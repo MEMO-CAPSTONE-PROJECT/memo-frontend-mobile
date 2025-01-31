@@ -1,4 +1,4 @@
-import { GetAptitudeResponse } from "@/hooks/useAptitude";
+import { GetAptitudeResponse } from "@/hooks/query/useAptitudeQuery";
 
 export const mockUseGetAptitudes: GetAptitudeResponse = {
     data: {

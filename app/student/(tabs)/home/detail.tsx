@@ -5,8 +5,10 @@ import MemoCard from "@/components/container/memo-card";
 import MemoPill from "@/components/pill/memo-pill";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoSeperator from "@/components/seperator/memo-seperator";
+import MemoCouponDialog from "@/components/ui/kits/dialog/memo-coupon-dialog";
 import MemoDetailSkeleton from "@/components/ui/kits/skeleton/memo-detail-skeleton";
-import { useStudentAchievementById } from "@/hooks/useAchievement";
+import MemoCouponModal from "@/components/ui/modal/memo-coupon-modal";
+import { useStudentAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery";
 import { formattedPeople, formattedReward, getAptitudeColor } from "@/shared/utils/aptitude-util";
 import { formattedDate } from "@/shared/utils/date-util";
 import { useLocalSearchParams } from "expo-router";
@@ -15,7 +17,7 @@ import { Text, View } from "react-native";
 
 export default function StudentDetailScreen() {
     const { id } = useLocalSearchParams()
-    const { data, isLoading } = useStudentAchievementById(id as string ?? "")
+    const { data, isLoading } = useStudentAchievementByIdQuery(id as string ?? "")
     const achievement = data?.data?.achievementStudent
 
     const date = formattedDate(achievement?.sections?.startDate, achievement?.sections?.endDate)
@@ -83,8 +85,12 @@ export default function StudentDetailScreen() {
                         </View>
                         <MemoSeperator />
                         <View className="p-[1.5rem] flex-col gap-y-md">
-                            <MemoIconTextButton name="ลงทะเบียน" icon={NotePencil} variant="primary" />
-                            <MemoIconTextButton name="กรอกรหัส" icon={QrCode} variant="secondary" />
+                            <MemoCouponModal>
+                                {(setVisible) => (
+                                    <MemoIconTextButton name="กรอกรหัส" icon={QrCode} variant="secondary" onPress={() => setVisible(true)} />
+                                )}
+                            </MemoCouponModal>
+                            <MemoIconTextButton name="ลงทะเบียน" icon={NotePencil} variant="primary" disabled={!achievement?.isOpen} />
                         </View>
                     </MemoDetailSkeleton>
                 </ScrollableView>

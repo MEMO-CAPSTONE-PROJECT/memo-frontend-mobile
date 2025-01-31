@@ -17,7 +17,7 @@ export interface GetAptitudeResponse {
     }
 }
 
-export function useGetAptitudes() {
+export function useGetAptitudesQuery() {
     return useQuery<null, AxiosError, GetAptitudeResponse>({
         queryKey: ["aptitudes"],
         queryFn: async () => {

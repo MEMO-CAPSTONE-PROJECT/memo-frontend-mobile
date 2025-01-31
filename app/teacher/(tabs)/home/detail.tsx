@@ -6,7 +6,7 @@ import MemoPill from "@/components/pill/memo-pill";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoSeperator from "@/components/seperator/memo-seperator";
 import MemoDetailSkeleton from "@/components/ui/kits/skeleton/memo-detail-skeleton";
-import { useTeacherAchievementById } from "@/hooks/useAchievement";
+import { useTeacherAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery";
 import { useTeacherToken } from "@/hooks/useUserToken";
 import { formattedPeople, formattedReward, getAptitudeColor } from "@/shared/utils/aptitude-util";
 import { formattedDate } from "@/shared/utils/date-util";
@@ -17,7 +17,7 @@ import { Text, View } from "react-native";
 
 export default function TeacherDetailScreen() {
     const { id } = useLocalSearchParams()
-    const { data, isLoading } = useTeacherAchievementById(id as string ?? "")
+    const { data, isLoading } = useTeacherAchievementByIdQuery(id as string)
     const achievement = data?.data?.achievementTeacher
     const { data: teacher } = useTeacherToken()
 
