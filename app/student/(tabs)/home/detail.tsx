@@ -5,7 +5,6 @@ import MemoCard from "@/components/container/memo-card";
 import MemoPill from "@/components/pill/memo-pill";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoSeperator from "@/components/seperator/memo-seperator";
-import MemoCouponDialog from "@/components/ui/kits/dialog/memo-coupon-dialog";
 import MemoDetailSkeleton from "@/components/ui/kits/skeleton/memo-detail-skeleton";
 import MemoCouponModal from "@/components/ui/modal/memo-coupon-modal";
 import { useStudentAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery";
@@ -17,7 +16,7 @@ import { Text, View } from "react-native";
 
 export default function StudentDetailScreen() {
     const { id } = useLocalSearchParams()
-    const { data, isLoading } = useStudentAchievementByIdQuery(id as string ?? "")
+    const { data, isLoading, isError } = useStudentAchievementByIdQuery(id as string ?? "")
     const achievement = data?.data?.achievementStudent
 
     const date = formattedDate(achievement?.sections?.startDate, achievement?.sections?.endDate)
@@ -30,7 +29,7 @@ export default function StudentDetailScreen() {
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="!p-0 !pt-0 !rounded-t-none">
                 <ScrollableView border={false}>
-                    <MemoDetailSkeleton isLoading={isLoading}>
+                    <MemoDetailSkeleton isLoading={isLoading || isError}>
                         {/* <Image source={ImageAssets.diamond} className="w-full h-[200] object-fill" /> */}
                         <View className="p-[1.5rem] flex-row justify-between">
                             <View className="flex-1 flex-col gap-y-sm">

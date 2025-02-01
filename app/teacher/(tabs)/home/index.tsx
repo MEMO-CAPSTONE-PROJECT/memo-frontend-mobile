@@ -50,7 +50,7 @@ function renderTeacherOwnerActions({ isOwner, onQRCode, onEdit }: Readonly<Teach
 
 
 export default function TeacherHomeScreen() {
-    const { data, refetch, isLoading } = useTeacherAchievementsQuery()
+    const { data, refetch, isLoading, isError } = useTeacherAchievementsQuery()
     const { data: teacher } = useTeacherToken()
     const teacherId = teacher?.sub ?? ""
     const achievements = useMemo(() => data?.data?.achievementTeacher ?? [], [data])
@@ -86,7 +86,7 @@ export default function TeacherHomeScreen() {
                     <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
                     <MemoSelectionButton buttons={filterButtons} />
                 </View>
-                <MemoContentSkeleton isLoading={isLoading}>
+                <MemoContentSkeleton isLoading={isLoading || isError}>
                     <MemoSwitch test={filteredAchievements.length}>
                         <MemoCase value={(test: number) => (test > 0)}>
                             <MemoAchievementList 

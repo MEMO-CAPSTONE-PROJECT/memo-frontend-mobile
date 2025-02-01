@@ -20,7 +20,7 @@ export default function ParentLoginScreen() {
         const email = result?.data?.emailParent
         
         if (email) {
-            router.replace({ pathname: "/parent/login/otp", params: { parentPhoneNumber: parentPhoneNumber, parentEmail: email } })
+            router.replace({ pathname: "/parent/(auth)/otp", params: { parentPhoneNumber: parentPhoneNumber, parentEmail: email } })
         } else {
             setError("เบอร์ผู้ปกครองไม่ถูกต้อง")
         }

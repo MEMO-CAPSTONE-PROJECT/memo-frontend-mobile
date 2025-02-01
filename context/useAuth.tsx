@@ -6,17 +6,16 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 const AuthContext = createContext({
     state: {
-        accessToken: null,
-        authenticated: false
+        accessToken: null
     },
+    isAuthenticated: false,
     login: async (url: string, body: {}) => false,
     logout: async () => {}
 })
 
 function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
     const [state, setState] = useState({
-        accessToken: null,
-        authenticated: false
+        accessToken: null
     })
 
     async function login(url: string, body: any): Promise<boolean> {
@@ -30,7 +29,6 @@ function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
             if (!accessToken) throw new Error("Login failed")
             setState({
                 accessToken,
-                authenticated: true
             })
             await StorageServiceInstance.setItem(MemoKey.JWT_ACCESS_TOKEN, accessToken)
 
@@ -44,12 +42,13 @@ function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
     async function logout() {
         await StorageServiceInstance.deleteItem(MemoKey.JWT_ACCESS_TOKEN)
         setState({
-            accessToken: null,
-            authenticated: false
+            accessToken: null
         })
     }
 
-    const value = useMemo(() => ({ state, login, logout }), [state])
+    const isAuthenticated = StorageServiceInstance.getItem(MemoKey.JWT_ACCESS_TOKEN) !== null
+
+    const value = useMemo(() => ({ state, login, logout, isAuthenticated }), [state, isAuthenticated])
 
     return (
         <AuthContext.Provider value={value}>

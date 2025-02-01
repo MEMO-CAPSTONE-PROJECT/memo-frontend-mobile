@@ -1,5 +1,5 @@
 
-import TeacherLoginScreen from '@/app/teacher/login/(login)'
+import TeacherLoginScreen from '@/app/teacher/(auth)/login'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native'
 import { router } from 'expo-router'
 
@@ -52,7 +52,7 @@ describe('TeacherLoginScreen', () => {
 
         await waitFor(() => {
             expect(router.replace).toHaveBeenCalledWith({
-                pathname: '/teacher/login/otp',
+                pathname: '/teacher/(auth)/otp',
                 params: { teacherId, teacherEmail },
             })
         })

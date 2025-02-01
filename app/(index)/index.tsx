@@ -4,7 +4,6 @@ import MemoCard from '@/components/container/memo-card';
 import MemoCharacterCard from '@/components/container/memo-character-card';
 import MemoErrorMessage from '@/components/helper/memo-error-message';
 import ScrollableView from '@/components/scrollable/scrollable-view';
-import ParentManDefaultSvg from '@/components/ui/icons/parent/man/default-svg';
 import ParentWomanDefaultSvg from '@/components/ui/icons/parent/woman/default-svg';
 import StudentBoyDefaultSvg from '@/components/ui/icons/student/boy/default-svg';
 import TeacherWomanDefaultSvg from '@/components/ui/icons/teacher/woman/default-svg';
@@ -19,17 +18,17 @@ export default function HomeScreen() {
     {
       icon: <TeacherWomanDefaultSvg container="medium" size={75} />,
       name: "คุณครูประจำชั้น",
-      navigate: () => router.push("/teacher/login")
+      navigate: () => router.push("/teacher/(auth)/login")
     },
     {
       icon: <StudentBoyDefaultSvg container="medium" size={75} />,
       name: "นักเรียนชั้นประถมศึกษา",
-      navigate: () => router.push("/student/login")
+      navigate: () => router.push("/student/(auth)/login")
     },
     {
       icon: <ParentWomanDefaultSvg container="medium" size={75} />,
       name: "ผู้ปกครองของนักเรียน",
-      navigate: () => router.push("/parent/login")
+      navigate: () => router.push("/parent/(auth)/login")
     },
   ]
 

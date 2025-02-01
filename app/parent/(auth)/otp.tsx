@@ -22,7 +22,7 @@ export default function ParentOtpScreen() {
         const otp = codes.join("")
         const result = await auth.login(MemoApis.VERIFY_LOGIN_PARENT, { emailParent: parentEmail, otp: otp })
         if (result) {
-            router.replace("/parent/login/students")
+            router.replace("/parent/(auth)/students")
         } else {
             setError("รหัส OTP ไม่ถูกต้อง")
         }

@@ -24,7 +24,7 @@ const ACHIEVEMENT_FILTERS = {
 }
 
 export default function StudentHomeScreen() {
-  const { data, refetch, isLoading } = useStudentAchievementsQuery()
+  const { data, refetch, isLoading, isError } = useStudentAchievementsQuery()
   const achievements = useMemo(() => data?.data?.achievementStudent ?? [], [data])
   
   const { 
@@ -57,7 +57,7 @@ export default function StudentHomeScreen() {
           <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
           <MemoSelectionButton buttons={filterButtons} />
         </View>
-        <MemoContentSkeleton isLoading={isLoading}>
+        <MemoContentSkeleton isLoading={isLoading || isError}>
           <MemoSwitch test={filteredAchievements.length}>
             <MemoCase value={(test: number) => test > 0}>
               <MemoAchievementList 

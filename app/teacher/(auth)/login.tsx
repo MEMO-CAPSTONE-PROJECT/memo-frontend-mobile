@@ -21,7 +21,7 @@ export default function TeacherLoginScreen() {
         const email = result?.data?.emailTeacher
         
         if (email) {
-            router.replace({ pathname: "/teacher/login/otp", params: { teacherId: teacherId, teacherEmail: email } })
+            router.replace({ pathname: "/teacher/(auth)/otp", params: { teacherId: teacherId, teacherEmail: email } })
         } else {
             setError("รหัสคุณครูไม่ถูกต้อง")
         }
@@ -46,7 +46,7 @@ export default function TeacherLoginScreen() {
                     <View className="flex gap-y-lg">
                         <View className="flex-row justify-between">
                             <MemoErrorMessage error={error} />
-                            <Link href="/teacher/login/forgot" asChild>
+                            <Link href="/teacher/(auth)/forgot" asChild>
                                 <MemoTextButton name="ลืมรหัสคุณครู?" />
                             </Link>
                         </View>

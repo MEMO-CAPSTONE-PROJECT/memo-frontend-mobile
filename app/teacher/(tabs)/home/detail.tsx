@@ -17,7 +17,7 @@ import { Text, View } from "react-native";
 
 export default function TeacherDetailScreen() {
     const { id } = useLocalSearchParams()
-    const { data, isLoading } = useTeacherAchievementByIdQuery(id as string)
+    const { data, isLoading, isError } = useTeacherAchievementByIdQuery(id as string)
     const achievement = data?.data?.achievementTeacher
     const { data: teacher } = useTeacherToken()
 
@@ -45,7 +45,7 @@ export default function TeacherDetailScreen() {
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="!p-0 !pt-0 !rounded-t-none">
                 <ScrollableView border={false}>
-                    <MemoDetailSkeleton isLoading={isLoading}>
+                    <MemoDetailSkeleton isLoading={isLoading || isError}>
                         {/* <Image source={achievement.src} className="w-full h-[200] object-fill" /> */}
                         <View className="p-[1.5rem] flex-row justify-between">
                             <View className="flex-1 flex-col gap-y-sm">

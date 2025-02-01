@@ -1,4 +1,4 @@
-import HomeScreen from '@/app/(index)';
+import HomeScreen from '@/app/(index)/selection';
 import { cleanup, fireEvent, render } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React from 'react';
@@ -42,7 +42,7 @@ describe('HomeScreen', () => {
         fireEvent.press(characterCards[0]); // Select first character
         fireEvent.press(getByText('ตกลง')); // Confirm selection
 
-        expect(router.push).toHaveBeenCalledWith('/teacher/login');
+        expect(router.push).toHaveBeenCalledWith('/teacher/(auth)/login');
     });
 
     it('Should not navigate if an invalid index is selected', () => {

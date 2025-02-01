@@ -12,7 +12,7 @@ interface MemoAptitudeInfoDialogProps {
 export default function MemoAptitudeInfoDialog({ criteria }: Readonly<MemoAptitudeInfoDialogProps>) {
     return (
         <MemoDialog
-            key="memo-aptitude-info-dialog"
+            id="memo-aptitude-info-dialog"
             button={
                 <TouchableOpacity>
                     <Info color={Color["system-blue"]} size={24} weight="fill" />
@@ -29,7 +29,7 @@ export default function MemoAptitudeInfoDialog({ criteria }: Readonly<MemoAptitu
                         <Text className="font-kanit-medium text-body w-24 text-start">{name}</Text>
                     </View>
                     <View className="bg-system-lightest-gray rounded-sm px-lg py-sm w-32">
-                        <Text className="font-kanit-medium text-title text-center">&gt; {percent}%</Text>
+                        <Text className="font-kanit-medium text-caption-1 text-center">มากกว่า {percent}%</Text>
                     </View>
                 </View>
             ))}

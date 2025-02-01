@@ -1,15 +1,15 @@
 import { Adapt, Dialog, Sheet, SnapPointsMode } from "tamagui";
 
 interface MemoDialogProps {
-    key: string
+    id: string
     snapPoints?: number[]
     snapPointsMode?: SnapPointsMode
     button?: React.ReactNode
     children?: React.ReactNode
 }
-export default function MemoDialog({ key, button, children, snapPoints, snapPointsMode }: Readonly<MemoDialogProps>) {
+export default function MemoDialog({ id, button, children, snapPoints, snapPointsMode }: Readonly<MemoDialogProps>) {
     return (
-        <Dialog key={key} modal>
+        <Dialog key={id} modal>
             <Dialog.Trigger asChild>
                 {button}
             </Dialog.Trigger>
@@ -33,8 +33,8 @@ export default function MemoDialog({ key, button, children, snapPoints, snapPoin
                 </Sheet>
             </Adapt>
             <Dialog.Portal>
-                <Dialog.Overlay key={`${key}-overlay`} /> 
-                <Dialog.Content key={`${key}-content`}> 
+                <Dialog.Overlay key={`${id}-overlay`} /> 
+                <Dialog.Content key={`${id}-content`}> 
                     {children}
                 </Dialog.Content>
             </Dialog.Portal>
