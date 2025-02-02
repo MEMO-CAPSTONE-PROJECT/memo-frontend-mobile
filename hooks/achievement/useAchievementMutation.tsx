@@ -52,3 +52,17 @@ export function useDeleteTeacherAchievementMutation(achievementId: string) {
         },
     })
 }
+
+interface JoinAchievementRequest {
+    studentId: string
+    achievementId: string
+}
+
+export function useJoinAchievementMutation() {
+    return useMutation<null, AxiosError, JoinAchievementRequest>({
+        mutationFn: async (request) => {
+            const result = await api.post(MemoApis.JOIN_ACHIEVEMENT, request)
+            return result.data
+        },
+    })
+}

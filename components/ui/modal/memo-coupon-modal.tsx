@@ -6,11 +6,18 @@ import { Fragment, useState } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Text, TouchableOpacity, View } from "react-native";
 
 interface MemoCouponModalProps {
+    onSubmit?: (code: string) => void
     children: (setVisible: (visible: boolean) => void) => React.ReactNode
 }
 
-export default function MemoCouponModal({ children }: Readonly<MemoCouponModalProps>) {
+export default function MemoCouponModal({ onSubmit, children }: Readonly<MemoCouponModalProps>) {
     const [visible, setVisible] = useState(false)
+    const [value, setValue] = useState<string>("")
+
+    const handleSubmit = () => {
+        onSubmit?.(value)
+        setVisible(false)
+    }
 
     return (
         <Fragment>
@@ -30,8 +37,8 @@ export default function MemoCouponModal({ children }: Readonly<MemoCouponModalPr
                             </TouchableOpacity>
                             <View className="flex-col gap-lg">
                                 <Text className="font-kanit-bold text-title text-title-1">กรอกชุดรหัสเพื่อรับคะแนน</Text>
-                                <MemoTextInput placeholder="s12f0d" autoFocus={true} />
-                                <MemoButton name="ยืนยัน" variant="primary" onPress={() => setVisible(false)} />
+                                <MemoTextInput placeholder="s12f0d" autoFocus={true} value={value} onChangeText={setValue} />
+                                <MemoButton name="ยืนยัน" variant="primary" onPress={handleSubmit} />
                             </View>
                         </View>
                     </KeyboardAvoidingView>

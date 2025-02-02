@@ -25,6 +25,7 @@ export const MemoApis = {
     ACHIEVEMENTS_TEACHER_DETAIL: (id: string) => `/v1/achievement/teacher/${id}`, //required Bearer token
     ACHIEVEMENTS_STUDENT_DETAIL: (id: string) => `/v1/achievement/student/${id}`, //required Bearer token
     CREATE_ACHIEVEMENT_CODE: (achievementId: string) => `/v1/achievement/code/${achievementId}`, //required Bearer token
+    JOIN_ACHIEVEMENT: `/v1/achievement/student/join`, //required Bearer token
 
     PARENT_DETAIL: (phoneNumber: string) => `/v1/parent/${phoneNumber}`, //required Bearer token
     STUDENT_DETAIL: (id: string) => `/v1/student/${id}`, //required Bearer token

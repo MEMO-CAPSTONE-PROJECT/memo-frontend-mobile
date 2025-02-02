@@ -2,7 +2,7 @@ import BrandingBackground from "@/components/background/branding-background";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
 import { Color } from "@/constants/theme/color";
-import { useCreateStudentScoreByCodeQuery } from "@/hooks/query/useCodeQuery";
+import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
 import { useIsFocused } from "@react-navigation/native";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
@@ -46,7 +46,7 @@ export default function StudentQRCodeScannerScreen() {
     const [permission, requestPermission] = useCameraPermissions()
 
     const { data: student } = useStudentToken()
-    const { mutateAsync: createStudentScoreByCode } = useCreateStudentScoreByCodeQuery()
+    const { mutateAsync: submitCode } = useSubmitAchievementCodeMutation()
 
     if (!permission) {
         return <View></View>
@@ -74,34 +74,26 @@ export default function StudentQRCodeScannerScreen() {
     async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
         setIsScanned(true)
         const result = JSON.parse(rawResult.data) as { achievementId: string, code?: string }
-        const response = await createStudentScoreByCode({
-            studentId: student?.sub ?? "",
+        const response = await submitCode({
+            studentId: String(student?.sub ?? ""),
             achievementId: result.achievementId,
             code: result.code ?? ""
         })
-
+        
         if (response) {
-            Alert.alert('Barcode Successfully', result.code, [
+            Alert.alert("สำเร็จ", "คุณได้รับคะแนนสำเร็จ", [
                 {
-                    text: 'Cancel',
+                    text: "ตกลง",
                     onPress: () => { setIsScanned(false) },
-                    style: 'cancel',
-                },
-                {
-                    text: 'OK', 
-                    onPress: () => { setIsScanned(false) }
-                },
-              ])
+                    style: "cancel"
+                }
+            ])
         } else {
-            Alert.alert('Barcode Failed', result.code, [
+            Alert.alert("ล้มเหลว", "ชุดรหัสไม่ถูกต้อง", [
                 {
-                    text: 'Cancel',
+                    text: "ตกลง",
                     onPress: () => { setIsScanned(false) },
-                    style: 'cancel',
-                },
-                {
-                    text: 'OK', 
-                    onPress: () => { setIsScanned(false) }
+                    style: "cancel"
                 },
               ])
         }
