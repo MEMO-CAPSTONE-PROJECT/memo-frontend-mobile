@@ -8,7 +8,7 @@ import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-sv
 import { useStudentByIdQuery } from "@/hooks/query/useUserQuery"
 import { useParentToken } from "@/hooks/useUserToken"
 import { isMan } from "@/shared/utils/gender-util"
-import { useLocalSearchParams } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 import { ChartDonut, CheckFat, User } from "phosphor-react-native"
 import { Text, View } from "react-native"
 
@@ -19,7 +19,10 @@ export default function ParentHomeScreen() {
     const student = data?.data?.student
     
     function handleAptitude() {
-        // router.push("/student/aptitude/overall")
+        router.push({
+            pathname: "/parent/home/overall",
+            params: { studentId: studentId }
+        })
     }
     const name = `คุณ ${parent?.firstName} ${parent?.lastName} `
     const classroom = `ดูข้อมูลของ ${student?.firstName ?? ""} ${student?.lastName ?? ""}`
@@ -39,7 +42,7 @@ export default function ParentHomeScreen() {
                     </View>
                 </View>
                 <View className="gap-y-lg">
-                    <MemoNavigatorCard disabled title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handleAptitude} />
+                    <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handleAptitude} />
                     <MemoNavigatorCard disabled title="บุคลิกของบุตรหลาน" className="bg-secondary-2" Icon={User} />
                     <MemoNavigatorCard disabled title="เหรียญและถ้วยรางวัล" className="bg-secondary-3" Icon={CheckFat} />
                 </View>

@@ -1,4 +1,3 @@
-
 export const MemoBaseURL = {
     PRIVATE: "http://localhost:8080",
     DEVELOPMENT: "http://cp24sy1.sit.kmutt.ac.th:8081",
@@ -18,12 +17,26 @@ export const MemoApis = {
     APTITUDES: `/v1/aptitudes`, //required Bearer token
 
     ACHIEVEMENTS_TEACHER: `/v1/achievement/teachers`, //required Bearer token
-    ACHIEVEMENTS_STUDENT: `/v1/achievement/students`, //required Bearer token
+    ACHIEVEMENTS_STUDENT: (params?: { studentId?: string }) => {
+        if (params) {    
+            const searchParams = new URLSearchParams()
+            if (params.studentId) searchParams.set("studentId", params.studentId)
+            return `/v1/achievement/students?${searchParams.toString()}`
+        }
+        return `/v1/achievement/students`
+    },
     CREATE_ACHIEVEMENTS_TEACHER: `/v1/achievement/teacher`, //required Bearer token
     EDIT_ACHIEVEMENT_TEACHER: (achievementId: string) => `/v1/achievement/teacher/${achievementId}`, //required Bearer token
     DELETE_ACHIEVEMENT_TEACHER: (achievementId: string) => `/v1/achievement/teacher/${achievementId}`, //required Bearer token
     ACHIEVEMENTS_TEACHER_DETAIL: (id: string) => `/v1/achievement/teacher/${id}`, //required Bearer token
-    ACHIEVEMENTS_STUDENT_DETAIL: (id: string) => `/v1/achievement/student/${id}`, //required Bearer token
+    ACHIEVEMENTS_STUDENT_DETAIL: (id: string, params?: { studentId?: string }) => {
+        if (params) {
+            const searchParams = new URLSearchParams()
+            if (params.studentId) searchParams.set("studentId", params.studentId)
+            return `/v1/achievement/student/${id}?${searchParams.toString()}`
+        }
+        return `/v1/achievement/student/${id}`
+    }, //required Bearer token
     CREATE_ACHIEVEMENT_CODE: (achievementId: string) => `/v1/achievement/code/${achievementId}`, //required Bearer token
     JOIN_ACHIEVEMENT: `/v1/achievement/student/join`, //required Bearer token
 

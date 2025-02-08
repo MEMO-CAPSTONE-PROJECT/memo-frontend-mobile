@@ -2,7 +2,7 @@ import { MemoApis } from "@/constants/apis";
 import { mockUseStudentAchievementById, mockUseStudentAchievements, mockUseTeacherAchievementById, mockUseTeacherAchievements } from "@/hooks/mock/useAchievement.mock";
 import api from "@/shared/api-handler";
 import { MemoConfig } from "@/shared/config";
-import { StudentAchievement, StudentAchievementById, TeacherAchievement, TeacherAchievementById } from "@/shared/types/achievement-type";
+import { StudentAchievement, StudentAchievementParticipantById, TeacherAchievement, TeacherAchievementById } from "@/shared/types/achievement-type";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -46,12 +46,12 @@ interface StudentAchievementResponse {
     }
 }
 
-export function useStudentAchievementsQuery() {
+export function useStudentAchievementsQuery(params?: { studentId?: string }) {
     return useQuery<null, AxiosError, StudentAchievementResponse>({
-        queryKey: ["achievements", "student"],
+        queryKey: ["achievements", "student", params?.studentId ?? "all"],
         queryFn: async () => {
             if (MemoConfig.isMock) return mockUseStudentAchievements
-            const result = await api.get(MemoApis.ACHIEVEMENTS_STUDENT)
+            const result = await api.get(MemoApis.ACHIEVEMENTS_STUDENT(params))
             return result.data
         },
         staleTime: 1000 * 60 * 5, // 5 minutes
@@ -60,16 +60,16 @@ export function useStudentAchievementsQuery() {
 
 interface StudentAchievementByIdResponse {
     data: {
-        achievementStudent: StudentAchievementById
+        achievementStudent: StudentAchievementParticipantById
     }
 }
 
-export function useStudentAchievementByIdQuery(id: string) {
+export function useStudentAchievementByIdQuery(id: string, params?: { studentId?: string }) {
     return useQuery<null, AxiosError, StudentAchievementByIdResponse>({
         queryKey: ["achievements", "student", id],
         queryFn: async () => {
             if (MemoConfig.isMock) return mockUseStudentAchievementById
-            const result = await api.get(MemoApis.ACHIEVEMENTS_STUDENT_DETAIL(id))
+            const result = await api.get(MemoApis.ACHIEVEMENTS_STUDENT_DETAIL(id, params))
             return result.data
         },
     })

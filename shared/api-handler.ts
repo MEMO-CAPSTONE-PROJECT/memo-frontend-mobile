@@ -26,7 +26,7 @@ api.interceptors.request.use(
 
 function logout() {
     StorageServiceInstance.deleteItem(MemoKey.JWT_ACCESS_TOKEN)
-    router.push("/")
+    router.replace("/")
 }
 
 api.interceptors.response.use(

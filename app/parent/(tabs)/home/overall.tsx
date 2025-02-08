@@ -6,20 +6,17 @@ import MemoAptitudeRank from "@/components/ui/kits/aptitude/memo-aptitude-rank"
 import MemoAptitudeInfoDialog from "@/components/ui/kits/dialog/memo-aptitude-info-dialog"
 import { useStudentByIdQuery } from "@/hooks/query/useUserQuery"
 import { useRankCriteria } from "@/hooks/useRankCriteria"
-import { useStudentToken } from "@/hooks/useUserToken"
 import { getAptitudeColor } from "@/shared/utils/aptitude-util"
-import { useMemo } from "react"
+import { useLocalSearchParams } from "expo-router"
 import { Text, View } from "react-native"
 
 export default function StudentAptitudeOverallScreen() {
-    const { data: student } = useStudentToken()
+    const { studentId } = useLocalSearchParams()
     const { 
         data: rawStudent, 
         refetch: refetchStudentById, 
-        isLoading, 
-        isError
-    } = useStudentByIdQuery(student?.sub ?? "")
-
+        isLoading, isError
+    } = useStudentByIdQuery(studentId as string)
     const { 
         RankCriteria, 
         totalPoints, 
@@ -27,11 +24,6 @@ export default function StudentAptitudeOverallScreen() {
         colors, 
         data: studentPointsData 
     } = useRankCriteria(rawStudent?.data?.student?.points, !isLoading && !isError)
-
-    const rankedData = useMemo(() => studentPointsData.map(({ type, color, point }) => {
-        const { icon, color: colorCode } = getAptitudeColor(color) ?? {}
-        return { type, point, icon, colorCode }
-    }), [studentPointsData])
     
     const handleRefresh = async () => refetchStudentById()
 
@@ -48,16 +40,17 @@ export default function StudentAptitudeOverallScreen() {
                     colors={colors} 
                 />
                 <ScrollableView border={false} className="gap-y-xl p-[1.5rem]" onRefresh={handleRefresh}>
-                    {rankedData.map(({ type, point, icon, colorCode }, index) => (
-                        <MemoAptitudeRank 
+                    {studentPointsData.map(({ type, color, point }, index) => {
+                        const { icon, color: colorCode } = getAptitudeColor(color) ?? {}
+                        return (<MemoAptitudeRank 
                             criteria={RankCriteria}
                             type={type} 
                             point={point} 
                             totalPoint={totalPoints}
                             icon={{ Icon: icon, color: colorCode, text: colorCode }} 
                             key={index + type} 
-                        />
-                    ))}
+                        />)
+                    })}
                 </ScrollableView>
             </MemoCard>
         </BrandingBackground>

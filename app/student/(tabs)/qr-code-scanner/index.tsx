@@ -4,7 +4,9 @@ import MemoCard from "@/components/container/memo-card";
 import { Color } from "@/constants/theme/color";
 import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
+import { formattedTotalScore } from "@/shared/utils/aptitude-util";
 import { useIsFocused } from "@react-navigation/native";
+import { AxiosError } from "axios";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { CameraRotate, Lightning, LightningSlash } from "phosphor-react-native";
 import { useState } from "react";
@@ -72,30 +74,26 @@ export default function StudentQRCodeScannerScreen() {
     }
 
     async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
-        setIsScanned(true)
-        const result = JSON.parse(rawResult.data) as { achievementId: string, code?: string }
-        const response = await submitCode({
-            studentId: String(student?.sub ?? ""),
-            achievementId: result.achievementId,
-            code: result.code ?? ""
-        })
-        
-        if (response) {
-            Alert.alert("สำเร็จ", "คุณได้รับคะแนนสำเร็จ", [
-                {
-                    text: "ตกลง",
-                    onPress: () => { setIsScanned(false) },
-                    style: "cancel"
-                }
+        try {
+            setIsScanned(true)
+            const result = JSON.parse(rawResult.data) as { achievementId: string, code?: string }
+            const response =  await submitCode({
+                studentId: String(student?.sub ?? ""),
+                achievementId: result.achievementId,
+                code: result.code ?? ""
+            })
+            const title = response ? "สำเร็จ" : "ล้มเหลว"
+            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "ชุดรหัสไม่ถูกต้อง"
+            Alert.alert(title, message, [
+                { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) }, }
             ])
-        } else {
-            Alert.alert("ล้มเหลว", "ชุดรหัสไม่ถูกต้อง", [
-                {
-                    text: "ตกลง",
-                    onPress: () => { setIsScanned(false) },
-                    style: "cancel"
-                },
-              ])
+        } catch (error) {
+            console.log(error)
+
+            const errorMessage = error instanceof AxiosError ? error.response?.data?.error : "ชุดรหัสไม่ถูกต้อง"
+            Alert.alert("ล้มเหลว", errorMessage ?? "เกิดข้อผิดพลาดกับชุดรหัส", [
+                { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) }, }
+            ])
         }
     }
 

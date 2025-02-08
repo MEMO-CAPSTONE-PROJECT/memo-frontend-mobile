@@ -8,9 +8,19 @@ interface SubmitAchievementCodeRequest {
     achievementId: string
     code: string
 }
+interface StudentScore {
+    type: string
+    score: number
+}
+
+interface SubmitAchievementCodeResponse {
+    data: {
+        totalScore: StudentScore[]
+    }
+}
 
 export function useSubmitAchievementCodeMutation() {
-    return useMutation<null, AxiosError, SubmitAchievementCodeRequest>({
+    return useMutation<SubmitAchievementCodeResponse, AxiosError, SubmitAchievementCodeRequest>({
         mutationFn: async (request) => {
             const result = await api.post(MemoApis.CREATE_STUDENT_SCORE, request)    
             if (result instanceof AxiosError) {

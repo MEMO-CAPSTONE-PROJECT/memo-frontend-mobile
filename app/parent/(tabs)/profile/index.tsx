@@ -9,7 +9,7 @@ export default function ParentProfileScreen() {
     
     async function handleLogout() {
         auth.logout()
-        router.navigate("/")
+        router.replace("/")
     }
 
     return (

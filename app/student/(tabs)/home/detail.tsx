@@ -11,7 +11,7 @@ import { useJoinAchievementMutation } from "@/hooks/achievement/useAchievementMu
 import { useStudentAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery";
 import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
-import { formattedPeople, formattedReward, getAptitudeColor } from "@/shared/utils/aptitude-util";
+import { formattedPeople, formattedReward, formattedTotalScore, getAptitudeColor } from "@/shared/utils/aptitude-util";
 import { formattedDate } from "@/shared/utils/date-util";
 import { AxiosError } from "axios";
 import { useLocalSearchParams } from "expo-router";
@@ -21,7 +21,7 @@ import { Alert, Text, View } from "react-native";
 export default function StudentDetailScreen() {
     const { id: achievementId } = useLocalSearchParams()
     const { data: student} = useStudentToken()
-    const { data, isLoading, isError } = useStudentAchievementByIdQuery(achievementId as string)
+    const { data, isLoading, isError } = useStudentAchievementByIdQuery(achievementId as string, { studentId: student?.sub })
     const { mutateAsync: joinAchievement } = useJoinAchievementMutation()
     const { mutateAsync: submitCode } = useSubmitAchievementCodeMutation()
     const achievement = data?.data?.achievementStudent
@@ -31,6 +31,22 @@ export default function StudentDetailScreen() {
     const reward = formattedReward(achievement?.points)
     const organizer = achievement?.sections?.organizer
     const description = achievement?.description
+
+    const participant = achievement?.participants
+    const isParticipant = participant?.status !== undefined
+    const isSuccess = participant?.status === true
+    const isOpen = achievement?.isOpen ?? false
+
+    function getStatus() {
+        if (isSuccess) return { name: "ทำสำเร็จแล้ว", color: "text-system-green" }
+        else if (isParticipant) return { name: "กำลังทำเป้าหมายนี้อยู่", color: "text-system-blue" }
+        else if (!isOpen) return { name: "ยังไม่เปิดลงทะเบียน", color: "text-system-error" }
+        return { name: "ลงทะเบียนได้", color: "text-system-green" }
+    }
+
+    const disabledCodeButton = !isParticipant || isSuccess
+    const disabledJoinButton = isParticipant || !isOpen
+    const { name: statusName, color: statusColor } = getStatus()
 
     const handleJoinAchievement = async () => {
         const response = await joinAchievement({ 
@@ -62,11 +78,13 @@ export default function StudentDetailScreen() {
                 code: code
             })
             const title = response ? "สำเร็จ" : "ล้มเหลว"
-            const message = response ? "คุณได้รับคะแนนสำเร็จ" : "ชุดรหัสไม่ถูกต้อง"
+            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "ชุดรหัสไม่ถูกต้อง"
             Alert.alert(title, message, [
                 { text: "ตกลง", style: "cancel" }
             ])
         } catch (error) {
+            console.log(error)
+
             const errorMessage = error instanceof AxiosError ? error.response?.data?.error : "ชุดรหัสไม่ถูกต้อง"
             Alert.alert("ล้มเหลว", errorMessage ?? "เกิดข้อผิดพลาดกับชุดรหัส", [
                 { text: "ตกลง", style: "cancel" }
@@ -133,16 +151,25 @@ export default function StudentDetailScreen() {
                         </View>
                         <MemoSeperator />
                         <View className="p-[1.5rem] flex-col gap-y-md">
+                            <Text className="font-kanit-regular text-body text-title-1">
+                                สถานะ <Text className={statusColor}>{statusName}</Text>
+                            </Text>
                             <MemoCouponModal onSubmit={handleSubmitCode}>
                                 {(setVisible) => (
-                                    <MemoIconTextButton name="กรอกรหัส" icon={QrCode} variant="secondary" onPress={() => setVisible(true)} />
+                                    <MemoIconTextButton 
+                                        name="กรอกรหัส" 
+                                        icon={QrCode} 
+                                        variant="secondary" 
+                                        disabled={disabledCodeButton} 
+                                        onPress={() => setVisible(true)} 
+                                    />
                                 )}
                             </MemoCouponModal>
                             <MemoIconTextButton 
-                                name="ลงทะเบียน" 
+                                name={"ลงทะเบียน"} 
                                 icon={NotePencil} 
                                 variant="primary" 
-                                disabled={!achievement?.isOpen} 
+                                disabled={disabledJoinButton} 
                                 onPress={handleJoinAchievement}
                             />
                         </View>

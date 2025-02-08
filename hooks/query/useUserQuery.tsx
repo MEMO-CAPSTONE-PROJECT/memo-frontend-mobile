@@ -2,6 +2,7 @@ import { MemoApis } from "@/constants/apis";
 import { mockUseParentById, mockUseStudentById } from "@/hooks/mock/useUser.mock";
 import api from "@/shared/api-handler";
 import { MemoConfig } from "@/shared/config";
+import { StudentPoint } from "@/shared/types/criteria-type";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
@@ -26,21 +27,16 @@ interface Student {
     points: StudentPoint[]
 }
 
-interface StudentPoint {
-    type: string
-    color: string
-    point: number
-}
-
 interface ParentResponse {
     data: { 
         parent: Parent 
     }
 }
 
-export function useParentByPhoneNumberQuery(phoneNumber: string) {
+export function useParentByPhoneNumberQuery(phoneNumber: string, enabled: boolean) {
     return useQuery<null, AxiosError, ParentResponse>({
         queryKey: ["parent", phoneNumber],
+        enabled: enabled,
         queryFn: async () => {
             if (MemoConfig.isMock) return mockUseParentById
 

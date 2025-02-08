@@ -6,10 +6,11 @@ import { MemoCase, MemoSwitch } from "@/components/logic/memo-switch"
 import MemoAchievementList from "@/components/ui/kits/achievement/memo-achievement-list"
 import { MemoSection } from "@/components/ui/kits/container/memo-content"
 import MemoContentSkeleton from "@/components/ui/kits/skeleton/memo-content-skeleton"
-import { useStudentAchievementFilters } from "@/hooks/achievement/useAchievementFilters"
+import { FilterMode, useStudentAchievementFilters } from "@/hooks/achievement/useAchievementFilters"
 import { useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
+import { useStudentToken } from "@/hooks/useUserToken"
 import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { Text, View } from "react-native"
 
 const ACHIEVEMENT_SECTIONS: MemoSection[] = [
@@ -19,36 +20,65 @@ const ACHIEVEMENT_SECTIONS: MemoSection[] = [
 ]
 
 const ACHIEVEMENT_FILTERS = {
+  ALL: { name: "เป้าหมายทั้งหมด" },
   OPEN: { name: "เป้าหมายที่เปิดรับ" },
-  CLOSED: { name: "เป้าหมายที่ปิดรับ" }
+  DOING: { name: "เป้าหมายของฉัน" }
 }
 
 export default function StudentHomeScreen() {
-  const { data, refetch, isLoading, isError } = useStudentAchievementsQuery()
-  const achievements = useMemo(() => data?.data?.achievementStudent ?? [], [data])
+  const [mode, setMode] = useState<FilterMode>("all")
+  const { data: student } = useStudentToken()
+  const { 
+    data: rawAchievements, 
+    refetch: refetchAll, 
+    isLoading: isLoadingAll, 
+    isError: isErrorAll 
+  } = useStudentAchievementsQuery()
+  const { 
+    data: rawAchievementsDoing, 
+    refetch: refetchDoing, 
+    isLoading: isLoadingDoing, 
+    isError: isErrorDoing 
+  } = useStudentAchievementsQuery({ studentId: student?.sub })
+  const isLoading = mode === "doing" ? isLoadingDoing : isLoadingAll
+  const isError = mode === "doing" ? isErrorDoing : isErrorAll
+
+  const doingAchievements = useMemo(
+    () => rawAchievementsDoing?.data?.achievementStudent ?? [], [rawAchievementsDoing]
+  )
+  const achievements = useMemo(
+    () => rawAchievements?.data?.achievementStudent ?? [], [rawAchievements]
+  )
   
   const { 
     filteredAchievements, 
-    isOpen, 
-    setIsOpen, 
     setSearchQuery 
-  } = useStudentAchievementFilters(achievements)
+  } = useStudentAchievementFilters(
+    mode === "doing" ? doingAchievements : achievements, mode
+  )
 
   const filterButtons = [
     {
-      name: ACHIEVEMENT_FILTERS.OPEN.name,
-      active: isOpen,
-      onPress: () => setIsOpen(true)
+      name: ACHIEVEMENT_FILTERS.ALL.name,
+      active: mode === "all",
+      onPress: () => setMode("all")
     },
+    // {
+    //   name: ACHIEVEMENT_FILTERS.OPEN.name,
+    //   active: mode === "open",
+    //   onPress: () => setMode("open")
+    // },
     {
-      name: ACHIEVEMENT_FILTERS.CLOSED.name,
-      active: !isOpen,
-      onPress: () => setIsOpen(false)
+      name: ACHIEVEMENT_FILTERS.DOING.name,
+      active: mode === "doing",
+      onPress: () => setMode("doing")
     }
   ]
-
   const handleSearch = (text: string) => setSearchQuery(text)
-  const handleRefresh = async () => refetch()
+  const handleRefresh = async () => {
+    if (mode === "doing") refetchDoing()
+    else refetchAll()
+  }
 
   return (
     <BrandingBackground variant="secondary">

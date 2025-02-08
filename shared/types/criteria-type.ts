@@ -4,3 +4,9 @@ export interface RankCriteria {
     percent: number
     icon: React.ReactNode
 }
+
+export interface StudentPoint {
+    type: string
+    color: string
+    point: number
+}

@@ -15,7 +15,7 @@ export default function ParentStudentsScreen() {
     const [error, setError] = useState<string>()
     const [studentId, setStudentId] = useState<string>()
     const { data: parent } = useParentToken()
-    const { data } = useParentByPhoneNumberQuery(parent?.phoneNumber ?? "")
+    const { data } = useParentByPhoneNumberQuery(parent?.phoneNumber ?? "", !!parent?.phoneNumber)
     const students = data?.data?.parent?.students ?? []
 
     function handleCardPress(index: number, studentId: string) {

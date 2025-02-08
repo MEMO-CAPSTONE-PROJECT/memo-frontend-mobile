@@ -27,12 +27,21 @@ export interface Achievement {
     points: Point[]
 }
 
+interface StudentParticipant {
+    studentId: string
+    status: boolean
+}
+
 export interface StudentAchievement extends Achievement {
     isOpen: boolean
 }
 
 export interface StudentAchievementById extends StudentAchievement {
     description: string
+}
+
+export interface StudentAchievementParticipantById extends StudentAchievementById {
+    participants: StudentParticipant
 }
 
 export interface TeacherAchievement extends Achievement {

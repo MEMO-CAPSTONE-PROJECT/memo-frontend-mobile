@@ -18,17 +18,17 @@ export default function HomeScreen() {
     {
       icon: <TeacherWomanDefaultSvg container="medium" size={75} />,
       name: "คุณครูประจำชั้น",
-      navigate: () => router.push("/teacher/(auth)/login")
+      navigate: () => router.replace("/teacher/(auth)/login")
     },
     {
       icon: <StudentBoyDefaultSvg container="medium" size={75} />,
       name: "นักเรียนชั้นประถมศึกษา",
-      navigate: () => router.push("/student/(auth)/login")
+      navigate: () => router.replace("/student/(auth)/login")
     },
     {
       icon: <ParentWomanDefaultSvg container="medium" size={75} />,
       name: "ผู้ปกครองของนักเรียน",
-      navigate: () => router.push("/parent/(auth)/login")
+      navigate: () => router.replace("/parent/(auth)/login")
     },
   ]
 

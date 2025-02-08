@@ -1,8 +1,12 @@
 import { StudentAchievement, TeacherAchievement } from "@/shared/types/achievement-type"
 import { useMemo, useState } from "react"
 
-export function useStudentAchievementFilters(achievements: StudentAchievement[]) {
-    const [isOpen, setIsOpen] = useState(true)
+export type FilterMode = "doing" | "open" | "all"
+
+export function useStudentAchievementFilters(
+    achievements: StudentAchievement[], 
+    mode: FilterMode
+) {
     const [searchQuery, setSearchQuery] = useState("")
     
     const sortedAchievements = useMemo(
@@ -12,19 +16,19 @@ export function useStudentAchievementFilters(achievements: StudentAchievement[])
 
     const filteredAchievements = useMemo(
         () => sortedAchievements.filter(
-          (achievement) => 
-            achievement.name.toLowerCase().includes(searchQuery.toLowerCase()) && 
-            (achievement?.isOpen ?? false) === isOpen
+          (achievement) => {
+            const matchesSearch = achievement.name.toLowerCase().includes(searchQuery.toLowerCase())
+            const matchesMode = mode === "doing" || (mode === "open" && achievement.isOpen) || (mode === "all")
+            return matchesSearch && matchesMode
+          }
         ),
-        [sortedAchievements, isOpen, searchQuery]
+        [sortedAchievements, searchQuery, mode]
     )
 
     return {
         searchQuery,
         setSearchQuery,
-        filteredAchievements,
-        isOpen,
-        setIsOpen
+        filteredAchievements
     }
 }
 

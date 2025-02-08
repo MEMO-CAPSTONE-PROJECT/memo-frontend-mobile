@@ -9,7 +9,7 @@ interface MemoDonutChartProps {
 }
 
 export default function MemoDonutChart({ point, series , colors }: Readonly<MemoDonutChartProps>) {
-    const isEmpty = (series.length === 0 || colors.length === 0) || series.length !== colors.length
+    const isEmpty = series.length === 0 || colors.length === 0 || series.length !== colors.length || series.reduce((previous, current) => previous + current, 0) === 0
     return (
         <View className="relative w-[220] h-[220] justify-center items-center">
             {isEmpty ? <PieChart
