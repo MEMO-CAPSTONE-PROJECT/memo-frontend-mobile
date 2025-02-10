@@ -61,6 +61,7 @@ export default function MemoContentCard({
     function navigate() {
         router.push(href)
     }
+    const isLast = divider ? "" : "pb-[1rem]"
     return (
         <View className={`gap-y-lg`}>
             <View className="gap-y-sm px-[1.5rem]">
@@ -88,7 +89,7 @@ export default function MemoContentCard({
                     className="px-[1.5rem]"
                 />
             ))}
-            <View className="flex-row justify-between items-end px-[1.5rem]">
+            <View className={`flex-row justify-between items-end px-[1.5rem] ${isLast}`}>
                 <TouchableOpacity onPress={navigate}>
                     <Text className="font-kanit-regular text-system-blue">รายละเอียดเพิ่มเติม &raquo;</Text>
                 </TouchableOpacity>

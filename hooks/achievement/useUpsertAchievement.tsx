@@ -13,10 +13,20 @@ export const MAX_ACHIEVEMENT_TYPE = 2
 const UpsertAchievementSchema = z.object({
     name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย").max(50, "ไม่สามารถเกิน 50 ได้"),
     amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม").max(3, "ไม่สามารถเกิน 999 ได้"),
-    startDate: z.coerce.date({ message: "กรุณาใส่เวลาเปิด" }).refine((date) => removeHours(date) >= removeHours(new Date()), {
+    startDate: z.coerce.date({ 
+        errorMap: ({ code }) => {
+            if (code === "invalid_date") return { message: "กรุณาใส่เวลาให้ถูกต้อง" }
+            return { message: "กรุณาใส่เวลาเปิด" }
+        }
+    }).refine((date) => removeHours(date) >= removeHours(new Date()), {
         message: "ไม่สามารถเป็นเวลาในอดีตได้"
     }),
-    endDate: z.coerce.date({ message: "กรุณาใส่เวลาปิด" }),
+    endDate: z.coerce.date({ 
+        errorMap: ({ code }) => {
+            if (code === "invalid_date") return { message: "กรุณาใส่เวลาให้ถูกต้อง" }
+            return { message: "กรุณาใส่เวลาปิด" }
+        }
+    }),
     points: z.array(
         z.object({
             id: z.string().min(1, "กรุณาใส่กลุ่มความถนัด"),

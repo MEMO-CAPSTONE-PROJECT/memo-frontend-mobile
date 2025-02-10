@@ -31,5 +31,7 @@ export const Color = {
     "system-light-orange": "#FFE7D9",
     "system-light-yellow": "#FFF9E6",
     "system-blue": "#3F3DA3",
-    "system-blue-2": "#2889DE"
+    "system-blue-2": "#2889DE",
+    "grass-green": "#A6CE39",
+    "grass-dark-green": "#5BB74A"
   }

@@ -1,6 +1,6 @@
 import BrandingBackground from "@/components/background/branding-background";
+import MemoNavigatorCard from "@/components/container/base/list/memo-navigator-card";
 import MemoCard from "@/components/container/memo-card";
-import MemoNavigatorCard from "@/components/container/memo-navigator-card";
 import TeacherManDefaultSvg from "@/components/ui/icons/teacher/man/default-svg";
 import TeacherWomanDefaultSvg from "@/components/ui/icons/teacher/woman/default-svg";
 import { useTeacherToken } from "@/hooks/useUserToken";
@@ -16,8 +16,8 @@ export default function TeacherAnalysisScreen() {
       <BrandingBackground variant="secondary">
           <MemoCard size="full" className="gap-y-3xl">
             <View className="flex-row justify-between items-center">
-                <View className="gap-y-sm pl-sm">
-                    <Text className="font-kanit-bold text-title text-body-1">สวัสดี</Text>
+                <View className="gap-y-sm">
+                    <Text className="font-kanit-bold text-title text-title-1">ยินดีต้อนรับ</Text>
                     <Text className="font-kanit-medium text-body text-body-1">{name}</Text>
                     <Text className="font-kanit-regular text-caption-1 text-body-2">{classroom}</Text>
                 </View>

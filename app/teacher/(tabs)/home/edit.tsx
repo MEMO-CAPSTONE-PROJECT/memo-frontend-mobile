@@ -38,11 +38,11 @@ export default function TeacherHomeEditScreen() {
             amount: String(teacherAchievement.people.max ?? ""),
             startDate: new Date(teacherAchievement.sections.startDate),
             endDate: new Date(teacherAchievement.sections.endDate),
-            points: teacherAchievement.points.map(point => ({ 
+            points: teacherAchievement.points?.map(point => ({ 
                 id: point.id, 
                 normal: String(point.normal), 
                 excellent: String(point.excellent) 
-            })),
+            })) ?? [],
             description: teacherAchievement.description ?? "",
         }
         reset(formattedData)
