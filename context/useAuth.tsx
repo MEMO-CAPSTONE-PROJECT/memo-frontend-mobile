@@ -30,6 +30,7 @@ function AuthProvider({ children }: Readonly<{ children: React.ReactNode }>) {
             setState({
                 accessToken,
             })
+            
             await StorageServiceInstance.setItem(MemoKey.JWT_ACCESS_TOKEN, accessToken)
 
             return true

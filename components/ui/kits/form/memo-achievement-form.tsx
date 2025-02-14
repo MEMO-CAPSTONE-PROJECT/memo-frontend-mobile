@@ -6,6 +6,7 @@ import MemoTextAreaInputHelper from "@/components/input/helper/memo-text-area-in
 import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper"
 import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker"
 import { UpsertAchievementForm } from "@/hooks/achievement/useUpsertAchievement"
+import { PickerResult } from "@baronha/react-native-multiple-image-picker"
 import { PlusCircle } from "phosphor-react-native"
 import { View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -17,29 +18,35 @@ interface MemoAchievementFormButton {
 }
 
 interface MemoAchievementFormProps {
+    initialImages?: PickerResult[]
     isLoading?: boolean
     form: UpsertAchievementForm
     errors?: ZodFormattedError<UpsertAchievementForm, string>
     error?: string
+    minTypes?: number
     maxTypes: number
     update: (key: any, value: any) => void
     onAddType: () => void
     onRemoveType: (index: number) => void
     primaryButton: MemoAchievementFormButton
     secondaryButton?: MemoAchievementFormButton
+    children?: React.ReactNode
 }
 
 export default function MemoAchievementForm({
+    initialImages,
     form,
     errors,
     error,
+    minTypes = 1,
     maxTypes,
     isLoading,
     update,
     onAddType,
     onRemoveType,
     primaryButton,
-    secondaryButton
+    secondaryButton,
+    children
 }: Readonly<MemoAchievementFormProps>) {
     return (
         <KeyboardAwareScrollView>
@@ -79,6 +86,7 @@ export default function MemoAchievementForm({
                     {form.points.map((point, index) => (
                         <MemoAptitudePicker
                             key={point.id || index}
+                            remove={minTypes-1 !== index}
                             onRemove={() => onRemoveType(index)}
                             data={{
                                 id: {
@@ -114,6 +122,7 @@ export default function MemoAchievementForm({
                         error={errors?.description?._errors[0]}
                         onChangeText={(text) => update("description", text)}
                     />
+                    {children}
                 </View>
                 <MemoErrorMessage error={error} />
                 <MemoButton

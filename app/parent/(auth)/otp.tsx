@@ -38,6 +38,7 @@ export default function ParentOtpScreen() {
             otp={{ error, onChangeCode: handleChangeCode }} 
             resend={resend}
             verify={login} 
+            previous="/parent/(auth)/login"     
         />
     )
 }

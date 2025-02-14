@@ -6,7 +6,7 @@ import MemoOtpTextInput from "@/components/input/memo-otp-text-input"
 import KeyboardView from "@/components/scrollable/keyboard-view"
 import { MemoTimer } from "@/components/timer/memo-timer"
 import { getTimeMinuteSecond } from "@/shared/utils/date-util"
-import { Link } from "expo-router"
+import { Href, Link } from "expo-router"
 import { useMemo } from "react"
 import { Text, View } from "react-native"
 
@@ -15,6 +15,7 @@ interface OTPUIKitProps {
     otp: OTPUIKitState
     resend: () => void
     verify: () => void
+    previous: Href
 }
 
 interface OTPUIKitState {
@@ -22,7 +23,7 @@ interface OTPUIKitState {
     onChangeCode: (codes: string[]) => void
 }
 
-export default function OTPUIKit({ email, otp, resend, verify }: Readonly<OTPUIKitProps>) {
+export default function OTPUIKit({ email, otp, resend, verify, previous }: Readonly<OTPUIKitProps>) {
     const TIMER = 30   
     const emailFormatted = useMemo(() => email.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1xxx@$2"), [email])
     const { error, onChangeCode } = otp
@@ -65,7 +66,7 @@ export default function OTPUIKit({ email, otp, resend, verify }: Readonly<OTPUIK
                             )}
                         </MemoTimer>
                         <MemoButton name="ยืนยัน" variant="primary" onPress={verify} />
-                        <Link href=".." asChild>
+                        <Link href={previous} asChild>
                             <MemoButton name="ย้อนกลับ" variant="ghost" />
                         </Link>
                     </View>

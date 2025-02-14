@@ -1,4 +1,4 @@
-import { CreateAchievementRequest } from "@/hooks/achievement/useAchievementMutation"
+import { BaseAchievementBody, BaseAchievementRequest, BaseImageRequestBody } from "@/hooks/achievement/useAchievementMutation"
 import { useTeacherAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
 import useForm from "@/hooks/useForm"
 import { useTeacherToken } from "@/hooks/useUserToken"
@@ -44,9 +44,8 @@ const UpsertAchievementSchema = z.object({
 })
 export type UpsertAchievementForm = z.infer<typeof UpsertAchievementSchema>
 
-export function useUpsertAchievement(
-    achievementId: string | undefined, 
-    mutation: UseMutationResult<null, AxiosError, CreateAchievementRequest>,
+export function useUpsertAchievement<T extends BaseAchievementBody>(
+    mutation: UseMutationResult<null, AxiosError, BaseAchievementRequest<T>>,
     setError: Dispatch<SetStateAction<string | undefined>>
 ) {
     const { mutateAsync: upsertAchievement } = mutation
@@ -55,13 +54,12 @@ export function useUpsertAchievement(
     const teacherAchievements = rawTeacherAchievements?.data?.achievementTeacher
 
     const [errors, setErrors] = useState<ZodFormattedError<UpsertAchievementForm, string>>()
-
     const { form, update, reset } = useForm<UpsertAchievementForm>({
         name: "",
         amount: "",
         startDate: new Date(),
         endDate: new Date(),
-        points: [],
+        points: [{ id: "", normal: "", excellent: "" }],
         description: ""
     })
 
@@ -77,6 +75,7 @@ export function useUpsertAchievement(
 
     const handleSubmit = async (
         errorMessage: string,
+        images: BaseImageRequestBody[],
         onSuccess?: () => void,
     ) => {
         try {
@@ -96,12 +95,17 @@ export function useUpsertAchievement(
                 startDate: getDateISOString(form.startDate),
                 endDate: getDateISOString(form.endDate),
                 teacherId: String(teacher?.sub ?? ""),
-            }
+            } as T
 
-            const response = await upsertAchievement(formattedForm)
+            const response = await upsertAchievement({
+                json: formattedForm,
+                images: images
+            })
             if (response) {
                 onSuccess?.()
                 refetchAchievements()
+            } else {
+                setError("เกิดข้อผิดพลาดในการสร้างเป้าหมาย")
             }
         } catch (error) {
             console.error('Upsert achievement error:', error)
@@ -117,7 +121,7 @@ export function useUpsertAchievement(
         reset,
         handleAddType,
         handleRemoveType,
-        handleSubmit
+        handleSubmit,
     }
 
 }

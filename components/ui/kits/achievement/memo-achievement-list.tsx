@@ -23,7 +23,7 @@ export default function MemoAchievementList<T extends Achievement>({ sections, a
                     content={{
                         id: content.id,
                         name: content.name,
-                        // src: content.src,
+                        uris: content?.images?.map(image => ({ uri:  image.fileEndPoint })),
                         sections: {
                             reward: formattedReward(content.points),
                             date: formattedDate(content.sections.startDate, content.sections.endDate),

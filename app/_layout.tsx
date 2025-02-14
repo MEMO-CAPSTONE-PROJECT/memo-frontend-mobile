@@ -9,10 +9,10 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import { Text } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
 import './global.css'
-
 const queryClient = new QueryClient()
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -36,6 +36,7 @@ export default function RootLayout() {
 
   return (
     <PortalProvider shouldAddRootHost>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <AnimatedAppLoader>
@@ -50,6 +51,7 @@ export default function RootLayout() {
             </AnimatedAppLoader>
           </AuthProvider>
         </QueryClientProvider>
+        </GestureHandlerRootView>
     </PortalProvider>
   )
 }

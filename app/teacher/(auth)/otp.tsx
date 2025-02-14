@@ -38,6 +38,7 @@ export default function TeacherOtpScreen() {
             otp={{ error, onChangeCode: handleChangeCode }} 
             resend={resend}
             verify={login} 
+            previous="/teacher/(auth)/login"
         />
     )
 }

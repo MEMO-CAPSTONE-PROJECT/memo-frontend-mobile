@@ -1,5 +1,4 @@
 import BrandingBackground from "@/components/background/branding-background";
-import MemoButton from "@/components/button/memo-button";
 import MemoSelectionButton from "@/components/button/memo-selection-button";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
@@ -59,7 +58,7 @@ export default function QRCodeScreen() {
                             </View>
                         )}
                     </MemoTimer>
-                    <MemoButton variant="primary" name="แก้ไขเกณฑ์คะแนนกิจกรรม"/>
+                    {/* <MemoButton variant="primary" name="แก้ไขเกณฑ์คะแนนกิจกรรม"/> */}
                 </View>
             </MemoCard>
         </BrandingBackground>

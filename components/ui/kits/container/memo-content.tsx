@@ -1,13 +1,14 @@
+import MemoImageCarousel from "@/components/carousel/memo-image-carousel"
 import MemoContentIconBox from "@/components/container/box/memo-content-icon-box"
 import MemoPill from "@/components/pill/memo-pill"
 import MemoSeperator from "@/components/seperator/memo-seperator"
 import { Href, router } from "expo-router"
-import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native"
+import { ImageURISource, Text, TouchableOpacity, View } from "react-native"
 
 export interface MemoContent {
     id: string
     name: string
-    src?: ImageSourcePropType,
+    uris?: ImageURISource[],
     sections: {
         reward: string
         date: string
@@ -16,17 +17,8 @@ export interface MemoContent {
     tags: MemoContentTag[]
 }
 
-export interface MemoContentOwner {
-    id: string
-    name: string
+export interface MemoContentOwner extends MemoContent {
     owner: string
-    src?: ImageSourcePropType
-    sections: {
-        reward: string
-        date: string
-        organizer: string
-    }
-    tags: MemoContentTag[]
 }
 
 export interface MemoContentTag {
@@ -64,8 +56,8 @@ export default function MemoContentCard({
     const isLast = divider ? "" : "pb-[1rem]"
     return (
         <View className={`gap-y-lg`}>
+            {content.uris && <MemoImageCarousel images={content.uris}/>}
             <View className="gap-y-sm px-[1.5rem]">
-                {content.src && <Image alt={content.name} source={content.src} className="w-full h-[180] object-fill" />}
                 <Text className="font-kanit-bold text-title w-full">{content.name}</Text>
                 <View className="flex-row gap-x-md w-full">
                     {content.tags.map((tag, index) => (

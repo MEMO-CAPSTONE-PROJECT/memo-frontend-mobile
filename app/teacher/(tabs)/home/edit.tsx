@@ -1,17 +1,21 @@
 import BrandingBackground from "@/components/background/branding-background"
+import MemoImageCarouselPicker from "@/components/carousel/memo-image-carousel-picker"
 import MemoCard from "@/components/container/memo-card"
 import MemoAchievementForm from "@/components/ui/kits/form/memo-achievement-form"
-import { useEditTeacherAchievementMutation } from "@/hooks/achievement/useAchievementMutation"
+import { BaseImageRequestBody, useEditTeacherAchievementMutation } from "@/hooks/achievement/useAchievementMutation"
 import { useTeacherAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery"
 import { useDeleteAchievement } from "@/hooks/achievement/useDeleteAchievement"
 import { MAX_ACHIEVEMENT_TYPE, useUpsertAchievement } from "@/hooks/achievement/useUpsertAchievement"
+import { BaseURL } from "@/shared/api-handler"
+import { getMimeTypeFromExtension } from "@/shared/utils/image-util"
 import { router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import { Alert } from "react-native"
-
 export default function TeacherHomeEditScreen() {
     const { id: achievementId } = useLocalSearchParams()
     const [error, setError] = useState<string>()
+    const [images, setImages] = useState<BaseImageRequestBody[]>([])
+    
     const { 
         isLoading: isLoadingAchievement, 
         data: rawTeacherAchievement, 
@@ -20,6 +24,7 @@ export default function TeacherHomeEditScreen() {
     const editAchievement = useEditTeacherAchievementMutation(achievementId as string)
 
     const teacherAchievement = rawTeacherAchievement?.data?.achievementTeacher
+
     const { 
         errors,
         form, 
@@ -28,7 +33,7 @@ export default function TeacherHomeEditScreen() {
         handleAddType,
         handleRemoveType,
         handleSubmit,
-    } = useUpsertAchievement(achievementId as string, editAchievement, setError )
+    } = useUpsertAchievement(editAchievement, setError)
 
     //Loading form value
     useEffect(() => {
@@ -45,22 +50,42 @@ export default function TeacherHomeEditScreen() {
             })) ?? [],
             description: teacherAchievement.description ?? "",
         }
+        // Loaded images
+        setImages(teacherAchievement?.images.map(image => ({ 
+            uri: BaseURL + image.fileEndPoint, 
+            filename: image.fileName, 
+            mime: getMimeTypeFromExtension(image.fileName) 
+        })))
         reset(formattedData)
     }, [teacherAchievement, reset])
 
     const { handleDelete } = useDeleteAchievement(achievementId as string, setError)
-
+    
     const handlePressEdit = () => {
-        handleSubmit("เกิดข้อผิดพลาดในการแก้ไขเป้าหมาย", () => {
+        handleSubmit("เกิดข้อผิดพลาดในการแก้ไขเป้าหมาย", images, () => {
+            //onEdit success
             router.back()
             refetchAchievementById()
+            Alert.alert("แก้ไขเป้าหมายสำเร็จ", "เป้าหมายของคุณถูกแก้ไขแล้ว", [
+                {
+                    text: "ตกลง",
+                    style: "cancel"
+                }
+            ])
         })
     }
 
     const handlePressDelete = () => {
         const confirmDelete = () => {
             handleDelete("เกิดข้อผิดพลาดในการลบเป้าหมาย", () => {
+                //onDelete success
                 router.push("/teacher/home")
+                Alert.alert("ลบเป้าหมายสำเร็จ", "เป้าหมายของคุณถูกลบแล้ว", [
+                    {
+                        text: "ตกลง",
+                        style: "cancel"
+                    }
+                ])
             })
         }
 
@@ -90,7 +115,9 @@ export default function TeacherHomeEditScreen() {
                         label: "ลบเป้าหมาย",
                         onPress: handlePressDelete
                     }}
-                />
+                >
+                    <MemoImageCarouselPicker images={images} baseUrl=""/>
+                </MemoAchievementForm>
             </MemoCard>
         </BrandingBackground>
     )

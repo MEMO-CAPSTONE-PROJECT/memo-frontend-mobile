@@ -38,6 +38,7 @@ export default function StudentOtpScreen() {
             otp={{ error, onChangeCode: handleChangeCode }} 
             resend={resend}
             verify={login} 
+            previous="/student/(auth)/login"     
         />
     )
 }

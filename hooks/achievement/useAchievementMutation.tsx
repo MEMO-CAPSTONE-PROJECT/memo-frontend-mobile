@@ -4,9 +4,14 @@ import api from "@/shared/api-handler"
 import { MemoConfig } from "@/shared/config"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import FormData from "form-data"
 
-
-export interface CreateAchievementRequest {
+export interface BaseImageRequestBody {
+    uri: string
+    filename?: string
+    mime: string
+}
+export interface BaseAchievementBody {
     teacherId: string
     name: string
     amount: string
@@ -19,24 +24,62 @@ export interface CreateAchievementRequest {
     }[]
     description: string
 }
+export interface BaseAchievementRequest<T> {
+    json: T
+    images: BaseImageRequestBody[]
+}
+
+export type CreateAchievementRequestBody = BaseAchievementBody
+export type CreateAchievementRequest = BaseAchievementRequest<CreateAchievementRequestBody>
 
 export function useCreateTeacherAchievementMutation() {
     return useMutation<null, AxiosError, CreateAchievementRequest>({
-        mutationFn: async (request) => {
+        mutationFn: async ({ json, images }) => {
             if (MemoConfig.isMock) return mockUseCreateTeacherAchievement
+            const formdata = new FormData()
+            formdata.append("json", JSON.stringify(json))
             
-            const result = await api.post(MemoApis.CREATE_ACHIEVEMENTS_TEACHER, request)
+            images.forEach((image) => {
+                formdata.append("images", {
+                    uri: image.uri,
+                    name: image.filename,
+                    type: image.mime
+                })
+            })
+            
+            const result = await api.post(MemoApis.CREATE_ACHIEVEMENTS_TEACHER, 
+                formdata, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
             return result.data
         },
     })
 }
 
+export interface EditAchievementRequestBody extends BaseAchievementBody {
+    deleteImages: string[] //image ids
+}
+export type EditAchievementRequest = BaseAchievementRequest<EditAchievementRequestBody>
+
 export function useEditTeacherAchievementMutation(achievementId: string) {
-    return useMutation<null, AxiosError, CreateAchievementRequest>({
-        mutationFn: async (request) => {
+    return useMutation<null, AxiosError, EditAchievementRequest>({
+        mutationFn: async ({ json, images }) => {
             if (MemoConfig.isMock) return mockUseCreateTeacherAchievement
+            const formdata = new FormData()
+            formdata.append("json", JSON.stringify(json))
             
-            const result = await api.put(MemoApis.EDIT_ACHIEVEMENT_TEACHER(achievementId), request)
+            images.forEach((image) => {
+                formdata.append("images", {
+                    uri: image.uri,
+                    name: image.filename,
+                    type: image.mime
+                })
+            })
+            
+            const result = await api.put(MemoApis.EDIT_ACHIEVEMENT_TEACHER(achievementId), 
+                formdata, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
             return result.data
         },
     })

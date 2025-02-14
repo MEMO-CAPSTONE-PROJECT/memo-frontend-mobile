@@ -10,7 +10,7 @@
     "prebuild": "npx expo prebuild",
     "prebuild:react-native": "npx expo prebuild --skip-dependency-update react-native,react",
     "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "expo run:ios --device",
     "ios:prod": "expo run:ios --device --configuration Release",
     "android:prod": "expo run:android --device --variant Release",
     "web": "expo start --web",
@@ -21,6 +21,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@baronha/react-native-multiple-image-picker": "^2.2.0",
     "@expo/vector-icons": "^14.0.2",
     "@react-native-community/datetimepicker": "^8.2.0",
     "@react-navigation/native": "^6.0.2",
@@ -53,6 +54,8 @@
     "react-native": "0.74.5",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-nitro-modules": "0.20.1",
+    "react-native-permissions": "^5.2.5",
     "react-native-pie-chart": "^3.0.2",
     "react-native-qrcode-svg": "^6.3.12",
     "react-native-reanimated": "~3.10.1",

@@ -22,6 +22,7 @@ interface MemoAptitudePickerProps {
             onChange?: (text: string) => void
         }
     }
+    remove?: boolean
     onRemove: () => void
 }
 
@@ -34,12 +35,12 @@ const MEMO_TYPES = [
     { name: "ความรับผิดชอบ", value: "responsibility" },
 ]
 
-export default function MemoAptitudePicker({ data, onRemove }: Readonly<MemoAptitudePickerProps>) {
+export default function MemoAptitudePicker({ data, remove = true, onRemove }: Readonly<MemoAptitudePickerProps>) {
     return (
         <Fragment>
             <MemoSelectPickerHelper
                 label="กลุ่มความถนัด"
-                rightIcon={() => MemoDeleteButton({
+                rightIcon={() => remove && MemoDeleteButton({
                     onPress: onRemove
                 })}
                 placeholder="กลุ่มความถนัด"

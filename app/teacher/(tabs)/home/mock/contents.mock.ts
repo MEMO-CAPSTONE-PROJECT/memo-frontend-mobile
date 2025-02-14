@@ -1,11 +1,23 @@
-import { ImageAssets } from "@/assets/images/image-assets";
 import { MemoContentOwner } from "@/components/ui/kits/container/memo-content";
 
 export const mockTeacherContents: MemoContentOwner[] = [
     {
       id: "1",
       name: "แข่งเพชรยอดมงกุฎ",
-      src: ImageAssets.diamond,
+      uris: [
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+      ],
       owner: "19528",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
@@ -17,7 +29,20 @@ export const mockTeacherContents: MemoContentOwner[] = [
     {
       id: "2",
       name: "แข่งเพชรยอดมงกุฎ",
-      src: ImageAssets.diamond,
+      uris: [
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+      ],
       owner: "19528",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",
@@ -29,7 +54,20 @@ export const mockTeacherContents: MemoContentOwner[] = [
     {
       id: "3",
       name: "แข่งเพชรยอดมงกุฎ",
-      src: ImageAssets.diamond,
+      uris: [
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+        },
+        {
+            uri: "https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png",
+        },
+      ],
       owner: "19526",
       sections: {
         reward: "จิตอาสา 5 แต้ม, กล้าแสดงออก 3 แต้ม",

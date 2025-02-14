@@ -7,7 +7,14 @@ export const mockUseTeacherAchievements = {
                 "id": "1",
                 "teacherId": "1",
                 "name": "แข่งเพชรยอดมงกุฎ",
-                "src": "path/to/image",
+                "images": [
+                    {
+                        "fileEndPoint": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+                    },
+                    {
+                        "fileEndPoint": "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+                    }
+                ],
                 "people": {
                     "current": 1,
                     "max": 10
@@ -53,6 +60,14 @@ export const mockUseTeacherAchievements = {
                     "current": 1,
                     "max": 10
                 },
+                "images": [
+                    {
+                        "fileEndPoint": "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png",
+                    },
+                    {
+                        "fileEndPoint": "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+                    }
+                ],
                 "sections": {
                     "startDate": "2024-09-01T12:00:00Z",
                     "endDate": "2024-09-02T23:59:59.999Z",

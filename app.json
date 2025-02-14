@@ -14,14 +14,28 @@
     },
     "ios": {
       "bundleIdentifier": "com.capstone.memo",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryAddUsageDescription": "$(PRODUCT_NAME) needs photo library permissions",
+        "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME) needs photo library permissions",
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs to access your Camera",
+        "NSMicrophoneUsageDescription": "$(PRODUCT_NAME) needs to access your microphone so that you can record audio"
+      }
     },
     "android": {
       "package": "com.capstone.memo",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#9751AF"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -36,7 +50,16 @@
           "launchMode": "most-recent"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": [
+            "Camera",
+            "Microphone"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
