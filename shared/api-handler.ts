@@ -7,6 +7,8 @@ import { Alert } from "react-native";
 
 export const BaseURL = MemoBaseURL.PUBLIC
 
+let isAlertVisible = false; // Prevent stacking alert
+
 const api = axios.create({
     baseURL: BaseURL
 })
@@ -30,6 +32,18 @@ api.interceptors.request.use(
 function logout() {
     StorageServiceInstance.deleteItem(MemoKey.JWT_ACCESS_TOKEN)
     router.replace("/")
+    isAlertVisible = false; // Reset alert visibility when logging out
+}
+
+function alert(title: string, message: string, buttons: any[]) {
+    if (isAlertVisible) return; // Prevent duplicate alerts
+    isAlertVisible = true;
+
+    Alert.alert(title, message, buttons, {
+        onDismiss: () => {
+            isAlertVisible = false; // Reset when dismissed
+        }
+    });
 }
 
 api.interceptors.response.use(
@@ -39,14 +53,14 @@ api.interceptors.response.use(
         console.log("Response " + error);
         
         if (error?.code === "ERR_NETWORK"){
-            Alert.alert("เกิดข้อผิดพลาดสัญญาณอินเตอร์เน็ต","กรุณาเช็คสัญญาณอินเตอร์เน็ต", [
+            alert("เกิดข้อผิดพลาดสัญญาณอินเตอร์เน็ต","กรุณาเช็คสัญญาณอินเตอร์เน็ต", [
                 {
                     text: "กลับสู่หน้าเริ่มต้น",
                     onPress: logout
                 },
             ])
         } else if (error?.code === "ECONNABORTED") {
-            Alert.alert("ระบบเซิฟเวอร์ล้มเหลว", "", [
+            alert("ระบบเซิฟเวอร์ล้มเหลว", "", [
                 {
                     text: "ลองใหม่อีกครั้ง",
                     style: "default"
@@ -58,7 +72,7 @@ api.interceptors.response.use(
                 }
             ])
         } else if (error?.status === 401) {
-            Alert.alert("เซสซันนี้หมดเวลาการใช้งาน","กรุณาล็อกอินอีกครั้ง", [
+            alert("เซสซันนี้หมดเวลาการใช้งาน","กรุณาล็อกอินอีกครั้ง", [
                 {
                     text: "กลับสู่หน้าเริ่มต้น",
                     onPress: logout
@@ -66,7 +80,7 @@ api.interceptors.response.use(
             ])
         } 
 
-        return error
+        return Promise.reject(error as Error)
     }
 )
 

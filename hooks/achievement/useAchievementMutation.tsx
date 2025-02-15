@@ -63,18 +63,10 @@ export type EditAchievementRequest = BaseAchievementRequest<EditAchievementReque
 
 export function useEditTeacherAchievementMutation(achievementId: string) {
     return useMutation<null, AxiosError, EditAchievementRequest>({
-        mutationFn: async ({ json, images }) => {
+        mutationFn: async ({ json }) => {
             if (MemoConfig.isMock) return mockUseCreateTeacherAchievement
             const formdata = new FormData()
             formdata.append("json", JSON.stringify(json))
-            
-            images.forEach((image) => {
-                formdata.append("images", {
-                    uri: image.uri,
-                    name: image.filename,
-                    type: image.mime
-                })
-            })
             
             const result = await api.put(MemoApis.EDIT_ACHIEVEMENT_TEACHER(achievementId), 
                 formdata, {

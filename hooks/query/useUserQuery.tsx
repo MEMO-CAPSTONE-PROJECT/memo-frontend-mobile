@@ -52,9 +52,10 @@ interface StudentResponse {
     }
 }
 
-export function useStudentByIdQuery(id: string) {
+export function useStudentByIdQuery(id: string, enabled = true) {
     return useQuery<null, AxiosError, StudentResponse>({
         queryKey: ["student", id],
+        enabled: enabled,
         queryFn: async () => {
             if (MemoConfig.isMock) return mockUseStudentById
             const result = await api.get(MemoApis.STUDENT_DETAIL(id))

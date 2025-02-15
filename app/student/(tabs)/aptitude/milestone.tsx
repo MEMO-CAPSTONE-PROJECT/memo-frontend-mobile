@@ -1,34 +1,49 @@
+import MemoTreeLevel from "@/components/aptitude/memo-tree-level";
 import BrandingBackground from "@/components/background/branding-background";
 import MemoProgressbar from "@/components/bar/memo-progressbar";
 import MemoBaseNavigatorCard from "@/components/container/base/memo-base-navigator-card";
 import MemoCard from "@/components/container/memo-card";
 import ScrollableView from "@/components/scrollable/scrollable-view";
 import DirtSvg from "@/components/ui/icons/milestone/dirt-svg";
-import MilestoneTreeStageFourSvg from "@/components/ui/icons/milestone/tree/stage-four-svg";
-import MilestoneTreeStageOneSvg from "@/components/ui/icons/milestone/tree/stage-one-svg";
-import MilestoneTreeStageThreeSvg from "@/components/ui/icons/milestone/tree/stage-three-svg";
-import MilestoneTreeStageTwoSvg from "@/components/ui/icons/milestone/tree/stage-two-svg";
-import { AptitudeType } from "@/constants/aptitude-type";
+import { Color } from "@/constants/theme/color";
+import { useGetAptitudesQuery } from "@/hooks/query/useAptitudeQuery";
+import { useStudentByIdQuery } from "@/hooks/query/useUserQuery";
+import { useStudentToken } from "@/hooks/useUserToken";
+import { calculateSpendingPoint, TREE_MAX_LEVEL } from "@/shared/utils/tree-level-util";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function StudentAptitudeMilestoneScreen() {
+    const { data: token } = useStudentToken()
+    const { data: rawAptitudes, refetch: refetchAptitudes } = useGetAptitudesQuery()
+    const { data: rawStudent, refetch: refetchStudentById } = useStudentByIdQuery(token?.sub as string)
+    const student = rawStudent?.data?.student
+    const aptitudes = rawAptitudes?.data?.aptitudes ?? []
+
+    // Calculate student points
+    const studentPoints = student?.points?.reduce((prev, curr) => {
+        const { type, point, spending, color } = curr
+        prev[type] = prev[type] ?? 0
+        prev[type] = {
+            point: point,
+            spending: spending,
+            color: color
+        }
+        return prev
+    }, {} as { [key: string]: { point: number, spending: number, color: string } })
+
     const handleRefresh = () => {
-        console.log("refresh")
+        refetchAptitudes()
+        refetchStudentById()
     }
 
-    const getRandomStage = () => {
-        const random = Math.random()
-        if (random > 0.66) return <MilestoneTreeStageFourSvg size={165}/>
-        if (random > 0.33) return <MilestoneTreeStageThreeSvg size={106}/>
-        if (random > 0.16) return <MilestoneTreeStageTwoSvg size={55}/>
-        return <MilestoneTreeStageOneSvg size={50}/>
+    const handleNavigate = (id: string, type: string, color: string) => {
+        router.push({
+            pathname: `/student/(tabs)/aptitude/milestone/[id]`,
+            params: { id: id, type: type, color: color }
+        })
     }
 
-    const handleNavigate = (id: string) => {
-        router.push(`/student/aptitude/milestone/${id}`)
-    }
-    
     return (
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="gap-y-3xl !p-0">
@@ -40,23 +55,30 @@ export default function StudentAptitudeMilestoneScreen() {
                         </View>
                     </View>
                     <ScrollableView border={false} onRefresh={handleRefresh}>
-                        <View className="flex-col w-full h-full gap-y-xl px-[1.5rem]">     
-                            {Object.keys(AptitudeType).map((type) => (
-                                <MemoBaseNavigatorCard key={type} className="gap-x-lg" onPress={() => handleNavigate(type)}>
-                                    <View className={`bg-system-light-blue w-[100] h-[100] rounded-xsm flex-col justify-end items-center overflow-hidden`}>
-                                        {getRandomStage()}
-                                        <DirtSvg width={50} height={10}/>
+                        <View className="flex-col w-full h-full gap-y-xl px-[1.5rem]">
+                            {aptitudes?.map(({ id, type, color: mockColor }) => {
+                                const findPoints = studentPoints?.[type]
+                                let points = findPoints
+                                if (!points) points = { color: mockColor, point: 0, spending: 0 }
+                                const { color, spending } = points
+                                const { level, needPointToNextLevel, maxPoint } = calculateSpendingPoint(spending)
+            
+                                return <MemoBaseNavigatorCard key={id} className="gap-x-lg" onPress={() => handleNavigate(id, type, color)}>
+                                    <View
+                                        className={`bg-system-light-blue w-[100] h-[100] rounded-xsm flex-col items-center overflow-hidden ${level >= TREE_MAX_LEVEL ? "justify-center" : "justify-end"}`}
+                                    >
+                                        <MemoTreeLevel id={id} color={color} level={level} size={200}/>
+                                        <DirtSvg width={50} height={10} />
                                     </View>
                                     <View className="flex-1 flex-col gap-y-md">
                                         <View className="flex-col">
-                                            <Text className="font-kanit-bold text-body text-body-1">{type} เลเวล 1</Text>
+                                            <Text className="font-kanit-bold text-body text-body-1">{type} เลเวล {level}</Text>
                                             <Text className="font-kanit-regular text-caption-1 text-body-2">ทำกิจกรรมด้าน{type}เพื่อเพิ่มการเจริญเติบโต</Text>
                                         </View>
-                                        <MemoProgressbar progress={25}/>
+                                        <MemoProgressbar fillColor={Color["system-blue-2"]} progress={maxPoint ? (needPointToNextLevel / maxPoint) * 100 : 100} />
                                     </View>
                                 </MemoBaseNavigatorCard>
-                            ))}
-                            
+                            })}
                         </View>
                     </ScrollableView>
                 </View>

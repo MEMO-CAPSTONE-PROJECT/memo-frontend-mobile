@@ -59,3 +59,9 @@ export interface TeacherAchievement extends Achievement {
 }
 
 export interface TeacherAchievementById extends TeacherAchievement, AchievementById {}
+
+export interface MemoAchievementAptitude {
+    id: string
+    type: string
+    color: string
+}

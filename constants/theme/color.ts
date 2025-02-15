@@ -4,6 +4,7 @@ export const Color = {
     "primary-2": "#9751AF",
     "primary-2-hover": "#85409D",
     "primary-3": "#521C7C",
+    "secondary-0": "#FFFBE5",
     "secondary-1": "#FFD98F",
     "secondary-2": "#FFA856",
     "secondary-2-hover": "#FF8C48",

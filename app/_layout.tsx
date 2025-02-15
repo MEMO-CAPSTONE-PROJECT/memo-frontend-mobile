@@ -12,6 +12,7 @@ import { Text } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
+
 import './global.css'
 const queryClient = new QueryClient()
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -51,7 +52,7 @@ export default function RootLayout() {
             </AnimatedAppLoader>
           </AuthProvider>
         </QueryClientProvider>
-        </GestureHandlerRootView>
+      </GestureHandlerRootView>
     </PortalProvider>
   )
 }

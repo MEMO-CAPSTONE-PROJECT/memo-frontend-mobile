@@ -1,4 +1,6 @@
+import { toastConfig } from "@/shared/components/toast-config";
 import { Platform, SafeAreaView, View } from "react-native";
+import Toast from "react-native-toast-message";
 interface BrandingBackgroundProps {
     variant?: keyof BrandingBackgroundVariant
     children: React.ReactNode
@@ -31,7 +33,10 @@ export default function BrandingBackground({ variant = "secondary", children, cl
                 <View className={`absolute -top-[22rem] -right-[16rem] ${border} border-[100px] opacity-20 w-[388px] h-[388px] rounded-circle`} />
                 <View className={`absolute top-36 -right-48 ${border} border-[75px] opacity-20 w-[288px] h-[288px] rounded-circle`} />
                 {children}
+
+                <Toast config={toastConfig} /> 
             </View>
+            {/* <Toast />  */}
             <SafeAreaView className={`${flex} bg-system-white`} />
         </View>
     )

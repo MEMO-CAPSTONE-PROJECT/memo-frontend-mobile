@@ -14,6 +14,7 @@ import { Text, View } from 'react-native';
 export default function HomeScreen() {
   const [active, setActive] = useState<number>(-1)
   const [error, setError] = useState<string | undefined>(undefined)
+
   const characters = [
     {
       icon: <TeacherWomanDefaultSvg container="medium" size={75} />,

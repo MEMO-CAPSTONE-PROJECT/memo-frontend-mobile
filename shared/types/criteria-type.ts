@@ -9,4 +9,5 @@ export interface StudentPoint {
     type: string
     color: string
     point: number
+    spending: number
 }

@@ -2,18 +2,13 @@ import { MemoApis } from "@/constants/apis";
 import { mockUseGetAptitudes } from "@/hooks/mock/useAptitude.mock";
 import api from "@/shared/api-handler";
 import { MemoConfig } from "@/shared/config";
+import { MemoAchievementAptitude } from "@/shared/types/achievement-type";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-interface Aptitude {
-    id: string
-    type: string
-    color: string
-}
-
 export interface GetAptitudeResponse {
     data: {
-        aptitudes: Aptitude[]
+        aptitudes: MemoAchievementAptitude[]
     }
 }
 
