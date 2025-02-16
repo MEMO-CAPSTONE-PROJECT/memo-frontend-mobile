@@ -67,7 +67,7 @@ export default function StudentAptitudeMilestoneScreen() {
                                     <View
                                         className={`bg-system-light-blue w-[100] h-[100] rounded-xsm flex-col items-center overflow-hidden ${level >= TREE_MAX_LEVEL ? "justify-center" : "justify-end"}`}
                                     >
-                                        <MemoTreeLevel id={id} color={color} level={level} size={200}/>
+                                        <MemoTreeLevel id={id} color={color} level={level} divide={1.75}/>
                                         <DirtSvg width={50} height={10} />
                                     </View>
                                     <View className="flex-1 flex-col gap-y-md">

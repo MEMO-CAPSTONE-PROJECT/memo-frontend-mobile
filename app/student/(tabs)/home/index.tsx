@@ -26,7 +26,7 @@ const ACHIEVEMENT_FILTERS = {
 }
 
 export default function StudentHomeScreen() {
-  const [mode, setMode] = useState<FilterMode>("all")
+  const [mode, setMode] = useState<FilterMode>("open")
   const { data: student } = useStudentToken()
   const { 
     data: rawAchievements, 
@@ -58,16 +58,16 @@ export default function StudentHomeScreen() {
   )
 
   const filterButtons = [
-    {
-      name: ACHIEVEMENT_FILTERS.ALL.name,
-      active: mode === "all",
-      onPress: () => setMode("all")
-    },
     // {
-    //   name: ACHIEVEMENT_FILTERS.OPEN.name,
-    //   active: mode === "open",
-    //   onPress: () => setMode("open")
+    //   name: ACHIEVEMENT_FILTERS.ALL.name,
+    //   active: mode === "all",
+    //   onPress: () => setMode("all")
     // },
+    {
+      name: ACHIEVEMENT_FILTERS.OPEN.name,
+      active: mode === "open",
+      onPress: () => setMode("open")
+    },
     {
       name: ACHIEVEMENT_FILTERS.DOING.name,
       active: mode === "doing",
