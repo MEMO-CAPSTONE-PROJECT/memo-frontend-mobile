@@ -36,14 +36,14 @@ function MemoProgressBar({
                     backgroundColor: fillColor,
                 }}
             >
-                <View className="w-full h-full absolute justify-center items-center">
+                {clampedProgress > 10 && <View className="w-full h-full absolute justify-center items-center">
                     <Text
                         className="absolute font-kanit-bold text-caption-1"
                         style={{ color: textColor }}
                     >
                         {clampedProgress.toFixed(0)}%
                     </Text>
-                </View>
+                </View>}
             </View>
         </View>
     )

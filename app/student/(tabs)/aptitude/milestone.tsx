@@ -78,7 +78,7 @@ export default function StudentAptitudeMilestoneScreen() {
                                         <MemoProgressbar fillColor={Color["system-blue-2"]} progress={maxPoint ? (needPointToNextLevel / maxPoint) * 100 : 100} />
                                     </View>
                                 </MemoBaseNavigatorCard>
-                            })}
+                            }) ?? <Text className="font-kanit-bold text-body text-body-1">ไม่มีสามารถโหลดข้อมูลได้</Text>}
                         </View>
                     </ScrollableView>
                 </View>

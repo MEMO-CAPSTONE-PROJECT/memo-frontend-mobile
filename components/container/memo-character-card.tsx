@@ -56,7 +56,7 @@ export default function MemoCharacterCard({ active, character, gender, onPress, 
                 )
             }
             {mascot}
-            <View className="flex-col justify-center">
+            <View className="flex-1 flex-col justify-center">
                 {texts.map(({ text, extraClassName }, index) => 
                     <Text key={index} className={clsx(textContainer, extraClassName)}>{text}</Text>
                 )}

@@ -1,5 +1,4 @@
-import { Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text, TouchableOpacity, View } from "react-native";
 import { ToastConfig } from "react-native-toast-message";
 
 export const toastConfig: ToastConfig = {

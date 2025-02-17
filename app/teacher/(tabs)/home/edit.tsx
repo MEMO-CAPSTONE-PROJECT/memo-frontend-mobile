@@ -51,11 +51,11 @@ export default function TeacherHomeEditScreen() {
             description: teacherAchievement.description ?? "",
         }
         // Loaded images
-        setImages(teacherAchievement?.images.map(image => ({ 
+        setImages(teacherAchievement?.images?.map(image => ({ 
             uri: BaseURL + image.fileEndPoint, 
             filename: image.fileName, 
             mime: getMimeTypeFromExtension(image.fileName) 
-        })))
+        })) ?? [])
         reset(formattedData)
     }, [teacherAchievement, reset])
 

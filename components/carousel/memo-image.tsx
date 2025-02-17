@@ -1,8 +1,7 @@
 import { Color } from "@/constants/theme/color"
 import { ArrowClockwise } from "phosphor-react-native"
-import { useState } from "react"
-import { ActivityIndicator, Image, Pressable, StyleSheet, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { memo, useState } from "react"
+import { ActivityIndicator, Image, Pressable, StyleSheet, TouchableOpacity, View } from "react-native"
 
 interface MemoImageCarouselItemProps {
     uri: string
@@ -14,7 +13,7 @@ interface MemoImageCarouselItemProps {
     width?: number
 }
 
-export default function MemoImage({
+function MemoImage({
     uri,
     height,
     width,
@@ -66,7 +65,7 @@ export default function MemoImage({
                     <ActivityIndicator color={Color["title-1"]}/>
                 </View>
             )}
-            {error && (
+            {(error && !loading) && (
                 <View style={[
                     { ...StyleSheet.absoluteFillObject },
                     { alignItems: "center", justifyContent: "center", zIndex: 20 }
@@ -79,3 +78,5 @@ export default function MemoImage({
         </View>
     )
 }
+
+export default memo(MemoImage)

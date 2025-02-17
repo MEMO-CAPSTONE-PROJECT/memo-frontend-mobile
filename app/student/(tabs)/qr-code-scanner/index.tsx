@@ -14,7 +14,7 @@ import { Alert, Dimensions, Text, TouchableOpacity, View } from "react-native";
 import Svg, { Defs, Mask, Rect } from "react-native-svg";
 
 function QRCodeScannerBox() {
-    const QR_SCAN_SQUARE_SIZE = 250
+    const QR_SCAN_SQUARE_SIZE = 200
     const deviceHeight = Dimensions.get("window").height
     const deviceWidth = Dimensions.get("window").width
     
@@ -83,15 +83,15 @@ export default function StudentQRCodeScannerScreen() {
                 code: result.code ?? ""
             })
             const title = response ? "สำเร็จ" : "ล้มเหลว"
-            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "ชุดรหัสไม่ถูกต้อง"
+            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "คิวอาร์โค้ดไม่ถูกต้อง"
             Alert.alert(title, message, [
                 { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) }, }
             ])
         } catch (error) {
             console.log(error)
 
-            const errorMessage = error instanceof AxiosError ? error.response?.data?.error : "ชุดรหัสไม่ถูกต้อง"
-            Alert.alert("ล้มเหลว", errorMessage ?? "เกิดข้อผิดพลาดกับชุดรหัส", [
+            const errorMessage = error instanceof AxiosError ? error.response?.data?.error : "คิวอาร์โค้ดไม่ถูกต้อง"
+            Alert.alert("ล้มเหลว", errorMessage ?? "ไม่พบรหัสนี้หรือไม่ได้ลงทะเบียน", [
                 { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) }, }
             ])
         }

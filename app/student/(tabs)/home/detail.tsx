@@ -18,7 +18,7 @@ import { Alert, Text, View } from "react-native";
 export default function StudentDetailScreen() {
     const { id: achievementId } = useLocalSearchParams()
     const { data: student} = useStudentToken()
-    const { data, isLoading, isError } = useStudentAchievementByIdQuery(achievementId as string, { studentId: student?.sub })
+    const { data, isLoading, isError, refetch: refetchAchievement } = useStudentAchievementByIdQuery(achievementId as string, { studentId: student?.sub ?? "all" })
     const { mutateAsync: joinAchievement } = useJoinAchievementMutation()
     const { mutateAsync: submitCode } = useSubmitAchievementCodeMutation()
     const achievement = data?.data?.achievementStudent
@@ -38,28 +38,29 @@ export default function StudentDetailScreen() {
     }
 
     const disabledCodeButton = !isParticipant || isSuccess
-    const disabledJoinButton = isParticipant || !isOpen
+    const disabledJoinButton = isParticipant || !isOpen || isMax
     const { name: statusName, color: statusColor } = getStatus()
 
     const handleJoinAchievement = async () => {
-        const response = await joinAchievement({ 
-            studentId: String(student?.sub ?? ""), 
-            achievementId: achievementId as string
-        })
-        
-        if (response) {
-            Alert.alert("สำเร็จ", "คุณได้สมัครเป้าหมายสำเร็จ", [
-                {
-                    text: "ตกลง",
-                    style: "cancel"
-                }
-            ])
-        } else {
+        try {
+            const response = await joinAchievement({ 
+                studentId: String(student?.sub ?? ""), 
+                achievementId: achievementId as string
+            })
+            
+            if (response) {
+                Alert.alert("สำเร็จ", "คุณได้สมัครเป้าหมายสำเร็จ", [
+                    { text: "ตกลง", style: "cancel" }
+                ])
+                refetchAchievement()
+            } else {
+                Alert.alert("ล้มเหลว", "คุณไม่สามารถสมัครเป้าหมายได้", [
+                    { text: "ตกลง", style: "cancel" }
+                ])
+            }
+        } catch {
             Alert.alert("ล้มเหลว", "คุณไม่สามารถสมัครเป้าหมายได้", [
-                {
-                    text: "ตกลง",
-                    style: "cancel"
-                }
+                { text: "ตกลง", style: "cancel" }
             ])
         }
     }
@@ -75,6 +76,7 @@ export default function StudentDetailScreen() {
             Alert.alert(title, message, [
                 { text: "ตกลง", style: "cancel" }
             ])
+            refetchAchievement()
         } catch (error) {
             console.log(error)
 

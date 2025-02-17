@@ -26,7 +26,7 @@ export default function TeacherDetailScreen() {
     function handleCreateQRCode() {
         router.push({
             pathname: "/teacher/home/qr-code",
-            params: { id: id }
+            params: { id: id, name: achievement?.name }
         })
     }
 
@@ -38,7 +38,7 @@ export default function TeacherDetailScreen() {
                         <MemoContentDetail achievement={achievement}>
                             {isOwner && 
                                 <View className="p-[1.5rem] flex-col gap-y-md">
-                                    <MemoIconTextButton name="สร้าง" icon={QrCode} variant="secondary" onPress={handleCreateQRCode} />
+                                    <MemoIconTextButton name="สร้างคิวอาร์โค้ด" icon={QrCode} variant="secondary" onPress={handleCreateQRCode} />
                                     <MemoIconTextButton name="แก้ไข" icon={NotePencil} variant="darkRed" onPress={handleEdit} />
                                 </View>
                             }     

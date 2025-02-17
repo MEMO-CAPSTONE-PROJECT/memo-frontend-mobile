@@ -1,7 +1,8 @@
 export const MemoBaseURL = {
     PRIVATE: "http://localhost:8080",
     DEVELOPMENT: "http://cp24sy1.sit.kmutt.ac.th:8081",
-    PUBLIC: "https://capstone24.sit.kmutt.ac.th/sy1/mobile/apis"
+    PUBLIC: "https://capstone24.sit.kmutt.ac.th/sy1/mobile/apis",
+    BASE: "https://capstone24.sit.kmutt.ac.th/sy1/"
 }
 
 export const MemoApis = {

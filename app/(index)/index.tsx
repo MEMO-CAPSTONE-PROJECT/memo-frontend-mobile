@@ -67,7 +67,7 @@ export default function HomeScreen() {
                   character={character.icon}
                   active={index === active}
                   onPress={() => handleCardPress(index)}
-                  texts={[{ text: character.name, extraClassName: "font-kanit-bold text-title" }]}
+                  texts={[{ text: character.name, extraClassName: "font-kanit-bold text-title text-wrap" }]}
                 />
               )}
           </ScrollableView>

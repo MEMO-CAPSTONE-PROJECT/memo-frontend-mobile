@@ -1,7 +1,7 @@
 import { Color } from "@/constants/theme/color";
 import { Icon } from "phosphor-react-native";
 import { forwardRef } from "react";
-import { GestureResponderEvent, Text, TouchableOpacity } from "react-native";
+import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
 
 interface MemoInputButtonProps {
     size?: keyof MemoInputButtonSize
@@ -21,7 +21,7 @@ interface MemoInputButtonSize {
     medium: string
 }
 
-const MemoInputButton = forwardRef<TouchableOpacity, MemoInputButtonProps>(({ onPress, icon: Icon, name, size = "medium", iconVariant = "default" }, ref) => {
+const MemoInputButton = forwardRef<View, MemoInputButtonProps>(({ onPress, icon: Icon, name, size = "medium", iconVariant = "default" }, ref) => {
     const sizes = {
         medium: { height: "h-5xl", width: "w-full", rounded: "rounded-sm" },
     }

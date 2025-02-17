@@ -1,9 +1,9 @@
 import { Color } from "@/constants/theme/color";
 import { forwardRef } from "react";
-import { GestureResponderEvent, Text, TouchableOpacity } from "react-native";
+import { GestureResponderEvent, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { Spinner } from "tamagui";
 
-interface MemoButtonProps {
+interface MemoButtonProps extends TouchableOpacityProps {
     isLoading?: boolean
     variant: keyof MemoButtonVariant
     size?: keyof MemoButtonSize
@@ -22,7 +22,7 @@ interface MemoButtonSize {
     medium: string
 }
 
-const MemoButton = forwardRef<TouchableOpacity, MemoButtonProps>(({ isLoading, onPress, name, variant, className, size = "medium" }, ref) => {
+const MemoButton = forwardRef<View, MemoButtonProps>(({ isLoading, onPress, name, variant, className, size = "medium" }, ref) => {
     const variants = {
         primary: { color: "bg-primary-2 hover:bg-primary-2-hover", text: "text-system-white" },
         secondary: { color: "bg-secondary-2 hover:bg-secondary-2-hover", text: "text-system-white" },

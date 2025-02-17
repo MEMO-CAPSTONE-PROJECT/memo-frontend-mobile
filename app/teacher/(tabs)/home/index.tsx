@@ -70,9 +70,9 @@ export default function TeacherHomeScreen() {
     const handleSearch = (text: string) => setSearchQuery(text)
     const handleCreate = () => router.push("/teacher/home/create")
     const handleRefresh = async () => refetch()
-    const handleQRCode = (achievementId: string) => router.push({ 
+    const handleQRCode = (achievementId: string, name: string) => router.push({ 
         pathname: "/teacher/home/qr-code", 
-        params: { id: achievementId } 
+        params: { id: achievementId, name: name } 
     })
     const handleEdit = (achievementId: string) => router.push({ 
         pathname: "/teacher/home/edit", 
@@ -100,7 +100,7 @@ export default function TeacherHomeScreen() {
                                 secondaryView={
                                     (achievement) => renderTeacherOwnerActions({
                                         isOwner: teacherId === achievement.teacherId,
-                                        onQRCode: () => handleQRCode(achievement.id),
+                                        onQRCode: () => handleQRCode(achievement.id, achievement.name),
                                         onEdit: () => handleEdit(achievement.id)
                                     })
                                 }

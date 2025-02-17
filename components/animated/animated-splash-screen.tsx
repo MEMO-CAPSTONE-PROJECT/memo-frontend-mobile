@@ -1,7 +1,8 @@
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Animated, StyleSheet, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface AnimatedSplashScreenProps {
     image: any
@@ -9,19 +10,19 @@ interface AnimatedSplashScreenProps {
 }
 
 export default function AnimatedSplashScreen({ children, image }: Readonly<AnimatedSplashScreenProps>) {
-    const animation = useMemo(() => new Animated.Value(1), [])
+    const opacity = useSharedValue(1)
+    const scale = useSharedValue(1)
     const [isAppReady, setIsAppReady] = useState(false)
     const [isSplashAnimationComplete, setIsSplashAnimationComplete] = useState(false)
   
     useEffect(() => {
       if (isAppReady) {
-        Animated.timing(animation, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start(() => setIsSplashAnimationComplete(true))
+        opacity.value = withTiming(0, { duration: 1000 }, () => {
+          runOnJS(setIsSplashAnimationComplete)(true);
+        });
+        scale.value = withTiming(0, { duration: 1000 });
       }
-    }, [animation, isAppReady])
+    }, [opacity, scale, isAppReady])
   
     const onImageLoaded = useCallback(async () => {
       try {
@@ -37,6 +38,15 @@ export default function AnimatedSplashScreen({ children, image }: Readonly<Anima
       }
     }, [])
   
+    const animatedStyle = useAnimatedStyle(() => ({
+      opacity: opacity.value,
+    }));
+    const imageAnimatedStyle = useAnimatedStyle(() => ({
+      opacity: opacity.value,
+      transform: [{ scale: scale.value }],
+    }));
+
+
     return (
       <View style={{ flex: 1 }}>
         {isAppReady && children}
@@ -47,21 +57,16 @@ export default function AnimatedSplashScreen({ children, image }: Readonly<Anima
               StyleSheet.absoluteFill,
               {
                 backgroundColor: Constants.expoConfig?.splash?.backgroundColor,
-                opacity: animation,
               },
+              animatedStyle,
             ]}
           >
             <Animated.Image
-              style={{
+              style={[{
                 width: "100%",
                 height: "100%",
                 resizeMode: Constants.expoConfig?.splash?.resizeMode ?? "contain",
-                transform: [
-                  {
-                    scale: animation,
-                  },
-                ],
-              }}
+              }, imageAnimatedStyle]}
               source={image}
               onLoadEnd={onImageLoaded}
               fadeDuration={0}

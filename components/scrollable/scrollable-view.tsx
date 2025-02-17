@@ -7,6 +7,7 @@ interface ScrollableViewProps {
     border?: boolean
     gap?: boolean
     scrollEnabled?: boolean
+    scrollClassName?: string
     containerClassName?: string
     className?: string
     showScrollIndicator?: boolean
@@ -20,7 +21,7 @@ export default function ScrollableView({
     showScrollIndicator = true, 
     border = true, 
     scrollEnabled = true, 
-    className, containerClassName, children, onRefresh 
+    className, containerClassName, scrollClassName, children, onRefresh 
 }: Readonly<ScrollableViewProps>) {
     const [refreshing, setRefreshing] = useState(false)
     
@@ -46,7 +47,7 @@ export default function ScrollableView({
             showsVerticalScrollIndicator={showScrollIndicator}
             scrollEnabled={scrollEnabled}
             contentContainerClassName={containerClassName}
-            className={`${gap ? "mb-lg" : ""} ${getBorder()}`}
+            className={`${gap ? "mb-lg" : ""} ${getBorder()} ${scrollClassName}`}
             refreshControl={onRefresh ? (
                 <RefreshControl
                     refreshing={refreshing}

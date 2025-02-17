@@ -4,11 +4,11 @@ import { getMemoLayoutSize } from '@/constants/theme/layout-size'
 import { InputStateColors } from '@/shared/themes/input-variants'
 import { MemoInputStates } from '@/shared/types/input-state-type'
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import dayjs from "dayjs"
 import { CalendarDots } from 'phosphor-react-native'
 import { Fragment, useState } from 'react'
-import { Modal, Pressable, Text, View } from 'react-native'
+import { Modal, Platform, Pressable, Text, View } from 'react-native'
 import { Input, XStack } from 'tamagui'
-import dayjs from "dayjs"
 
 export interface MemoDatePickerProps {
     value?: Date
@@ -64,7 +64,24 @@ export default function MemoDatePicker({ value, state = "default", placeholder, 
                 onRequestClose={hideDatePicker}
                 transparent={true}
             >
-                <View className="flex-1 bg-system-white text-title-1">
+                {Platform.OS === "ios" && (
+                    <View className="flex-1 bg-system-white text-title-1">
+                        <DateTimePicker
+                            testID="dateTimePicker"
+                            value={value ?? new Date()}
+                            locale="th-TH"
+                            onChange={handleConfirm}
+                            mode={"date"}
+                            display="inline"
+                            textColor={Color["title-1"]}
+                            accentColor={Color["primary-2"]}
+                            style={{ flex: 1 }}
+                            themeVariant="light"
+                            className="bg-system-white"
+                        />
+                    </View>)
+                }
+                {Platform.OS !== "ios" && (
                     <DateTimePicker
                         testID="dateTimePicker"
                         value={value ?? new Date()}
@@ -76,8 +93,9 @@ export default function MemoDatePicker({ value, state = "default", placeholder, 
                         accentColor={Color["primary-2"]}
                         style={{ flex: 1 }}
                         themeVariant="light"
+                        className="bg-system-white"
                     />
-                </View>
+                )}
             </Modal>
         </Fragment>
     )
