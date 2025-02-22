@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           # If you're using CocoaPods
-          pod install --project-directory=./YourProjectDirectory
+          pod install --project-directory=./ios
 
       - name: Build the app
         run: |
@@ -35,7 +35,8 @@ jobs:
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: BuildProducts
+          name: app
           path: |
             ./ios/build
             # Add other paths if needed
+          retention-days: 7
