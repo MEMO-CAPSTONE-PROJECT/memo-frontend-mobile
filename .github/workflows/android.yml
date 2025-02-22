@@ -15,7 +15,7 @@ jobs:
       - name: Install Java 
         uses: actions/setup-java@v4
         with:
-          java-version: '20'
+          java-version: '21'
           distribution: "adopt"
           cache: "gradle"
 
@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with: 
-          node-version: '18'
+          node-version: '22'
 
       - name: Run Npm Install
         run: | 
@@ -33,8 +33,7 @@ jobs:
 
       - name: Build App
         run: |
-              cd ./android
-              ./gradlew assembleRelease
+              npm run build:apk
 
       - name: Upload APK to Artifacts
         uses: actions/upload-artifact@v4
