@@ -11,6 +11,7 @@ import { useMemo } from "react"
 import { Text, View } from "react-native"
 
 interface OTPUIKitProps {
+    isLoading?: boolean
     email: string
     otp: OTPUIKitState
     resend: () => void
@@ -23,7 +24,7 @@ interface OTPUIKitState {
     onChangeCode: (codes: string[]) => void
 }
 
-export default function OTPUIKit({ email, otp, resend, verify, previous }: Readonly<OTPUIKitProps>) {
+export default function OTPUIKit({ email, otp, resend, verify, previous, isLoading = false }: Readonly<OTPUIKitProps>) {
     const TIMER = 30   
     const emailFormatted = useMemo(() => email.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1xxx@$2"), [email])
     const { error, onChangeCode } = otp
@@ -65,7 +66,7 @@ export default function OTPUIKit({ email, otp, resend, verify, previous }: Reado
                                 </View>
                             )}
                         </MemoTimer>
-                        <MemoButton name="ยืนยัน" variant="primary" onPress={verify} />
+                        <MemoButton name="ยืนยัน" variant="primary" onPress={verify} isLoading={isLoading}/>
                         <Link href={previous} asChild>
                             <MemoButton name="ย้อนกลับ" variant="ghost" />
                         </Link>

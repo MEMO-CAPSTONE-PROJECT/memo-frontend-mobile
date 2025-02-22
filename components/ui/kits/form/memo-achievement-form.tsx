@@ -54,6 +54,7 @@ export default function MemoAchievementForm({
                 <View className="gap-y-lg">
                     <View className="flex-row gap-x-lg">
                         <MemoDatePickerHelper
+                            id="start-date"
                             label="วันที่เปิด"
                             placeholder="วันที่เปิด"
                             value={form.startDate}
@@ -61,6 +62,7 @@ export default function MemoAchievementForm({
                             onConfirm={(date) => date && update("startDate", date)}
                         />
                         <MemoDatePickerHelper
+                            id="end-date"
                             label="วันที่ปิด"
                             placeholder="วันที่ปิด"
                             value={form.endDate}

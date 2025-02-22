@@ -12,7 +12,7 @@ export default function MemoSearchBar({ placeholder, onSearch }: Readonly<MemoSe
     const [focus, setFocus] = useState(false)
     const borderColor = focus ? "border-title-1" : "border-system-light-gray"
     return (
-        <Pressable className={`w-full flex-row justify-between items-center h-4xl rounded-sm bg-system-light-gray border-xsm ${borderColor}`}>
+        <Pressable className={`flex-1 flex-row justify-between items-center h-4xl rounded-sm bg-system-light-gray border-xsm ${borderColor}`}>
             <TextInput 
                 placeholder={placeholder}
                 placeholderTextColor={Color["body-2"]}

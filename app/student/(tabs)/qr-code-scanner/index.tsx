@@ -10,13 +10,12 @@ import { AxiosError } from "axios";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { CameraRotate, Lightning, LightningSlash } from "phosphor-react-native";
 import { useState } from "react";
-import { Alert, Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import Svg, { Defs, Mask, Rect } from "react-native-svg";
 
 function QRCodeScannerBox() {
     const QR_SCAN_SQUARE_SIZE = 200
-    const deviceHeight = Dimensions.get("window").height
-    const deviceWidth = Dimensions.get("window").width
+    const { height: deviceHeight, width: deviceWidth } = useWindowDimensions()
     
     return (
         <View className="absolute w-full h-full justify-center items-center z-20">

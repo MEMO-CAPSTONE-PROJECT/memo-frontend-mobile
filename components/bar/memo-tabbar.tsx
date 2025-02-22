@@ -32,10 +32,10 @@ export default function MemoTabBar({ tabs }: Readonly<MemoTabBarProps>) {
     ), [])
 
     return (
-        <TabInterop tabBarClassName="bg-system-white border-t-xsm border-t-primary-2">
-            {tabs.map(({ route, title, icon }) => (
+        <TabInterop key={tabs.map(tab => tab.route).join("-")} tabBarClassName="bg-system-white border-t-xsm border-t-primary-2">
+            {tabs.map(({ route, title, icon }, index) => (
                 <Tabs.Screen
-                    key={route}
+                    key={route + "-" + index}
                     name={route}
                     options={{
                         title,

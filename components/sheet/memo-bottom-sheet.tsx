@@ -1,35 +1,38 @@
+import { View } from "react-native";
 import { Adapt, Dialog, Sheet, SnapPointsMode } from "tamagui";
 
-interface MemoDialogProps {
+interface MemoBottomSheetProps {
     id: string
     snapPoints?: number[]
     snapPointsMode?: SnapPointsMode
     button?: React.ReactNode
     children?: React.ReactNode
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
 }
-export default function MemoDialog({ id, button, children, snapPoints, snapPointsMode }: Readonly<MemoDialogProps>) {
+export default function MemoBottomSheet({ id, button, children, snapPoints, snapPointsMode, open = false, onOpenChange }: Readonly<MemoBottomSheetProps>) {
     return (
-        <Dialog key={id} modal>
+        <Dialog open={open} key={id} onOpenChange={onOpenChange} modal>
             <Dialog.Trigger asChild>
                 {button}
             </Dialog.Trigger>
             <Adapt when="sm" platform="touch">
                 <Sheet 
-                    animation="medium" 
+                    animation="quick"
                     zIndex={200000} 
                     modal 
                     dismissOnSnapToBottom
+                    disableDrag={true}
                     snapPoints={snapPoints}
                     snapPointsMode={snapPointsMode}
                 >
-                    <Sheet.Frame padding="$4" gap="$4">
+                    <Sheet.Frame padding="$3" gap="$3" paddingBottom="$8" borderRadius="$8">
+                        <View 
+                            className="w-10 h-1 bg-system-gray rounded-circle self-center"                           
+                        />
                         <Adapt.Contents/>
                     </Sheet.Frame>
-                    <Sheet.Overlay
-                        animation="lazy"
-                        enterStyle={{ opacity: 0 }}
-                        exitStyle={{ opacity: 0 }}
-                    />
+                    <Sheet.Overlay/>
                 </Sheet>
             </Adapt>
             <Dialog.Portal>

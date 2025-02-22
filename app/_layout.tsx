@@ -12,13 +12,16 @@ import { Text } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
-
+import { initializeCalendarConfig } from '@/shared/config'
 import './global.css'
+
 const queryClient = new QueryClient()
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync()
+initializeCalendarConfig()
 
 export default function RootLayout() {
+  // Prevent the splash screen from auto-hiding before asset loading is complete.
+  SplashScreen.preventAutoHideAsync()
+  
   const [loaded, error] = useFonts({
     "Kanit-Regular": require('@/assets/fonts/Kanit-Regular.ttf'),
     "Kanit-Medium": require('@/assets/fonts/Kanit-Medium.ttf'),

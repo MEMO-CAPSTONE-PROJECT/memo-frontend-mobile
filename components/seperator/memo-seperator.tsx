@@ -6,6 +6,6 @@ interface MemoSeperatorProps {
 
 export default function MemoSeperator({ className }: Readonly<MemoSeperatorProps>) {
     return (
-        <View className={`h-xsm bg-system-light-gray ${className}`}/>
+        <View className={`h-0.5 bg-system-light-gray ${className}`}/>
     )
 }

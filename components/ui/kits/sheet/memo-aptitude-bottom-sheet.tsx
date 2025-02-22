@@ -1,25 +1,28 @@
-import MemoDialog from "@/components/dialog/memo-dialog";
+import MemoBottomSheet from "@/components/sheet/memo-bottom-sheet";
 import { Color } from "@/constants/theme/color";
 import { RankCriteria } from "@/shared/types/criteria-type";
 import { Info } from "phosphor-react-native";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { SelectSeparator } from "tamagui";
 
-interface MemoAptitudeInfoDialogProps {
+interface MemoAptitudeBottomSheetProps {
     criteria: RankCriteria[]
 }
 
-export default function MemoAptitudeInfoDialog({ criteria }: Readonly<MemoAptitudeInfoDialogProps>) {
+export default function MemoAptitudeBottomSheet({ criteria }: Readonly<MemoAptitudeBottomSheetProps>) {
     return (
-        <MemoDialog
+        <MemoBottomSheet
             id="memo-aptitude-info-dialog"
             button={
                 <TouchableOpacity>
                     <Info color={Color["system-blue"]} size={24} weight="fill" />
                 </TouchableOpacity>
             }
+            snapPointsMode="fit"
         >
             <Text className="font-kanit-bold text-title text-title-1">เกี่ยวกับความสามารถที่โดดเด่น</Text>
+            <SelectSeparator/>
             {criteria.map(({ name, icon, percent }) => (
                 <View key={name} className="p-xl flex-row items-center justify-between">
                     <View className="flex-row gap-x-5xl">
@@ -33,6 +36,6 @@ export default function MemoAptitudeInfoDialog({ criteria }: Readonly<MemoAptitu
                     </View>
                 </View>
             ))}
-        </MemoDialog>
+        </MemoBottomSheet>
     )
 }

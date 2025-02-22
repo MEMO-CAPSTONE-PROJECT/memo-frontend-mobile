@@ -10,6 +10,16 @@ import TeacherWomanDefaultSvg from '@/components/ui/icons/teacher/woman/default-
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
+
+// This is the default configuration
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Reanimated runs in strict mode by default
+});
 
 export default function HomeScreen() {
   const [active, setActive] = useState<number>(-1)
@@ -22,7 +32,7 @@ export default function HomeScreen() {
       navigate: () => router.replace("/teacher/(auth)/login")
     },
     {
-      icon: <StudentBoyDefaultSvg container="medium" size={75} />,
+      icon: <StudentBoyDefaultSvg container="medium" size={77} />,
       name: "นักเรียนชั้นประถมศึกษา",
       navigate: () => router.replace("/student/(auth)/login")
     },

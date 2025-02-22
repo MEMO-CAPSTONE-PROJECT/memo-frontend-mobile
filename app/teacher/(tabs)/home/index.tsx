@@ -83,7 +83,10 @@ export default function TeacherHomeScreen() {
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="relative gap-y-xl !p-0">
                 <View className="gap-y-xl px-[1.5rem]">
-                    <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
+                    <View className="flex-row items-center gap-x-lg">
+                        <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
+                        <MemoIconButton icon={Plus} onPress={handleCreate} />
+                    </View>
                     <MemoSelectionButton buttons={filterButtons} />
                 </View>
                 <MemoContentSkeleton isLoading={isLoading || isError}>
@@ -113,7 +116,6 @@ export default function TeacherHomeScreen() {
                         </MemoCase>
                     </MemoSwitch>
                 </MemoContentSkeleton>
-                <MemoIconButton icon={Plus} className="absolute bottom-4 right-4" onPress={handleCreate} />
             </MemoCard>
         </BrandingBackground>
     )

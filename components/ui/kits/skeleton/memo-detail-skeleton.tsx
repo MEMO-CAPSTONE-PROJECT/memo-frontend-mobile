@@ -16,7 +16,7 @@ const SkeletonDetail: ICustomViewStyle = {
     children: [
         { key: "header", width: "75%", height: 20, borderRadius: 16 },
         { key: "pill", width: "50%", height: 20, borderRadius: 16 },
-        { key: `divider_1`, width: 500, height: 3, marginVertical: 8, marginHorizontal: -24 },
+        { key: `divider_1`, width: 500, height: 2, marginVertical: 8, marginHorizontal: -24 },
         { key: `box1`, gap: 12, flexDirection: "row", children: [
             { key: `icon1`, width: 40, height: 40, borderRadius: 8 },
             { key: `text1`, width: "75%", height: 20, borderRadius: 16 },

@@ -14,11 +14,11 @@ const SkeletonContent = (index: number): ICustomViewStyle[] => (
             { key: `text1_${index}`, width: "75%", height: 20, borderRadius: 16 },
         ] },
         { key: `box2_${index}`, gap: 12, flexDirection: "row", children: [
-            { key: `icon2_${index}`, width: 40, height: 40, borderRadius: 16 },
+            { key: `icon2_${index}`, width: 40, height: 40, borderRadius: 8 },
             { key: `text2_${index}`, width: "75%", height: 20, borderRadius: 16 },
         ] },
         { key: `box3_${index}`, gap: 12, flexDirection: "row", children: [
-            { key: `icon3_${index}`, width: 40, height: 40, borderRadius: 16 },
+            { key: `icon3_${index}`, width: 40, height: 40, borderRadius: 8 },
             { key: `text3_${index}`, width: "75%", height: 20, borderRadius: 16 },
         ] },
         { key: `detail_${index}`, width: "50%", height: 20, borderRadius: 16 },
@@ -37,9 +37,9 @@ const SkeletonContainer: ICustomViewStyle = {
     justifyContent: "flex-start",
     children: [
         ...SkeletonContent(1),
-        { key: `divider_1`, width: 500, height: 3, marginHorizontal: -24 },
+        { key: `divider_1`, width: 500, height: 2, marginHorizontal: -24 },
         ...SkeletonContent(2),
-        { key: `divider_2`, width: 500, height: 3, marginHorizontal: -24 },
+        { key: `divider_2`, width: 500, height: 2, marginHorizontal: -24 },
     ]
 }
 

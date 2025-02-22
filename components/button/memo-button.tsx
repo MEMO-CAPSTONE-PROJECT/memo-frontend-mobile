@@ -19,6 +19,7 @@ interface MemoButtonVariant {
 }
 
 interface MemoButtonSize {
+    full: string
     medium: string
 }
 
@@ -30,7 +31,8 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ isLoading, onPress, name
         ghost: { color: "border-body-1 border-xsm hover:bg-body-1", text: "text-body-1 hover:text-system-white" },
     }
     const sizes = {
-        medium: { height: "h-[55px]", width: "w-full", rounded: "rounded-sm" },
+        full: { height: "h-5xl", width: "flex-1", rounded: "rounded-sm" },
+        medium: { height: "h-5xl", width: "w-full", rounded: "rounded-sm" },
     }
 
     const { color, text } = variants[variant]
@@ -39,7 +41,7 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ isLoading, onPress, name
     if (isLoading) {
         return (
             <TouchableOpacity disabled ref={ref} className={`flex-row gap-x-md justify-center items-center bg-system-gray ${height} ${width} ${rounded} ${className}`}>
-                <Text className={`font-kanit-medium text-title text-system-white pointer-events-none`}>{name}</Text>
+                {/* <Text className={`font-kanit-medium text-title text-system-white pointer-events-none`}>{name}</Text> */}
                 <Spinner color={Color["title-1"]}/>
             </TouchableOpacity>
         )
@@ -47,7 +49,7 @@ const MemoButton = forwardRef<View, MemoButtonProps>(({ isLoading, onPress, name
 
     return (
         <TouchableOpacity onPress={onPress} ref={ref} className={`flex justify-center items-center ${color} ${height} ${width} ${rounded} ${className}`}>
-            <Text className={`font-kanit-medium text-title ${text} pointer-events-none`}>{name}</Text>
+            <Text className={`font-kanit-medium text-body ${text} pointer-events-none`}>{name}</Text>
         </TouchableOpacity>
     )
 })

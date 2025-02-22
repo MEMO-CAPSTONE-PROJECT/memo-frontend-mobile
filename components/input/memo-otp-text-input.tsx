@@ -56,14 +56,14 @@ export default function MemoOtpTextInput({
     }
     return (
         <View className="gap-y-lg">
-            <View className="flex w-full flex-row justify-between">
+            <View className="flex w-full flex-row gap-x-lg justify-center">
                 {codes.map((code, index) => (
                     <TextInput
                         key={index}
                         autoComplete="one-time-code"
                         enterKeyHint="next"
                         className={`
-                            font-kanit-bold text-header text-body-1 h-[65px] w-[65px] rounded-sm text-center 
+                            font-kanit-bold text-header text-body-1 h-[65px] w-[60px] rounded-sm text-center 
                         `}
                         style={{
                             borderWidth: getMemoBorderWidth("xsm"),

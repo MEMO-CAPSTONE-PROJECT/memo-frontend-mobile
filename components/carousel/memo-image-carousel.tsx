@@ -3,7 +3,7 @@ import { MemoCase, MemoSwitch } from "@/components/logic/memo-switch";
 import useImagePreview from "@/hooks/image/useImagePreview";
 import { BaseURL } from "@/shared/api-handler";
 import { useState } from "react";
-import { Dimensions, ImageURISource, Text, View } from "react-native";
+import { ImageURISource, Text, useWindowDimensions, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
@@ -14,9 +14,8 @@ interface MemoImageCarouselProps {
     images: ImageURISource[]
 }
 
-const SCREEN_WIDTH = Dimensions.get("window").width;
-
 export default function MemoImageCarousel({ images, height = 200, baseUrl = BaseURL, indicator = true }: Readonly<MemoImageCarouselProps>) {
+    const { width: SCREEN_WIDTH } = useWindowDimensions();
     const [displayIndex, setDisplayIndex] = useState(0)
     const { handleImagePreview } = useImagePreview(images, baseUrl)
     const formattedUri = (uri?: string) => baseUrl + uri

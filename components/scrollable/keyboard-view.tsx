@@ -1,5 +1,4 @@
-import Constants from "expo-constants";
-import { Dimensions, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 
 interface KeyboardViewProps {
     padding?: boolean
