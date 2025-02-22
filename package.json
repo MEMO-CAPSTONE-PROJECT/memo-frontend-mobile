@@ -15,7 +15,7 @@
     "android:prod": "expo run:android --device --variant Release",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "build:ios": "cd ios && xcodebuild -workspace ./Memo.xcworkspace -scheme Memo -configuration Release -sdk iphonesimulator CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO | xcpretty",
+    "build:ios": "cd ios && xcodebuild -workspace ./Memo.xcworkspace -scheme Memo -configuration Release -sdk iphonesimulator CONFIGURATION_BUILD_DIR=build/Build/Products/Release-iphonesimulator CODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO | xcpretty",
     "build:apk": "cd android && ./gradlew assembleRelease",
     "lint": "expo lint"
   },

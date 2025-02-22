@@ -36,3 +36,17 @@ jobs:
           name: app
           path: ./ios/build/Build/Products/Release-iphonesimulator/Memo.app
           retention-days: 7
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "ios/build/Build/Products/Release-iphonesimulator/Memo.app" ]; then
+            echo "Build failed: Memo.app not found."
+            exit 1
+          fi
+
+      - name: Convert .app to .ipa
+        run: |
+          cd ios
+          mkdir -p Payload
+          cp -r build/Release-iphonesimulator/Memo.app Payload/
+          zip -r Memo.ipa Payload/
