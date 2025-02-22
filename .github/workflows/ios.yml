@@ -6,7 +6,7 @@ on:
       - 'ios@*'
 
 jobs:
-  build:
+  ios-build:
     runs-on: macos-latest
 
     steps:
