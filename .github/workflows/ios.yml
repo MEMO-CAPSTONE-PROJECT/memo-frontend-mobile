@@ -13,13 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Run Npm Install
+        run: | 
+              npm install
+              
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
       - name: Install dependencies
         run: |
+          cd ios
           # If you're using CocoaPods
-          pod install --project-directory=./ios
+          pod install
 
       - name: Build the app
         run: |
