@@ -34,7 +34,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app
-          path: |
-            ./ios/build
-            # Add other paths if needed
+          path: ./ios/build/Build/Products/Release-iphonesimulator/Memo.app
           retention-days: 7
