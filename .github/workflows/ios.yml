@@ -29,7 +29,7 @@ jobs:
       - name: Build the app
         run: |
           npm run build:ios
-
+        
       - name: Verify build output
         run: |
           if [ ! -d "ios/build/Build/Products/Release-iphonesimulator/Memo.app" ]; then
@@ -37,16 +37,22 @@ jobs:
             exit 1
           fi
 
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Memo.app
+          path: ./ios/build/Build/Products/Release-iphonesimulator/Memo.app
+          retention-days: 7
+
       - name: Convert .app to .ipa
         run: |
-          cd ios
-          mkdir -p Payload
-          cp -r build/Release-iphonesimulator/Memo.app Payload/
-          zip -r Memo.ipa Payload/
+          mkdir -p ./ios/Payload
+          cp -r ./ios/build/Release-iphonesimulator/Memo.app Payload/
+          zip -r Memo.ipa ./ios/Payload/
 
-      - name: Upload .ipa as artifact
+      - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Memo.ipa
-          path: ./ios/Memo.ipa
+          path: ./ios/build/Build/Products/Release-iphonesimulator/Memo.app
           retention-days: 7
