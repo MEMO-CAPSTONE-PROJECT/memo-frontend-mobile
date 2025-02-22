@@ -15,7 +15,7 @@ jobs:
       - name: Install Java 
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: "adopt"
           cache: "gradle"
 
@@ -25,7 +25,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with: 
-          node-version: '22'
+          node-version: '18'
+
+      # install LigntningCSS manually and clear npm packcage cache
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Install LightningCSS manually
+        run: npm install lightningcss --force
 
       - name: Run Npm Install
         run: | 
