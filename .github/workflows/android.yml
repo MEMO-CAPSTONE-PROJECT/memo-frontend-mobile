@@ -27,10 +27,9 @@ jobs:
         with: 
           node-version: '18'
 
-      - name: Run Yarn Install
+      - name: Run Npm Install
         run: | 
-              npm install -g yarn
-              yarn install
+              npm install
 
       - name: Build App
         run: |
