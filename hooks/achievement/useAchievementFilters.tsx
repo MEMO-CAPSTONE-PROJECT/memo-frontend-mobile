@@ -4,11 +4,11 @@ import { useMemo, useState } from "react"
 export type FilterMode = "doing" | "open" | "all"
 
 export function useStudentAchievementFilters(
-    achievements: StudentAchievement[], 
+    achievements: StudentAchievement[],
     mode: FilterMode
 ) {
     const [searchQuery, setSearchQuery] = useState("")
-    
+
     const sortedAchievements = useMemo(
         () => [...achievements].sort((a, b) => a.name.localeCompare(b.name)),
         [achievements]
@@ -18,7 +18,7 @@ export function useStudentAchievementFilters(
         () => sortedAchievements.filter(
           (achievement) => {
             const matchesSearch = achievement.name.toLowerCase().includes(searchQuery.toLowerCase())
-            const matchesMode = mode === "doing" || (mode === "open" && achievement.isOpen) || (mode === "all")
+            const matchesMode = mode === "doing" || (mode === "open" && (achievement?.isOpen ?? false) === true) || (mode === "all")
             return matchesSearch && matchesMode
           }
         ),
@@ -35,7 +35,7 @@ export function useStudentAchievementFilters(
 export function useTeacherAchievementFilters(teacherId: string, achievements: TeacherAchievement[]) {
     const [isOwner, setIsOwner] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
-    
+
     const sortedAchievements = useMemo(
         () => [...achievements].sort((a, b) => a.name.localeCompare(b.name)),
         [achievements]
@@ -43,8 +43,8 @@ export function useTeacherAchievementFilters(teacherId: string, achievements: Te
 
     const filteredAchievements = useMemo(
         () => sortedAchievements.filter(
-            (achievement) => 
-                achievement.name.toLowerCase().includes(searchQuery.toLowerCase()) && 
+            (achievement) =>
+                achievement.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
                 (!isOwner || (isOwner && achievement.teacherId === teacherId))
         ),
         [sortedAchievements, isOwner, searchQuery, teacherId]

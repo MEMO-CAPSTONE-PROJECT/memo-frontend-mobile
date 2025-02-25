@@ -23,7 +23,7 @@ const ACHIEVEMENT_SECTIONS: MemoSection[] = [
 ]
 
 const ACHIEVEMENT_FILTERS = {
-    ALL: { name: "เป้าหมายทั้งหมด" },
+    ALL: { name: "ทั้งหมด" },
     OWNER: { name: "เป้าหมายที่ฉันสร้าง" }
 }
 
@@ -54,12 +54,12 @@ export default function TeacherHomeScreen() {
     const { data: teacher } = useTeacherToken()
     const teacherId = teacher?.sub ?? ""
     const achievements = useMemo(() => data?.data?.achievementTeacher ?? [], [data])
-    
-    const { 
-        filteredAchievements, 
-        setSearchQuery, 
-        isOwner, 
-        setIsOwner 
+
+    const {
+        filteredAchievements,
+        setSearchQuery,
+        isOwner,
+        setIsOwner
     } = useTeacherAchievementFilters(teacherId, achievements)
 
     const filterButtons = [
@@ -70,29 +70,28 @@ export default function TeacherHomeScreen() {
     const handleSearch = (text: string) => setSearchQuery(text)
     const handleCreate = () => router.push("/teacher/home/create")
     const handleRefresh = async () => refetch()
-    const handleQRCode = (achievementId: string, name: string) => router.push({ 
-        pathname: "/teacher/home/qr-code", 
-        params: { id: achievementId, name: name } 
+    const handleQRCode = (achievementId: string, name: string) => router.push({
+        pathname: "/teacher/home/qr-code",
+        params: { id: achievementId, name: name }
     })
-    const handleEdit = (achievementId: string) => router.push({ 
-        pathname: "/teacher/home/edit", 
-        params: { id: achievementId } 
+    const handleEdit = (achievementId: string) => router.push({
+        pathname: "/teacher/home/edit",
+        params: { id: achievementId }
     })
 
     return (
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="relative gap-y-xl !p-0">
                 <View className="gap-y-xl px-[1.5rem]">
-                    <View className="flex-row items-center gap-x-lg">
-                        <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
+                    <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
+                    <MemoSelectionButton buttons={filterButtons}>
                         <MemoIconButton icon={Plus} onPress={handleCreate} />
-                    </View>
-                    <MemoSelectionButton buttons={filterButtons} />
+                    </MemoSelectionButton>
                 </View>
                 <MemoContentSkeleton isLoading={isLoading || isError}>
                     <MemoSwitch test={filteredAchievements.length}>
                         <MemoCase value={(test: number) => (test > 0)}>
-                            <MemoAchievementList 
+                            <MemoAchievementList
                                 sections={ACHIEVEMENT_SECTIONS}
                                 achievements={filteredAchievements}
                                 onRefresh={handleRefresh}

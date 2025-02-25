@@ -1,7 +1,9 @@
 import { Text, TouchableOpacity, View } from "react-native";
+import ScrollableView from "../scrollable/scrollable-view";
 
 interface MemoSelectionButtonProps {
     buttons: MemoSelectionButtonItem[]
+    children?: React.ReactNode
 }
 
 interface MemoSelectionButtonItem {
@@ -10,22 +12,23 @@ interface MemoSelectionButtonItem {
     onPress: () => void
 }
 
-export default function MemoSelectionButton({ buttons }: Readonly<MemoSelectionButtonProps>) {
+export default function MemoSelectionButton({ buttons, children }: Readonly<MemoSelectionButtonProps>) {
     const states = {
-        default: { container: "", text: "font-kanit-medium text-body text-system-white" },
-        active: { container: "bg-system-white", text: "font-kanit-medium text-body text-primary-2" }
+        default: { container: "bg-system-light-gray", text: "font-kanit-medium text-caption-1 text-body-1" },
+        active: { container: "bg-primary-2", text: "font-kanit-medium text-caption-1 text-system-white" }
     }
     return (
-        <View className="flex-row justify-between items-center h-4xl rounded-sm bg-primary-2 p-2xsm">
+        <ScrollableView border={false} horizontal className="flex-row justify-between items-center h-4xl rounded-sm gap-x-lg">
             {buttons.map(({ name, active, onPress }, index) =>
-                <TouchableOpacity 
-                    onPress={onPress} 
-                    className={`h-full w-full flex-1 justify-center rounded-[8px] ${active ? states.active.container : states.default.container}`} 
+                <TouchableOpacity
+                    onPress={onPress}
+                    className={`h-full w-full flex-1 justify-center rounded-circle px-lg ${active ? states.active.container : states.default.container}`}
                     key={name}
                 >
                     <Text className={`text-center ${active ? states.active.text : states.default.text}`}>{name}</Text>
                 </TouchableOpacity>
             )}
-        </View>
+            {children}
+        </ScrollableView>
     )
 }

@@ -9,7 +9,7 @@ import { InputStateColors } from '@/shared/themes/input-variants'
 import { MemoInputStates } from '@/shared/types/input-state-type'
 import dayjs from 'dayjs'
 import { CalendarDots } from 'phosphor-react-native'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { Calendar, DateData } from 'react-native-calendars'
 import { Input, SelectSeparator, XStack } from 'tamagui'
@@ -22,18 +22,29 @@ export interface MemoDatePickerProps {
     onConfirm?: (date?: Date) => void
 }
 
-export default function MemoDatePicker({ 
-    id = 'date-picker', 
-    value, 
-    state = 'default', 
-    placeholder, 
-    onConfirm 
+export default function MemoDatePicker({
+    id = 'date-picker',
+    value,
+    state = 'default',
+    placeholder,
+    onConfirm
 }: Readonly<MemoDatePickerProps>) {
     const [show, setShow] = useState(false)
     const [focus, setFocus] = useState(false)
     const { bgColor, placeholderColor, borderColor, textColor } = focus ? InputStateColors.focus : InputStateColors[state]
-    const [selectedDate, setSelectedDate] = useState(dayjs(value).format(CALENDAR_DATE_FORMAT))
-    const [currentDate, setCurrentDate] = useState(dayjs(value).format(CALENDAR_DATE_FORMAT))
+    const [selectedDate, setSelectedDate] = useState(dayjs(value || new Date()).format(CALENDAR_DATE_FORMAT))
+    const [currentDate, setCurrentDate] = useState(selectedDate)
+    // Memoize formatted display date
+    const displayDate = useMemo(() => selectedDate || placeholder, [selectedDate, placeholder])
+
+    // Sync internal state with value prop when it changes
+    useEffect(() => {
+      if (value) {
+          const formattedValue = dayjs(value).format(CALENDAR_DATE_FORMAT)
+          setSelectedDate(formattedValue)
+          setCurrentDate(formattedValue)
+      }
+    }, [value])
 
     function handleNextMonth() {
         setCurrentDate(prev => dayjs(prev).add(1, 'month').format(CALENDAR_DATE_FORMAT))
@@ -44,8 +55,9 @@ export default function MemoDatePicker({
     }
 
     function handleToday() {
-        setCurrentDate(dayjs().format(CALENDAR_DATE_FORMAT))
-        setSelectedDate(dayjs().format(CALENDAR_DATE_FORMAT))
+        const today = dayjs().format(CALENDAR_DATE_FORMAT)
+        setSelectedDate(today)
+        setCurrentDate(today)
     }
 
     function handleDayPick(date: DateData) {
@@ -61,6 +73,23 @@ export default function MemoDatePicker({
         onConfirm?.(dayjs(selectedDate).toDate())
         hideDatePicker()
     }
+
+    function handleCancel() {
+        setSelectedDate(dayjs(value || new Date()).format(CALENDAR_DATE_FORMAT))
+        hideDatePicker()
+    }
+
+    // Memoized calendar theme
+    const calendarTheme = useMemo(() => ({
+      arrowColor: Color['primary-2'],
+      todayTextColor: Color['primary-2'],
+      selectedDayBackgroundColor: Color['primary-2'],
+      selectedDayTextColor: Color['system-white'],
+      monthTextColor: Color['primary-2'],
+      textDayFontFamily: FontFamily['kanit-regular'],
+      textMonthFontFamily: FontFamily['kanit-medium'],
+      textDayHeaderFontFamily: FontFamily['kanit-medium'],
+    }), [])
 
     return (
         <MemoBottomSheet
@@ -80,7 +109,7 @@ export default function MemoDatePicker({
                             backgroundColor={bgColor}
                         >
                             <Text className='font-kanit-medium' style={{ color: selectedDate ? textColor : placeholderColor }}>
-                                {selectedDate ? dayjs(selectedDate).format('DD-MM-YYYY') : placeholder}
+                                {displayDate}
                             </Text>
                         </Input>
                         <XStack paddingRight={10} position='absolute'>
@@ -95,32 +124,20 @@ export default function MemoDatePicker({
             <View className='h-full justify-between gap-y-md'>
                 <Calendar
                     initialDate={currentDate}
-                    theme={{
-                        arrowColor: Color['primary-2'],
-                        todayTextColor: Color['primary-2'],
-                        selectedDayBackgroundColor: Color['primary-2'],
-                        selectedDayTextColor: Color['system-white'],
-                        monthTextColor: Color['primary-2'],
-                        textDayFontFamily: FontFamily['kanit-regular'],
-                        textMonthFontFamily: FontFamily['kanit-medium'],
-                        textDayHeaderFontFamily: FontFamily['kanit-medium'],
-                    }}
+                    theme={calendarTheme}
                     enableSwipeMonths
                     onDayPress={handleDayPick}
                     onPressArrowLeft={handlePreviousMonth}
                     onPressArrowRight={handleNextMonth}
                     markedDates={{
-                        [selectedDate]: { selected: true, disableTouchEvent: true, selectedDotColor: Color['primary-2'] }
+                        [selectedDate]: { selected: true, disableTouchEvent: true, selectedColor: Color['primary-2'] }
                     }}
                 />
                 <SelectSeparator />
                 <View className='w-full flex-row justify-between gap-x-xl'>
-                    <MemoButton size="full" name="ยกเลิก" variant="primary" onPress={hideDatePicker}/>
+                    <MemoButton size="full" name="ยกเลิก" variant="primary" onPress={handleCancel}/>
                     <MemoButton size="full" name="วันนี้" variant="ghost" onPress={handleToday}/>
                     <MemoButton size="full" name="ยืนยัน" variant="primary" onPress={handleConfirm}/>
-                    {/* <Button size='$4' onPress={hideDatePicker}>Cancel</Button>
-                    <Button size='$4' onPress={handleToday}>Today</Button>
-                    <Button size='$4' onPress={handleConfirm}>Confirm</Button> */}
                 </View>
             </View>
         </MemoBottomSheet>

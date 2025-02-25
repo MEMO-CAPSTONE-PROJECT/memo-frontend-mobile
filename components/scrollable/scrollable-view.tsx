@@ -15,25 +15,25 @@ interface ScrollableViewProps {
     onRefresh?: () => void
 }
 
-export default function ScrollableView({ 
-    gap = false, 
-    horizontal = false, 
-    showScrollIndicator = true, 
-    border = true, 
-    scrollEnabled = true, 
-    className, containerClassName, scrollClassName, children, onRefresh 
+export default function ScrollableView({
+    gap = false,
+    horizontal = false,
+    showScrollIndicator = true,
+    border = true,
+    scrollEnabled = true,
+    className, containerClassName, scrollClassName, children, onRefresh
 }: Readonly<ScrollableViewProps>) {
     const [refreshing, setRefreshing] = useState(false)
-    
+
     async function handleRefresh() {
         setRefreshing(true)
-        await onRefresh?.()
+        onRefresh?.()
         setRefreshing(false)
     }
 
     const getBorder = () => {
         if (border) {
-            if (scrollEnabled && !horizontal) 
+            if (scrollEnabled && !horizontal)
                 return "border-b-xsm border-b-body-2"
             else if (scrollEnabled && horizontal)
                 return "border-r-xsm border-r-body-2"

@@ -10,7 +10,7 @@ import { FilterMode, useStudentAchievementFilters } from "@/hooks/achievement/us
 import { useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
 import { useStudentToken } from "@/hooks/useUserToken"
 import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Text, View } from "react-native"
 
 const ACHIEVEMENT_SECTIONS: MemoSection[] = [
@@ -20,25 +20,25 @@ const ACHIEVEMENT_SECTIONS: MemoSection[] = [
 ]
 
 const ACHIEVEMENT_FILTERS = {
-  ALL: { name: "เป้าหมายทั้งหมด" },
-  OPEN: { name: "เป้าหมายที่เปิดรับ" },
+  ALL: { name: "ทั้งหมด" },
+  OPEN: { name: "กำลังเปิดรับ" },
   DOING: { name: "เป้าหมายของฉัน" }
 }
 
 export default function StudentHomeScreen() {
   const [mode, setMode] = useState<FilterMode>("open")
   const { data: student } = useStudentToken()
-  const { 
-    data: rawAchievements, 
-    refetch: refetchAll, 
-    isLoading: isLoadingAll, 
-    isError: isErrorAll 
+  const {
+    data: rawAchievements,
+    refetch: refetchAll,
+    isLoading: isLoadingAll,
+    isError: isErrorAll
   } = useStudentAchievementsQuery()
-  const { 
-    data: rawAchievementsDoing, 
-    refetch: refetchDoing, 
-    isLoading: isLoadingDoing, 
-    isError: isErrorDoing 
+  const {
+    data: rawAchievementsDoing,
+    refetch: refetchDoing,
+    isLoading: isLoadingDoing,
+    isError: isErrorDoing
   } = useStudentAchievementsQuery({ studentId: student?.sub })
   const isLoading = mode === "doing" ? isLoadingDoing : isLoadingAll
   const isError = mode === "doing" ? isErrorDoing : isErrorAll
@@ -49,20 +49,23 @@ export default function StudentHomeScreen() {
   const achievements = useMemo(
     () => rawAchievements?.data?.achievementStudent ?? [], [rawAchievements]
   )
-  
-  const { 
-    filteredAchievements, 
-    setSearchQuery 
+  useEffect(() => {
+    console.log(JSON.stringify(rawAchievements?.data?.achievementStudent))
+  }, [rawAchievements])
+
+  const {
+    filteredAchievements,
+    setSearchQuery
   } = useStudentAchievementFilters(
     mode === "doing" ? doingAchievements : achievements, mode
   )
 
   const filterButtons = [
-    // {
-    //   name: ACHIEVEMENT_FILTERS.ALL.name,
-    //   active: mode === "all",
-    //   onPress: () => setMode("all")
-    // },
+    {
+      name: ACHIEVEMENT_FILTERS.ALL.name,
+      active: mode === "all",
+      onPress: () => setMode("all")
+    },
     {
       name: ACHIEVEMENT_FILTERS.OPEN.name,
       active: mode === "open",
@@ -90,14 +93,14 @@ export default function StudentHomeScreen() {
         <MemoContentSkeleton isLoading={isLoading || isError}>
           <MemoSwitch test={filteredAchievements.length}>
             <MemoCase value={(test: number) => test > 0}>
-              <MemoAchievementList 
-                sections={ACHIEVEMENT_SECTIONS} 
-                achievements={filteredAchievements} 
-                onRefresh={handleRefresh} 
+              <MemoAchievementList
+                sections={ACHIEVEMENT_SECTIONS}
+                achievements={filteredAchievements}
+                onRefresh={handleRefresh}
                 href={(id, name) => ({
                   pathname: "/student/home/detail",
                   params: { id, name }
-                })} 
+                })}
               />
             </MemoCase>
             <MemoCase default>
