@@ -8,7 +8,7 @@ interface Section {
     endDate: string
     organizer: string
 }
-interface Point {
+export interface Point {
     id: string
     excellent: number
     normal: number
