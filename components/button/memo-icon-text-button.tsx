@@ -32,7 +32,7 @@ export default function MemoIconTextButton({ name, icon: Icon, variant = "primar
 
     return (
         <TouchableOpacity 
-            className={`${container} flex-row justify-between items-center rounded-xsm p-md gap-x-sm`} 
+            className={`${container} flex-row justify-between items-center rounded-sm px-lg h-5xl gap-x-sm`} 
             onPress={onPress}
             disabled={disabled}
         >

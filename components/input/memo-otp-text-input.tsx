@@ -56,7 +56,7 @@ export default function MemoOtpTextInput({
     }
     return (
         <View className="gap-y-lg">
-            <View className="flex w-full flex-row gap-x-lg justify-center">
+            <View className="flex w-full flex-row justify-between">
                 {codes.map((code, index) => (
                     <TextInput
                         key={index}

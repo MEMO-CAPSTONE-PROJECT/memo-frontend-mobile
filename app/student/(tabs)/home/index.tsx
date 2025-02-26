@@ -10,7 +10,7 @@ import { FilterMode, useStudentAchievementFilters } from "@/hooks/achievement/us
 import { useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
 import { useStudentToken } from "@/hooks/useUserToken"
 import { CalendarDots, GraduationCap, Medal } from "phosphor-react-native"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { Text, View } from "react-native"
 
 const ACHIEVEMENT_SECTIONS: MemoSection[] = [
@@ -49,10 +49,7 @@ export default function StudentHomeScreen() {
   const achievements = useMemo(
     () => rawAchievements?.data?.achievementStudent ?? [], [rawAchievements]
   )
-  useEffect(() => {
-    console.log(JSON.stringify(rawAchievements?.data?.achievementStudent))
-  }, [rawAchievements])
-
+  
   const {
     filteredAchievements,
     setSearchQuery

@@ -21,7 +21,7 @@ export default function MemoAptitudeRank({
     totalPoint,
     icon,
 }: Readonly<MemoAptitudeRankProps>) {
-    const percent = point/totalPoint*100
+    const percent = totalPoint === 0 ? 0 : (point / totalPoint) * 100
     const { name, icon: tier } = criteria.find((criterion) => percent > criterion.percent) ?? criteria[criteria.length - 1]
 
     return (

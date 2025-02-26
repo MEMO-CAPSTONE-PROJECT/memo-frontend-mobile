@@ -11,8 +11,8 @@ interface MemoIconButtonProps {
 export default function MemoIconButton({ icon: Icon, className, onPress }: Readonly<MemoIconButtonProps>) {
     return (
         <TouchableOpacity className={className} onPress={onPress}>
-            <View className="w-4xl h-4xl rounded-circle bg-primary-2 justify-center items-center">
-                <Icon color={Color["system-white"]} size={26} weight="bold" />
+            <View className="w-3xl h-3xl rounded-circle bg-primary-2 justify-center items-center">
+                <Icon color={Color["system-white"]} size={20} weight="bold" />
             </View>
         </TouchableOpacity>
     )

@@ -46,12 +46,12 @@ export default function MemoCharacterCard({ active, character, gender, onPress, 
         }
     }
     return (
-        <Pressable onPress={onPress} className={`flex-row items-center h-[100] rounded-sm p-xl gap-x-xl overflow-hidden ${container}`} {...props}>
+        <Pressable onPress={onPress} className={`flex-row items-center h-fit rounded-sm p-lg gap-x-xl overflow-hidden ${container}`} {...props}>
             {
                 active && (
                     <Fragment>
-                        <View className={`absolute -bottom-16 right-8 border-title-1 border-[30] opacity-20 w-[100] h-[100] rounded-circle`} />
-                        <View className={`absolute -top-12 -right-12 border-title-1 border-[30] opacity-20 w-[100] h-[100] rounded-circle`} />
+                        <View className={`absolute -bottom-16 right-8 border-title-1 border-[30px] opacity-20 w-[100px] h-[100px] rounded-circle`} />
+                        <View className={`absolute -top-12 -right-12 border-title-1 border-[30px] opacity-20 w-[100px] h-[100px] rounded-circle`} />
                     </Fragment>
                 )
             }

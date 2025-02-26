@@ -33,36 +33,40 @@ export default function QRCodeScreen() {
     const QRCodeData = JSON.parse(QRCodeRawData) as { achievementId: string, code?: string }
     return (
         <BrandingBackground>
-            <MemoCard size="full" className="items-center gap-y-3xl">
-                <MemoSelectionButton buttons={buttons}/>
+            <MemoCard size="full" className="items-center">
+                <View className="h-5xl">
+                    <MemoSelectionButton buttons={buttons}/>
+                </View>
                 <ScrollableView className="w-full px-[1.5rem] gap-y-xl items-center" border={false} scrollClassName="w-full">
-                    <View className="bg-primary-3 rounded-md w-[310] items-center justify-center h-[350] p-xl gap-y-xl">
-                        <View className="bg-system-white p-3xl justify-center items-center rounded-sm">
+                    <View className="bg-primary-3 rounded-md w-[300] items-center justify-center p-xl gap-y-xl">
+                        <View className="bg-system-white p-3xl justify-center items-center rounded-sm aspect-square">
                             <QRCode color={Color["title-1"]} value={QRCodeRawData} size={200} />  
                         </View>
                         <Text className="font-kanit-bold text-system-white text-body">@{name}</Text>
                     </View>
-                    <MemoLongCard>
-                        <Text className="font-kanit-bold text-title-1 text-section">{QRCodeData.code}</Text>
-                    </MemoLongCard>
-                    <MemoTimer initialTime={TIMER}>
-                        {(time, reset) => (
-                            <View className="w-full flex-row justify-between">
-                                <Text className="text-body-2 font-kanit-regular text-caption-1">
-                                    รหัสจะหมดอายุใน {getTimeMinuteSecond(time)} นาที
-                                </Text>
-                                <MemoTextButton
-                                    name="สร้างใหม่?"
-                                    onPress={() => {
-                                        reset()
-                                        refetch()
-                                    }}
-                                    disabled={time > 0}
-                                />
-                            </View>
-                        )}
-                    </MemoTimer>
-                    {/* <MemoButton variant="primary" name="แก้ไขเกณฑ์คะแนนกิจกรรม"/> */}
+                    <View className="w-[300] gap-y-xl">
+                        <MemoLongCard>
+                            <Text className="font-kanit-bold text-title-1 text-section">{QRCodeData.code}</Text>
+                        </MemoLongCard>
+                        <MemoTimer initialTime={TIMER}>
+                            {(time, reset) => (
+                                <View className="w-full flex-row justify-between">
+                                    <Text className="text-body-2 font-kanit-regular text-caption-1">
+                                        รหัสจะหมดอายุใน {getTimeMinuteSecond(time)} นาที
+                                    </Text>
+                                    <MemoTextButton
+                                        name="สร้างใหม่?"
+                                        onPress={() => {
+                                            reset()
+                                            refetch()
+                                        }}
+                                        disabled={time > 0}
+                                    />
+                                </View>
+                            )}
+                        </MemoTimer>
+                        {/* <MemoButton variant="primary" name="แก้ไขเกณฑ์คะแนนกิจกรรม"/> */}              
+                    </View>
                 </ScrollableView>
             </MemoCard>
         </BrandingBackground>
