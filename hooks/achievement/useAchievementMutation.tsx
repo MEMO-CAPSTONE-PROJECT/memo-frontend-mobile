@@ -96,7 +96,7 @@ interface JoinAchievementRequest {
 export function useJoinAchievementMutation() {
     return useMutation<null, AxiosError, JoinAchievementRequest>({
         mutationFn: async (request) => {
-            const result = await api.post(MemoApis.JOIN_ACHIEVEMENT, request)
+            const result = await api.put(MemoApis.JOIN_ACHIEVEMENT, request)
             return result.data
         },
     })

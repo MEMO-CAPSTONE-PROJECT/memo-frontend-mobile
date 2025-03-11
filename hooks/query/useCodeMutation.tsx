@@ -22,7 +22,7 @@ interface SubmitAchievementCodeResponse {
 export function useSubmitAchievementCodeMutation() {
     return useMutation<SubmitAchievementCodeResponse, AxiosError, SubmitAchievementCodeRequest>({
         mutationFn: async (request) => {
-            const result = await api.post(MemoApis.CREATE_STUDENT_SCORE, request)    
+            const result = await api.put(MemoApis.PUT_STUDENT_SCORE, request)    
             if (result instanceof AxiosError) {
                 return Promise.reject(result)
             }

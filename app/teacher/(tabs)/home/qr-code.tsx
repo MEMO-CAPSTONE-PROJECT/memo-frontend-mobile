@@ -1,5 +1,5 @@
 import BrandingBackground from "@/components/background/branding-background";
-import MemoSelectionButton from "@/components/button/memo-selection-button";
+import MemoSwitchButton from "@/components/button/memo-switch-button";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
 import MemoLongCard from "@/components/container/memo-long-card";
@@ -33,10 +33,8 @@ export default function QRCodeScreen() {
     const QRCodeData = JSON.parse(QRCodeRawData) as { achievementId: string, code?: string }
     return (
         <BrandingBackground>
-            <MemoCard size="full" className="items-center">
-                <View className="h-5xl">
-                    <MemoSelectionButton buttons={buttons}/>
-                </View>
+            <MemoCard size="full" className="items-center gap-y-xl">
+                <MemoSwitchButton buttons={buttons}/>
                 <ScrollableView className="w-full px-[1.5rem] gap-y-xl items-center" border={false} scrollClassName="w-full">
                     <View className="bg-primary-3 rounded-md w-[300] items-center justify-center p-xl gap-y-xl">
                         <View className="bg-system-white p-3xl justify-center items-center rounded-sm aspect-square">

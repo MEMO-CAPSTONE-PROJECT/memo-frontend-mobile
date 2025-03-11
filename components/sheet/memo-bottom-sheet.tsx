@@ -10,7 +10,7 @@ interface MemoBottomSheetProps {
     open?: boolean
     onOpenChange?: (open: boolean) => void
 }
-export default function MemoBottomSheet({ id, button, children, snapPoints, snapPointsMode, open = false, onOpenChange }: Readonly<MemoBottomSheetProps>) {
+export default function MemoBottomSheet({ id, button, children, snapPoints, snapPointsMode, open, onOpenChange }: Readonly<MemoBottomSheetProps>) {
     return (
         <Dialog open={open} key={id} onOpenChange={onOpenChange} modal>
             <Dialog.Trigger asChild>
@@ -26,7 +26,7 @@ export default function MemoBottomSheet({ id, button, children, snapPoints, snap
                     snapPoints={snapPoints}
                     snapPointsMode={snapPointsMode}
                 >
-                    <Sheet.Frame padding="$3" gap="$3" paddingBottom="$8" borderRadius="$8">
+                    <Sheet.Frame padding="$3" gap="$3" paddingBottom="$8">
                         <View 
                             className="w-10 h-1 bg-system-gray rounded-circle self-center"                           
                         />

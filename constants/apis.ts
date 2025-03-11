@@ -44,6 +44,6 @@ export const MemoApis = {
     PARENT_DETAIL: (phoneNumber: string) => `/v1/parent/${phoneNumber}`, //required Bearer token
     STUDENT_DETAIL: (id: string) => `/v1/student/${id}`, //required Bearer token
     
-    CREATE_STUDENT_SCORE: `/v1/student/score`, //required Bearer token, required body
-    POST_MILESTONE_SPENDING: `/v1/milestone/spending`, //required Bearer token, required body
+    PUT_STUDENT_SCORE: `/v1/student/score`, //required Bearer token, required body
+    PUT_MILESTONE_SPENDING: `/v1/milestone/spending`, //required Bearer token, required body
 }

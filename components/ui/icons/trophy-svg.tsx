@@ -2,15 +2,16 @@ import { Color } from "@/constants/theme/color"
 import { View } from "react-native"
 import Svg, { Path, Rect } from "react-native-svg"
 
-interface BookSvgProps {
-    size: number
+interface TrophySvgProps {
+    width: number
+    height: number
     className?: string
 }
 
-export default function TrophySvg({ size, className = "" }: Readonly<BookSvgProps>) {
+export default function TrophySvg({ width, height, className = "" }: Readonly<TrophySvgProps>) {
     return (
         <View className={className}>
-            <Svg width={size} height={size} viewBox="0 0 76 140" fill="none">
+            <Svg width={width} height={height} viewBox="0 0 76 140" fill="none">
                 <Rect x="1" y="125" width="75" height="15" rx="5" fill={Color["system-dark-brown"]} />
                 <Rect x="8" y="86" width="60" height="30" rx="5" fill={Color["system-brown"]} />
                 <Rect x="8" y="95" width="60" height="30" fill={Color["system-brown"]} />
