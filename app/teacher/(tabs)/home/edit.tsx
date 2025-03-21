@@ -2,6 +2,7 @@ import BrandingBackground from "@/components/background/branding-background"
 import MemoImageCarouselPicker from "@/components/carousel/memo-image-carousel-picker"
 import MemoCard from "@/components/container/memo-card"
 import MemoAchievementForm from "@/components/ui/kits/form/memo-achievement-form"
+import { useFormContext } from "@/context/useForm"
 import { BaseImageRequestBody, useEditTeacherAchievementMutation } from "@/hooks/achievement/useAchievementMutation"
 import { useTeacherAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery"
 import { useDeleteAchievement } from "@/hooks/achievement/useDeleteAchievement"
@@ -25,11 +26,8 @@ export default function TeacherHomeEditScreen() {
 
     const teacherAchievement = rawTeacherAchievement?.data?.achievementTeacher
 
+    const { form, update, reset, errors } = useFormContext()
     const { 
-        errors,
-        form, 
-        update, 
-        reset,
         handleAddType,
         handleRemoveType,
         handleSubmit,
@@ -100,11 +98,8 @@ export default function TeacherHomeEditScreen() {
             <MemoCard size="full" className="!p-0">
                 <MemoAchievementForm
                     isLoading={isLoadingAchievement}
-                    form={form}
-                    errors={errors}
                     error={error}
                     maxTypes={MAX_ACHIEVEMENT_TYPE}
-                    update={update}
                     onAddType={handleAddType}
                     onRemoveType={handleRemoveType}
                     primaryButton={{

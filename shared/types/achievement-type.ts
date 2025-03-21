@@ -65,3 +65,8 @@ export interface MemoAchievementAptitude {
     type: string
     color: string
 }
+
+export interface StudentScore {
+    type: string
+    score: number
+}

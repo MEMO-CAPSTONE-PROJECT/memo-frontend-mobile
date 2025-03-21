@@ -23,8 +23,6 @@ export default function MemoTextAreaInput({ state = "default", ...props }: Reado
             borderColor={borderColor}
             backgroundColor={bgColor}
             color={textColor}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
             focusStyle={{
                 borderWidth: getMemoBorderWidth("xsm"),
                 borderColor: InputStateColors.focus.borderColor,
@@ -32,6 +30,8 @@ export default function MemoTextAreaInput({ state = "default", ...props }: Reado
                 color: InputStateColors.focus.textColor
             }}
             {...props}
+            onFocus={(e) => (setFocus(true), props.onFocus?.(e))}
+            onBlur={(e) => (setFocus(false), props.onBlur?.(e))}
         />
     )
 }

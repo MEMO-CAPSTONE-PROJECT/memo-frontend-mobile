@@ -5,12 +5,11 @@ import MemoDatePickerHelper from "@/components/input/helper/memo-date-picker-hel
 import MemoTextAreaInputHelper from "@/components/input/helper/memo-text-area-input-helper"
 import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper"
 import MemoAptitudePicker from "@/components/ui/kits/form/memo-aptitude-picker"
+import { useFormContext } from "@/context/useForm"
 import { UpsertAchievementForm } from "@/hooks/achievement/useUpsertAchievement"
-import { PickerResult } from "@baronha/react-native-multiple-image-picker"
 import { PlusCircle } from "phosphor-react-native"
 import { View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { ZodFormattedError } from "zod"
 
 interface MemoAchievementFormButton {
     label: string
@@ -18,14 +17,10 @@ interface MemoAchievementFormButton {
 }
 
 interface MemoAchievementFormProps {
-    initialImages?: PickerResult[]
     isLoading?: boolean
-    form: UpsertAchievementForm
-    errors?: ZodFormattedError<UpsertAchievementForm, string>
     error?: string
     minTypes?: number
     maxTypes: number
-    update: (key: any, value: any) => void
     onAddType: () => void
     onRemoveType: (index: number) => void
     primaryButton: MemoAchievementFormButton
@@ -34,20 +29,17 @@ interface MemoAchievementFormProps {
 }
 
 export default function MemoAchievementForm({
-    initialImages,
-    form,
-    errors,
     error,
     minTypes = 1,
     maxTypes,
     isLoading,
-    update,
     onAddType,
     onRemoveType,
     primaryButton,
     secondaryButton,
     children
 }: Readonly<MemoAchievementFormProps>) {
+    const { form, update, errors, setError } = useFormContext<UpsertAchievementForm>()
     return (
         <KeyboardAwareScrollView>
             <View className="gap-y-lg px-[1.5rem] pb-[1.5rem]">
@@ -59,7 +51,7 @@ export default function MemoAchievementForm({
                             placeholder="วันที่เปิด"
                             value={form.startDate}
                             error={errors?.startDate?._errors[0]}
-                            onConfirm={(date) => date && update("startDate", date)}
+                            onConfirm={(date) => date && (update("startDate", date, true))}
                         />
                         <MemoDatePickerHelper
                             id="end-date"
@@ -67,7 +59,7 @@ export default function MemoAchievementForm({
                             placeholder="วันที่ปิด"
                             value={form.endDate}
                             error={errors?.endDate?._errors[0]}
-                            onConfirm={(date) => date && update("endDate", date)}
+                            onConfirm={(date) => date && update("endDate", date, true)}
                         />
                     </View>
                     <MemoTextInputHelper
@@ -76,6 +68,7 @@ export default function MemoAchievementForm({
                         value={form.name}
                         error={errors?.name?._errors[0]}
                         onChangeText={(text) => update("name", text)}
+                        onBlur={() => setError("name", undefined)}
                     />
                     <MemoTextInputHelper
                         label="จำนวนที่เข้าร่วมได้"
@@ -84,8 +77,9 @@ export default function MemoAchievementForm({
                         value={form.amount}
                         error={errors?.amount?._errors[0]}
                         onChangeText={(text) => update("amount", text)}
+                        onBlur={() => setError("amount", undefined)}
                     />
-                    {form.points.map((point, index) => (
+                    {form.points?.map((point, index) => (
                         <MemoAptitudePicker
                             key={point.id || index}
                             remove={minTypes-1 !== index}
@@ -94,22 +88,24 @@ export default function MemoAchievementForm({
                                 id: {
                                     value: point.id,
                                     error: errors?.points?.[index]?.id?._errors[0],
-                                    onChange: (text) => update(`points.${index}.id`, text),
+                                    onChange: (text) => update(`points.${index}.id`, text, true),
                                 },
                                 normal: {
                                     value: point.normal,
                                     error: errors?.points?.[index]?.normal?._errors[0],
                                     onChange: (text) => update(`points.${index}.normal`, text),
+                                    onBlur: () => setError(`points.${index}.normal`, undefined),
                                 },
                                 excellent: {
                                     value: point.excellent,
                                     error: errors?.points?.[index]?.excellent?._errors[0],
                                     onChange: (text) => update(`points.${index}.excellent`, text),
+                                    onBlur: () => setError(`points.${index}.excellent`, undefined),
                                 },
                             }}
                         />
                     ))}
-                    {form.points.length < maxTypes && (
+                    {form.points?.length < maxTypes && (
                         <MemoInputButton
                             icon={PlusCircle}
                             iconVariant="success"
@@ -123,6 +119,7 @@ export default function MemoAchievementForm({
                         value={form.description}
                         error={errors?.description?._errors[0]}
                         onChangeText={(text) => update("description", text)}
+                        onBlur={() => setError("description", undefined)}
                     />
                     {children}
                 </View>

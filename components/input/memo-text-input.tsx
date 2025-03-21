@@ -41,9 +41,9 @@ export default function MemoTextInput({ placeholder, state = "default", classNam
                 }}
                 editable={state !== "disabled"}
                 selectTextOnFocus={state !== "disabled"}
-                onFocus={() => setFocus(true)}
-                onBlur={() => setFocus(false)}
                 {...textInputProps}
+                onFocus={(e) => (setFocus(true), textInputProps.onFocus?.(e))}
+                onBlur={(e) => (setFocus(false), textInputProps.onBlur?.(e))}
             />  
            <View className="p-lg pl-1">{DecorationIcon}</View>  
         </View>

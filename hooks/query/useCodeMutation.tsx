@@ -1,5 +1,6 @@
 import { MemoApis } from "@/constants/apis"
 import api from "@/shared/api-handler"
+import { StudentScore } from "@/shared/types/achievement-type"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 
@@ -7,10 +8,6 @@ interface SubmitAchievementCodeRequest {
     studentId: string
     achievementId: string
     code: string
-}
-interface StudentScore {
-    type: string
-    score: number
 }
 
 interface SubmitAchievementCodeResponse {

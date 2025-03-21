@@ -30,22 +30,11 @@ export default function StudentHomeScreen() {
   const { data: student } = useStudentToken()
   const {
     data: rawAchievements,
-    refetch: refetchAll,
-    isLoading: isLoadingAll,
-    isError: isErrorAll
-  } = useStudentAchievementsQuery()
-  const {
-    data: rawAchievementsDoing,
-    refetch: refetchDoing,
-    isLoading: isLoadingDoing,
-    isError: isErrorDoing
-  } = useStudentAchievementsQuery({ studentId: student?.sub })
-  const isLoading = mode === "doing" ? isLoadingDoing : isLoadingAll
-  const isError = mode === "doing" ? isErrorDoing : isErrorAll
+    refetch,
+    isLoading,
+    isError
+  } = useStudentAchievementsQuery({ studentId: mode === "doing" ? student?.sub : undefined })
 
-  const doingAchievements = useMemo(
-    () => rawAchievementsDoing?.data?.achievementStudent ?? [], [rawAchievementsDoing]
-  )
   const achievements = useMemo(
     () => rawAchievements?.data?.achievementStudent ?? [], [rawAchievements]
   )
@@ -53,9 +42,7 @@ export default function StudentHomeScreen() {
   const {
     filteredAchievements,
     setSearchQuery
-  } = useStudentAchievementFilters(
-    mode === "doing" ? doingAchievements : achievements, mode
-  )
+  } = useStudentAchievementFilters(achievements, mode)
 
   const filterButtons = [
     {
@@ -76,8 +63,7 @@ export default function StudentHomeScreen() {
   ]
   const handleSearch = (text: string) => setSearchQuery(text)
   const handleRefresh = async () => {
-    if (mode === "doing") refetchDoing()
-    else refetchAll()
+    refetch()
   }
 
   return (

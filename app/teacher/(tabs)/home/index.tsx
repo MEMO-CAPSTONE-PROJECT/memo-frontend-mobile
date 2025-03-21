@@ -82,11 +82,14 @@ export default function TeacherHomeScreen() {
     return (
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="relative gap-y-xl !p-0">
+                <MemoIconButton 
+                    className="absolute bottom-4 right-4 z-20" 
+                    icon={Plus} 
+                    onPress={handleCreate} 
+                />
                 <View className="gap-y-xl px-[1.5rem]">
                     <MemoSearchBar placeholder="ค้นหา เช่น แข่งเพชรยอ..." onSearch={handleSearch} />
-                    <MemoSelectionButton buttons={filterButtons}>
-                        <MemoIconButton icon={Plus} onPress={handleCreate} />
-                    </MemoSelectionButton>
+                    <MemoSelectionButton buttons={filterButtons}/>
                 </View>
                 <MemoContentSkeleton isLoading={isLoading || isError}>
                     <MemoSwitch test={filteredAchievements.length}>

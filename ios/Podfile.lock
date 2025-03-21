@@ -1892,6 +1892,9 @@ PODS:
     - React-logger (= 0.75.5)
     - React-perflogger (= 0.75.5)
     - React-utils (= 0.75.5)
+  - RNAS (0.5.5):
+    - ExpoModulesCore
+    - TrustKit (~> 3.0.3)
   - RNDateTimePicker (8.0.1):
     - React-Core
   - RNGestureHandler (2.23.1):
@@ -2032,6 +2035,7 @@ PODS:
   - "sqlite3 (3.45.3+1)":
     - "sqlite3/common (= 3.45.3+1)"
   - "sqlite3/common (3.45.3+1)"
+  - TrustKit (3.0.4)
   - Yoga (0.0.0)
   - ZXingObjC/Core (3.6.9)
   - ZXingObjC/OneD (3.6.9):
@@ -2130,6 +2134,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNAS (from `../node_modules/@bam.tech/react-native-app-security/ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -2145,6 +2150,7 @@ SPEC REPOS:
     - ReachabilitySwift
     - SocketRocket
     - sqlite3
+    - TrustKit
     - ZXingObjC
 
 EXTERNAL SOURCES:
@@ -2325,6 +2331,8 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAS:
+    :path: "../node_modules/@bam.tech/react-native-app-security/ios"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
@@ -2432,6 +2440,7 @@ SPEC CHECKSUMS:
   React-utils: 40f04d50cc917b80d5f829e48635a273a7e5a0c1
   ReactCodegen: c672218d62eee3026615eeec882d862395e61cd8
   ReactCommon: c5f4dfc5a41d58a8013df370cf733de9782c7659
+  RNAS: d9b1ec1629e176155f08c61111da4ef1268a6e2c
   RNDateTimePicker: b6a9b35a785ecbe12b4e7d6de5439d0aa4614146
   RNGestureHandler: 7ca7ca7bddcf4853b9a6544db6163e0e5435ddfc
   RNPermissions: afdb6cfe8dc8260e951f6124d54e322db72f9056
@@ -2440,6 +2449,7 @@ SPEC CHECKSUMS:
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
+  TrustKit: 403e8d2cfbff2abfc37cd41acc558dab8ec78e59
   Yoga: 1dd9dabb9df8fe08f12cd522eae04a2da0e252eb
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 

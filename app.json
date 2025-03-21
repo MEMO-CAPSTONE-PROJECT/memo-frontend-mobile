@@ -59,6 +59,21 @@
             "Microphone"
           ]
         }
+      ],
+      [
+        "@bam.tech/react-native-app-security",
+        {
+          "sslPinning": {
+            "cp24sy1.sit.kmutt.ac.th": [
+              "CjiudSE2o7J/7z2bjQWZOc6iOjTPLhNL/YlA7jwRTUg=",
+              "D/gVVDw3QmEcABNFq8MHrxQTDonIRi2aWgAstptGUiY="
+            ]
+          },
+          "preventRecentScreenshots": {
+            "ios": { "enabled": true },
+            "android": { "enabled": true }
+          }
+        }
       ]
     ],
     "experiments": {

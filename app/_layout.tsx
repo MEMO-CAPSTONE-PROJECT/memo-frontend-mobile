@@ -1,5 +1,7 @@
 import AnimatedAppLoader from '@/components/animated/animated-app-loader'
 import { AuthProvider } from '@/context/useAuth'
+import { ModalProvider } from '@/context/useModal'
+import { initializeCalendarConfig } from '@/shared/config'
 import tamaguiConfig from '@/tamagui.config'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { TamaguiProvider } from "@tamagui/core"
@@ -12,7 +14,6 @@ import { Text } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { PortalProvider } from 'tamagui'
-import { initializeCalendarConfig } from '@/shared/config'
 import './global.css'
 
 const queryClient = new QueryClient()
@@ -40,22 +41,24 @@ export default function RootLayout() {
 
   return (
     <PortalProvider shouldAddRootHost>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <AnimatedAppLoader>
-              <TamaguiProvider config={tamaguiConfig}>
-                <ThemeProvider value={DefaultTheme}>
-                  <Stack screenOptions={{ headerShown: false, }}>
-                    <Stack.Screen name="(index)" />
-                    <Stack.Screen name="+not-found" />
-                  </Stack>
-                </ThemeProvider>
-              </TamaguiProvider>
-            </AnimatedAppLoader>
-          </AuthProvider>
-        </QueryClientProvider>
-      </GestureHandlerRootView>
+      <ModalProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <AnimatedAppLoader>
+                <TamaguiProvider config={tamaguiConfig}>
+                  <ThemeProvider value={DefaultTheme}>
+                    <Stack screenOptions={{ headerShown: false, }}>
+                      <Stack.Screen name="(index)" />
+                      <Stack.Screen name="+not-found" />
+                    </Stack>
+                  </ThemeProvider>
+                </TamaguiProvider>
+              </AnimatedAppLoader>
+            </AuthProvider>
+          </QueryClientProvider>
+        </GestureHandlerRootView>
+      </ModalProvider>
     </PortalProvider>
   )
 }

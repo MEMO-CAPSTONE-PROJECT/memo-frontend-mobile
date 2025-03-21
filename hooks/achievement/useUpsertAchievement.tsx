@@ -1,16 +1,16 @@
+import { useFormContext } from "@/context/useForm"
 import { BaseAchievementBody, BaseAchievementRequest, BaseImageRequestBody } from "@/hooks/achievement/useAchievementMutation"
 import { useTeacherAchievementsQuery } from "@/hooks/achievement/useAchievementQuery"
-import useForm from "@/hooks/useForm"
 import { useTeacherToken } from "@/hooks/useUserToken"
 import { getDateISOString, removeHours } from "@/shared/utils/date-util"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import { Dispatch, SetStateAction, useState } from "react"
-import { z, ZodFormattedError } from "zod"
+import { Dispatch, SetStateAction } from "react"
+import { z } from "zod"
 
 export const MAX_ACHIEVEMENT_TYPE = 2
 
-const UpsertAchievementSchema = z.object({
+export const UpsertAchievementSchema = z.object({
     name: z.string().min(1, "กรุณาใส่ชื่อเป้าหมาย").max(50, "ไม่สามารถเกิน 50 ได้"),
     amount: z.string().min(1, "กรุณาใส่จำนวนที่เข้าร่วม").max(3, "ไม่สามารถเกิน 999 ได้"),
     startDate: z.coerce.date({ 
@@ -53,15 +53,8 @@ export function useUpsertAchievement<T extends BaseAchievementBody>(
     const { data: rawTeacherAchievements, refetch: refetchAchievements } = useTeacherAchievementsQuery()
     const teacherAchievements = rawTeacherAchievements?.data?.achievementTeacher
 
-    const [errors, setErrors] = useState<ZodFormattedError<UpsertAchievementForm, string>>()
-    const { form, update, reset } = useForm<UpsertAchievementForm>({
-        name: "",
-        amount: "",
-        startDate: new Date(),
-        endDate: new Date(),
-        points: [{ id: "", normal: "", excellent: "" }],
-        description: ""
-    })
+    // const [errors, setErrors] = useState<ZodFormattedError<UpsertAchievementForm, string>>()
+    const { form, update, setErrors, } = useFormContext<UpsertAchievementForm>()
 
     const handleAddType = () => {
         if (form.points.length >= MAX_ACHIEVEMENT_TYPE) return
@@ -115,10 +108,6 @@ export function useUpsertAchievement<T extends BaseAchievementBody>(
 
     return {
         teacherAchievements,
-        form,
-        errors,
-        update,
-        reset,
         handleAddType,
         handleRemoveType,
         handleSubmit,

@@ -15,11 +15,13 @@ interface MemoAptitudePickerProps {
             value?: string
             error?: string
             onChange?: (text: string) => void
+            onBlur?: () => void
         }
         excellent: {
             value?: string
             error?: string
             onChange?: (text: string) => void
+            onBlur?: () => void
         }
     }
     remove?: boolean
@@ -56,6 +58,7 @@ export default function MemoAptitudePicker({ data, remove = true, onRemove }: Re
                     value={data.normal?.value}
                     error={data.normal?.error}
                     onChangeText={data.normal?.onChange}
+                    onBlur={data.normal?.onBlur}
                 />
                 <MemoTextInputHelper
                     placeholder="คะแนนคนเก่ง"
@@ -63,6 +66,7 @@ export default function MemoAptitudePicker({ data, remove = true, onRemove }: Re
                     value={data.excellent?.value}
                     error={data.excellent?.error}
                     onChangeText={data.excellent?.onChange}
+                    onBlur={data.excellent?.onBlur}
                 />
             </View>
         </Fragment>

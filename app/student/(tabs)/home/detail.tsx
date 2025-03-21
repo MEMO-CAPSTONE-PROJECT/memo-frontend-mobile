@@ -5,11 +5,13 @@ import ScrollableView from "@/components/scrollable/scrollable-view";
 import MemoContentDetail from "@/components/ui/kits/container/memo-content-detail";
 import MemoDetailSkeleton from "@/components/ui/kits/skeleton/memo-detail-skeleton";
 import MemoCouponModal from "@/components/ui/modal/memo-coupon-modal";
+import MemoRewardModal from "@/components/ui/modal/memo-reward-modal";
+import { useModal } from "@/context/useModal";
 import { useJoinAchievementMutation } from "@/hooks/achievement/useAchievementMutation";
-import { useStudentAchievementByIdQuery } from "@/hooks/achievement/useAchievementQuery";
+import { useStudentAchievementByIdQuery, useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery";
 import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
-import { formattedTotalScore } from "@/shared/utils/aptitude-util";
+import { StudentScore } from "@/shared/types/achievement-type";
 import { AxiosError } from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { NotePencil, QrCode } from "phosphor-react-native";
@@ -18,9 +20,11 @@ import { Alert, Text, View } from "react-native";
 export default function StudentDetailScreen() {
     const { id: achievementId } = useLocalSearchParams()
     const { data: student} = useStudentToken()
+    const { refetch: refetchAchievements } = useStudentAchievementsQuery({ studentId: student?.sub })
     const { data, isLoading, isError, refetch: refetchAchievement } = useStudentAchievementByIdQuery(achievementId as string, { studentId: student?.sub ?? "all" })
     const { mutateAsync: joinAchievement } = useJoinAchievementMutation()
     const { mutateAsync: submitCode } = useSubmitAchievementCodeMutation()
+    const { showModal } = useModal()
     const achievement = data?.data?.achievementStudent
 
     const participant = achievement?.participants
@@ -41,6 +45,13 @@ export default function StudentDetailScreen() {
     const disabledJoinButton = isParticipant || !isOpen || isMax
     const { name: statusName, color: statusColor } = getStatus()
 
+    const handleOpenCouponModal = () => showModal(() => {
+        return <MemoCouponModal onSubmit={handleSubmitCode}/>
+    })
+    const handleOpenRewardModal = (rewards: StudentScore[]) => showModal(() => {
+        return <MemoRewardModal rewards={rewards}/>
+    })
+
     const handleJoinAchievement = async () => {
         try {
             const response = await joinAchievement({ 
@@ -53,6 +64,7 @@ export default function StudentDetailScreen() {
                     { text: "ตกลง", style: "cancel" }
                 ])
                 refetchAchievement()
+                refetchAchievements()
             } else {
                 Alert.alert("ล้มเหลว", "คุณไม่สามารถสมัครเป้าหมายได้", [
                     { text: "ตกลง", style: "cancel" }
@@ -71,12 +83,16 @@ export default function StudentDetailScreen() {
                 achievementId: achievementId as string,
                 code: code
             })
-            const title = response ? "สำเร็จ" : "ล้มเหลว"
-            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "ชุดรหัสไม่ถูกต้อง"
-            Alert.alert(title, message, [
-                { text: "ตกลง", style: "cancel" }
-            ])
-            refetchAchievement()
+
+            if (response) {
+                handleOpenRewardModal(response.data.totalScore)
+                refetchAchievement()
+                refetchAchievements()
+            } else {
+                Alert.alert("ล้มเหลว", "ชุดรหัสไม่ถูกต้อง", [
+                    { text: "ตกลง", style: "cancel" }
+                ])
+            }
         } catch (error) {
             console.log(error)
 
@@ -97,17 +113,13 @@ export default function StudentDetailScreen() {
                                 <Text className="font-kanit-regular text-body text-title-1">
                                     สถานะ <Text className={statusColor}>{statusName}</Text>
                                 </Text>
-                                <MemoCouponModal onSubmit={handleSubmitCode}>
-                                    {(setVisible) => (
-                                        <MemoIconTextButton 
-                                            name="กรอกรหัส" 
-                                            icon={QrCode} 
-                                            variant="secondary" 
-                                            disabled={disabledCodeButton} 
-                                            onPress={() => setVisible(true)} 
-                                        />
-                                    )}
-                                </MemoCouponModal>
+                                <MemoIconTextButton
+                                    name="กรอกรหัส"
+                                    icon={QrCode}
+                                    variant="secondary"
+                                    disabled={disabledCodeButton}
+                                    onPress={handleOpenCouponModal}
+                                />
                                 <MemoIconTextButton 
                                     name={"ลงทะเบียน"} 
                                     icon={NotePencil} 

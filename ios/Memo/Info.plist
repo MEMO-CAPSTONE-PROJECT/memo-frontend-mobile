@@ -62,7 +62,34 @@
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
+    <key>RNAS_PREVENT_RECENT_SCREENSHOTS</key>
+    <true/>
+    <key>TSKConfiguration</key>
+    <dict>
+      <key>TSKSwizzleNetworkDelegates</key>
+      <true/>
+      <key>TSKPinnedDomains</key>
+      <dict>
+        <key>cp24sy1.sit.kmutt.ac.th</key>
+        <dict>
+          <key>TSKEnforcePinning</key>
+          <true/>
+          <key>TSKIncludeSubdomains</key>
+          <false/>
+          <key>TSKPublicKeyHashes</key>
+          <array>
+            <string>CjiudSE2o7J/7z2bjQWZOc6iOjTPLhNL/YlA7jwRTUg=</string>
+            <string>D/gVVDw3QmEcABNFq8MHrxQTDonIRi2aWgAstptGUiY=</string>
+          </array>
+        </dict>
+      </dict>
+    </dict>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

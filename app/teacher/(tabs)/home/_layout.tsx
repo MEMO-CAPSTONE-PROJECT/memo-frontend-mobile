@@ -1,5 +1,7 @@
 
 import MemoAppBar from "@/components/bar/memo-appbar";
+import { FormProvider } from "@/context/useForm";
+import { UpsertAchievementForm } from "@/hooks/achievement/useUpsertAchievement";
 
 export default function StudentHomeLayout() {
     const stacks = [
@@ -9,5 +11,16 @@ export default function StudentHomeLayout() {
         { title: () => "แก้ไขเป้าหมาย", route: "edit" },
         { title: () => "QR สำหรับให้คะแนน", route: "qr-code"}
     ]
-    return (<MemoAppBar stacks={stacks}/>)
+    return (
+        <FormProvider<UpsertAchievementForm> initialValues={{
+            name: "",
+            amount: "",
+            startDate: new Date(),
+            endDate: new Date(),
+            points: [{ id: "", normal: "", excellent: "" }],
+            description: ""
+        }}>
+            <MemoAppBar stacks={stacks}/>
+        </FormProvider>
+    )
 }
