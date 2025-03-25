@@ -51,7 +51,7 @@ export default function ParentStudentsScreen() {
                                 active={index === active}
                                 onPress={() => handleCardPress(index, student.studentId)}
                                 texts={[
-                                    { text: `${student.firstName} ${student.lastName}`, extraClassName: "font-kanit-bold text-title" },
+                                    { text: `${student.firstName} ${student.lastName}`, extraClassName: "font-kanit-bold text-body" },
                                     { text: `รหัสนักเรียน ${student.studentId}`, extraClassName: "font-kanit-regular text-body" },
                                     { text: `ชั้น ป.${student.classLevel}/${student.classRoom}`, extraClassName: "font-kanit-regular text-body" },
                                 ]}

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { TouchableOpacity } from "react-native";
 
 interface MemoBaseNavigatorCardProps {
@@ -15,7 +16,7 @@ export default function MemoBaseNavigatorCard({
 }: Readonly<MemoBaseNavigatorCardProps>) {
     return (
         <TouchableOpacity
-            className={`flex-row items-center justify-between border-xsm border-system-gray h-fit rounded-sm p-lg ${disabled ? "opacity-25" : ""} ${className}`}
+            className={clsx(`flex-row items-center justify-between border-xsm border-system-gray h-fit rounded-sm p-lg ${disabled ? "opacity-25" : ""}`, className)}
             disabled={disabled}
             onPress={onPress}
         >

@@ -24,7 +24,7 @@ export default function SurpriseParentSvg({ className }: Readonly<SurpriseParent
                     <RectangleSvg size={14} className="absolute bottom-3 left-9 rotate-[-30deg]"/>
                 </View>
                 <MedalSvg className="absolute top-6 left-[11.5rem] rotate-[-15deg]" size={45}/>
-                <TrophySvg className="absolute top-[5.5rem] left-[9.5rem] rotate-[10deg]" size={90}/>
+                <TrophySvg className="absolute top-[5.5rem] left-[9.5rem] rotate-[10deg]" width={90} height={90}/>
                 <ParentWomanHappySvg className="absolute top-10 left-4 rotate-[-20deg]" size={120}/>
                 <ParentManHappySvg className="absolute top-20 right-6 rotate-[30deg]" size={120} flip/>
             </View>

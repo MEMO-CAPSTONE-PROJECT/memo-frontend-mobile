@@ -9,7 +9,7 @@ import { useStudentByIdQuery } from "@/hooks/query/useUserQuery"
 import { useParentToken } from "@/hooks/useUserToken"
 import { isMan } from "@/shared/utils/gender-util"
 import { router, useLocalSearchParams } from "expo-router"
-import { ChartDonut, CheckFat, User } from "phosphor-react-native"
+import { ChartBar, ChartDonut, PersonArmsSpread } from "phosphor-react-native"
 import { Text, View } from "react-native"
 
 export default function ParentHomeScreen() {
@@ -24,6 +24,9 @@ export default function ParentHomeScreen() {
             params: { studentId: studentId }
         })
     }
+    function handleSummary() {
+        router.push("/parent/home/summary")
+    }
     const name = `คุณ ${parent?.firstName} ${parent?.lastName} `
     const studentName = `ดูข้อมูลของ ${student?.firstName ?? ""} ${student?.lastName ?? ""}`
 
@@ -31,10 +34,11 @@ export default function ParentHomeScreen() {
         <BrandingBackground variant="secondary">
             <MemoCard size="full" className="gap-y-3xl">
                 <View className="flex-row justify-between items-center">
-                    <View className="gap-y-sm">
+                    <View className="gap-y-xsm">
                         <Text className="font-kanit-bold text-title text-title-1">ยินดีต้อนรับ</Text>
                         <Text className="font-kanit-medium text-body text-body-1">{name}</Text>
                         <Text className="font-kanit-regular text-caption-1 text-body-1">{studentName}</Text>
+                        <Text className="font-kanit-regular text-caption-1 text-body-1">ชั้น ป. {student?.classLevel}/{student?.classRoom}</Text>
                     </View>
                     <View className="flex-row items-end">
                         {!isLoading && isMan(parent?.gender ?? "") ? <ParentManDefaultSvg size={80}/> : <ParentWomanDefaultSvg size={80}/> }
@@ -43,8 +47,8 @@ export default function ParentHomeScreen() {
                 </View>
                 <View className="gap-y-lg">
                     <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handleAptitude} />
-                    <MemoNavigatorCard disabled title="บุคลิกของบุตรหลาน" className="bg-secondary-2" Icon={User} />
-                    <MemoNavigatorCard disabled title="เหรียญและถ้วยรางวัล" className="bg-secondary-3" Icon={CheckFat} />
+                    <MemoNavigatorCard title="วิเคราะห์การเข้าร่วมกิจกรรม" className="bg-secondary-3" Icon={ChartBar} onPress={handleSummary} />
+                    <MemoNavigatorCard title="บุคลิกของบุตรหลาน" className="bg-secondary-2" Icon={PersonArmsSpread} />
                 </View>
             </MemoCard>
         </BrandingBackground>

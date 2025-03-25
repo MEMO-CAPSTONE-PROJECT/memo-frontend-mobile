@@ -6,16 +6,18 @@ import { View } from "react-native";
 import Svg, { Circle, Ellipse, G, Mask, Path, Rect } from "react-native-svg";
 
 interface StudentGirlDefaultSvgProps {
-    size: number
+    size?: number
+    width?: number
+    height?: number
     className?: string
     flip?: boolean
     container?: keyof ContainerType
 }
 
-export default function StudentGirlDefaultSvg({ size, className = "", flip = false, container = "none" }: Readonly<StudentGirlDefaultSvgProps>) {
+export default function StudentGirlDefaultSvg({ size, width, height, className = "", flip = false, container = "none" }: Readonly<StudentGirlDefaultSvgProps>) {
     return (
         <View className={`${ContainerSize[container]} ${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
-            <Svg width={size} height={size} viewBox="0 0 122 147" fill="none">
+            <Svg width={width ?? size} height={height ?? size} viewBox="0 0 122 147" fill="none">
                 <Rect y="29" width="122" height="118" rx="20" fill={Color["title-1"]} />
                 <Rect x="10.0001" y="57" width="102" height="90" rx="30" fill={Color["secondary-4"]} />
                 <Path d="M55.0001 130C55.0001 127.791 56.791 126 59.0001 126H65.0001H71.0001C73.2093 126 75.0001 127.791 75.0001 130V132C75.0001 134.209 73.2093 136 71.0001 136H65.0001H59.0001C56.791 136 55.0001 134.209 55.0001 132V130Z" fill={Color["system-white"]} />
