@@ -41,11 +41,16 @@ export default function StudentProfileScreen() {
                 <View className="items-center">
                     {
                          isMan(student?.gender ?? "") ? 
-                            <StudentBoyDefaultSvg width={155} height={145} 
+                            <StudentBoyDefaultSvg width={155} height={147} 
                                 skinColor={skinColor} 
                                 hairColor={hairColor}
                             /> : 
-                            <StudentGirlDefaultSvg width={155} height={145}/>
+                            <StudentGirlDefaultSvg width={155} height={147}
+                                skinColor={skinColor}
+                                hairColor={hairColor}
+                                ribbonPrimaryColor={clothColor}
+                                ribbonSecondaryColor={clothColor}
+                            />
                     }
                     <BodySvg 
                         skinColor={skinColor} 

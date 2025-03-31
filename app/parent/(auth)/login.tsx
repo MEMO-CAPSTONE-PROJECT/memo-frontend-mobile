@@ -5,7 +5,7 @@ import MemoErrorMessage from "@/components/helper/memo-error-message";
 import MemoTextInput from "@/components/input/memo-text-input";
 import KeyboardView from "@/components/scrollable/keyboard-view";
 import SurpriseParentSvg from "@/components/ui/kits/surprise-parent-svg";
-import { useParentOTPMutation } from "@/hooks/query/useOTPMutation";
+import { useParentOTPMutation } from "@/hooks/mutation/useOTPMutation";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Text, View } from "react-native";

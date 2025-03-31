@@ -28,7 +28,7 @@ export default function HomeScreen() {
   const characters = [
     {
       icon: <TeacherWomanDefaultSvg container="medium" size={75} />,
-      name: "คุณครูประจำชั้น",
+      name: "คุณครูชั้นประถมศึกษา",
       navigate: () => router.replace("/teacher/(auth)/login")
     },
     {

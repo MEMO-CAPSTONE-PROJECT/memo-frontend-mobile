@@ -1,7 +1,7 @@
 import OTPUIKit from "@/components/ui/kits/screen/otp";
 import { MemoApis } from "@/constants/apis";
 import useAuth from "@/context/useAuth";
-import { useTeacherOTPMutation } from "@/hooks/query/useOTPMutation";
+import { useTeacherOTPMutation } from "@/hooks/mutation/useOTPMutation";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 

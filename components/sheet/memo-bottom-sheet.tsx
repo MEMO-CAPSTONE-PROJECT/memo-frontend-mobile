@@ -22,7 +22,7 @@ export default function MemoBottomSheet({ id, button, children, snapPoints, snap
                     zIndex={200000} 
                     modal 
                     dismissOnSnapToBottom
-                    disableDrag={true}
+                    disableDrag={false}
                     snapPoints={snapPoints}
                     snapPointsMode={snapPointsMode}
                 >

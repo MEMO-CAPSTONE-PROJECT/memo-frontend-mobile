@@ -2,7 +2,7 @@ import BrandingBackground from "@/components/background/branding-background";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
 import { Color } from "@/constants/theme/color";
-import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
+import { useSubmitAchievementCodeMutation } from "@/hooks/mutation/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
 import { formattedTotalScore } from "@/shared/utils/aptitude-util";
 import { useIsFocused } from "@react-navigation/native";

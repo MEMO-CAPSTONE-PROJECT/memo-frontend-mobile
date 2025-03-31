@@ -2,10 +2,11 @@ import { KeyboardAvoidingView, ScrollView } from "react-native";
 
 interface KeyboardViewProps {
     padding?: boolean
+    full?: boolean
     children: React.ReactNode
 }
 
-export default function KeyboardView({ children, padding = true }: Readonly<KeyboardViewProps>) {
+export default function KeyboardView({ children, padding = true, full = false }: Readonly<KeyboardViewProps>) {
     return (
         <KeyboardAvoidingView 
             behavior="position"
@@ -17,7 +18,7 @@ export default function KeyboardView({ children, padding = true }: Readonly<Keyb
                 keyboardShouldPersistTaps="never"
                 keyboardDismissMode="interactive"
                 scrollEnabled={false}
-                contentContainerClassName="h-full w-screen"
+                contentContainerClassName={`h-full ${full ? "w-full" : "w-screen"}`}
             >
                 {children}
             </ScrollView>

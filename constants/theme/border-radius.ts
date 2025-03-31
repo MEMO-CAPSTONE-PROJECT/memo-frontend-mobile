@@ -10,3 +10,6 @@ export const BorderRadius = {
     full: "100%",
     circle: "100vw",
 }
+export const getMemoBorderRadius = (size: keyof typeof BorderRadius) => {
+    return Number(BorderRadius[size].replace("px", ""))
+}

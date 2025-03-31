@@ -40,7 +40,9 @@ export function useParentByPhoneNumberQuery(phoneNumber: string, enabled: boolea
         queryFn: async () => {
             if (MemoConfig.isMock) return mockUseParentById
 
-            const result = await api.get(MemoApis.PARENT_DETAIL(phoneNumber))
+            const result = await api.get(MemoApis.PARENT_DETAIL({ 
+                phoneNumber: phoneNumber 
+            }))
             return result.data
         },
     })

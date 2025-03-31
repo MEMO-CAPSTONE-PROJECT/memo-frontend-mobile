@@ -34,7 +34,7 @@ export default function StudentAptitudeOverallScreen() {
                     <Text className="font-kanit-bold text-title">ความสามารถที่โดดเด่นในแต่ละด้าน</Text>
                     <MemoAptitudeBottomSheet criteria={RankCriteria}/>
                 </View>
-                <MemoDonutChart 
+                <MemoDonutChart
                     point={totalPoints}
                     series={points} 
                     colors={colors} 
@@ -42,13 +42,13 @@ export default function StudentAptitudeOverallScreen() {
                 <ScrollableView border={false} className="gap-y-xl p-[1.5rem]" onRefresh={handleRefresh}>
                     {studentPointsData.map(({ type, color, point }, index) => {
                         const { icon, color: colorCode } = getAptitudeColor(color) ?? {}
-                        return (<MemoAptitudeRank 
+                        return (<MemoAptitudeRank
                             criteria={RankCriteria}
                             type={type} 
                             point={point} 
                             totalPoint={totalPoints}
                             icon={{ Icon: icon, color: colorCode, text: colorCode }} 
-                            key={index + type} 
+                            key={`${index}-${type}`} 
                         />)
                     })}
                 </ScrollableView>

@@ -7,7 +7,7 @@ import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-sv
 import { useStudentToken } from "@/hooks/useUserToken";
 import { isMan } from "@/shared/utils/gender-util";
 import { useRouter } from "expo-router";
-import { ChartDonut, CheckFat, Leaf } from "phosphor-react-native";
+import { ChartDonut, Leaf } from "phosphor-react-native";
 import { Text, View } from "react-native";
 
 export default function StudentAptitudeScreen() {
@@ -36,7 +36,7 @@ export default function StudentAptitudeScreen() {
             <View className="gap-y-lg">
                 <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handlePressChart}/>
                 <MemoNavigatorCard title="ต้นไม้แห่งการเติบโต" className="bg-grass-green" Icon={Leaf} onPress={handlePressMilestone}/>
-                <MemoNavigatorCard title="เหรียญและถ้วยรางวัล" className="bg-secondary-3" Icon={CheckFat} disabled/>
+                {/* <MemoNavigatorCard title="เหรียญและถ้วยรางวัล" className="bg-secondary-3" Icon={CheckFat} disabled/> */}
             </View>        
           </MemoCard>
       </BrandingBackground>

@@ -9,17 +9,41 @@ import CrownSvg from "@/components/ui/icons/crown-svg";
 import StudentBoyDefaultSvg from "@/components/ui/icons/student/boy/default-svg";
 import StudentGirlDefaultSvg from "@/components/ui/icons/student/girl/default-svg";
 import TrophySvg from "@/components/ui/icons/trophy-svg";
+import { useRankQuery } from "@/hooks/query/useRankQuery";
+import { useStudentToken } from "@/hooks/useUserToken";
 import { isMan } from "@/shared/utils/gender-util";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Text, View } from "react-native";
 
 export default function StudentRankScreen() {
-    const [isClass, setIsClass] = useState(false)
+    const [isClassLevel, setIsClassLevel] = useState(false)
+    const { data: currentStudent } = useStudentToken()
+    const { data: rawStudents, refetch: refetchRank} = useRankQuery(isClassLevel ?
+        {   
+            classLevel: Number(currentStudent?.classLevel ?? "1"), 
+        } :
+        { 
+            classLevel: Number(currentStudent?.classLevel ?? "1"), 
+            classRoom: Number(currentStudent?.classRoom ?? "1") 
+        }
+    )
+    
+    const students = useMemo(() => rawStudents?.data?.students ?? [], [rawStudents])
     const buttons = [
-        { name: "จัดอันดับบุคคล", active: !isClass, onPress: () => setIsClass(false)},
-        { name: "จัดอันดับห้อง", active: isClass, onPress: () => setIsClass(true)},
+        { name: "จัดอันดับชั้น", active: isClassLevel, onPress: () => setIsClassLevel(true)},
+        { name: "จัดอันดับห้อง", active: !isClassLevel, onPress: () => setIsClassLevel(false)},
     ]
 
+    const currentStudentIndex = useMemo(() => students.findIndex(student => 
+        String(student.studentId) === String(currentStudent?.sub)
+    ), [students, currentStudent?.sub])
+    const sortedStudents = students.sort((a, b) => b.pointsTotal - a.pointsTotal)
+    const topThree = sortedStudents.slice(0, 3)
+    const classLabel = (index: number) => isClassLevel ? `ชั้น ป.${students[index]?.classLevel}` : `ห้อง ${students[index]?.classRoom}`
+
+    function handleRefresh() {
+        refetchRank()
+    }
     return (
         <BrandingBackground variant="secondary">
            <MemoCard size="full" className="gap-y-xl !p-0">
@@ -28,33 +52,39 @@ export default function StudentRankScreen() {
                     <MemoRemarkableCard>
                         <View className="flex-row gap-x-xl items-center">
                             <View className="bg-system-gray h-full aspect-square rounded-sm justify-center items-center">
-                                <Text className="text-header text-title-1 font-kanit-bold">7</Text>
+                                <Text className="text-header text-title-1 font-kanit-bold">{currentStudentIndex + 1}</Text>
                             </View>
                             <View className="flex-col">
-                                <Text className="font-kanit-bold text-title-1">RewLegendary</Text>
-                                <Text className="font-kanit-medium text-title-1">12141 คะแนน</Text>
+                                <Text className="font-kanit-bold text-title-1">{students[currentStudentIndex]?.firstName} {classLabel(currentStudentIndex)}</Text>
+                                <Text className="font-kanit-medium text-title-1">{students[currentStudentIndex]?.pointsTotal} คะแนน</Text>
                             </View>
                         </View>
                         <TrophySvg className="justify-center items-center" width={80} height={128}/>
                     </MemoRemarkableCard>
                 </View>
-                <ScrollableView border={false} className="flex-col px-[1.5rem]">
+                <ScrollableView border={false} className="flex-col px-[1.5rem]" onRefresh={handleRefresh}>
                     <View className="flex-row justify-center items-end gap-x-2xl pb-lg">
-                        <TopUser icon={<CrownSvg variant="silver" width={40} height={40}/>} rank={2} name="Spider" score={99999}>
-                            <UserGenderIcon gender="ชาย" />
-                        </TopUser>
-                        <TopUser icon={<CrownSvg variant="gold" width={40} height={40}/>} rank={1} name="Kate" score={99999}>
-                            <UserGenderIcon gender="หญิง" size="large" />
-                        </TopUser>
-                        <TopUser icon={<CrownSvg variant="bronze" width={40} height={40}/>} rank={3} name="Master" score={99999}>
-                            <UserGenderIcon gender="ชาย" />
-                        </TopUser>
+                        {topThree[1] && 
+                            <TopUser icon={<CrownSvg variant="silver" width={40} height={40}/>} rank={2} name={topThree[1].firstName} score={topThree[1].pointsTotal}>
+                                <UserGenderIcon gender={topThree[1].gender} />
+                            </TopUser>
+                        }
+                        {topThree[0] && 
+                            <TopUser icon={<CrownSvg variant="gold" width={40} height={40}/>} rank={1} name={topThree[0].firstName} score={topThree[0].pointsTotal}>
+                                <UserGenderIcon gender={topThree[0].gender} size="large" />
+                            </TopUser>
+                        }
+                        {topThree[2] &&  
+                            <TopUser icon={<CrownSvg variant="bronze" width={40} height={40}/>} rank={3} name={topThree[2].firstName} score={topThree[2].pointsTotal}>
+                                <UserGenderIcon gender={topThree[2].gender} />
+                            </TopUser>
+                        }
                     </View>
                     <MemoSeperator/>     
                     <View>
-                        {[...Array(10)].map((_, index) => (
-                            <User key={index} index={index + 4} name="Spider" score={99999} active={index === 3}>
-                                <UserGenderIcon gender={index % 2 === 0 ? "ชาย" : "หญิง"} size="small" />
+                        {sortedStudents.slice(4, sortedStudents.length).map((student, index) => (
+                            <User key={index} index={index + 4} name={student.firstName} score={student.pointsTotal} active={currentStudentIndex === (index + 4)}>
+                                <UserGenderIcon gender={student.gender} size="small" />
                             </User>
                         ))}
                     </View>

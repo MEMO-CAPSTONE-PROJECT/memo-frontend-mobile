@@ -1,4 +1,5 @@
 import AnimatedAppLoader from '@/components/animated/animated-app-loader'
+import { StreamProvider } from '@/context/useAIStream'
 import { AuthProvider } from '@/context/useAuth'
 import { ModalProvider } from '@/context/useModal'
 import { initializeCalendarConfig } from '@/shared/config'
@@ -48,10 +49,12 @@ export default function RootLayout() {
               <AnimatedAppLoader>
                 <TamaguiProvider config={tamaguiConfig}>
                   <ThemeProvider value={DefaultTheme}>
-                    <Stack screenOptions={{ headerShown: false, }}>
-                      <Stack.Screen name="(index)" />
-                      <Stack.Screen name="+not-found" />
-                    </Stack>
+                    <StreamProvider>
+                      <Stack screenOptions={{ headerShown: false, }}>
+                        <Stack.Screen name="(index)" />
+                        <Stack.Screen name="+not-found" />
+                      </Stack>
+                    </StreamProvider>
                   </ThemeProvider>
                 </TamaguiProvider>
               </AnimatedAppLoader>

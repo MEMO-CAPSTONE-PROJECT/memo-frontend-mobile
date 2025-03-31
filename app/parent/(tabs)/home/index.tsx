@@ -25,7 +25,16 @@ export default function ParentHomeScreen() {
         })
     }
     function handleSummary() {
-        router.push("/parent/home/summary")
+        router.push({
+            pathname: "/parent/home/summary",
+            params: { studentId: studentId }
+        })
+    }
+    function handleCharacter() {
+        router.push({
+            pathname: "/parent/home/character", 
+            params: { studentId: studentId }
+        })
     }
     const name = `คุณ ${parent?.firstName} ${parent?.lastName} `
     const studentName = `ดูข้อมูลของ ${student?.firstName ?? ""} ${student?.lastName ?? ""}`
@@ -48,7 +57,7 @@ export default function ParentHomeScreen() {
                 <View className="gap-y-lg">
                     <MemoNavigatorCard title="ความสามารถที่โดดเด่น" className="bg-primary-2" Icon={ChartDonut} onPress={handleAptitude} />
                     <MemoNavigatorCard title="วิเคราะห์การเข้าร่วมกิจกรรม" className="bg-secondary-3" Icon={ChartBar} onPress={handleSummary} />
-                    <MemoNavigatorCard title="บุคลิกของบุตรหลาน" className="bg-secondary-2" Icon={PersonArmsSpread} />
+                    <MemoNavigatorCard title="บุคลิกของบุตรหลาน" className="bg-secondary-2" Icon={PersonArmsSpread} onPress={handleCharacter} />
                 </View>
             </MemoCard>
         </BrandingBackground>

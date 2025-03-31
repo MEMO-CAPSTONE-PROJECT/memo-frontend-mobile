@@ -4,15 +4,17 @@ import { View } from "react-native";
 import { Circle, Ellipse, G, Mask, Path, Rect, Svg } from "react-native-svg";
 
 interface StudentBoyLookingSvgProps {
-    size: number
+    size?: number
+    width?: number
+    height?: number
     flip?: boolean
     className?: string
 }
 
-export default function StudentBoyLookingSvg({ size, flip, className = "" }: Readonly<StudentBoyLookingSvgProps>) {
+export default function StudentBoyLookingSvg({ size, width, height, flip, className = "" }: Readonly<StudentBoyLookingSvgProps>) {
     return (
         <View className={`${className} ${flip ? "transform scale-x-[-1]" : ""}`}>
-            <Svg width={size} height={size} viewBox="0 0 155 147" fill="none">
+            <Svg width={width ?? size} height={height ?? size} viewBox="0 0 155 147" fill="none">
                 <Rect x="26" y="57" width="102" height="90" rx="30" fill={Color["secondary-4"]}/>
                 <Path d="M71 130C71 127.791 72.7909 126 75 126H81H87C89.2091 126 91 127.791 91 130V132C91 134.209 89.2091 136 87 136H81H75C72.7909 136 71 134.209 71 132V130Z" fill={Color["system-white"]}/>
                 <Rect opacity="0.35" x="77" y="114" width="8" height="10" rx="4" fill={Color["secondary-3"]}/>

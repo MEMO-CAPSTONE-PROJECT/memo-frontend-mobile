@@ -9,7 +9,7 @@ import MemoRewardModal from "@/components/ui/modal/memo-reward-modal";
 import { useModal } from "@/context/useModal";
 import { useJoinAchievementMutation } from "@/hooks/achievement/useAchievementMutation";
 import { useStudentAchievementByIdQuery, useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery";
-import { useSubmitAchievementCodeMutation } from "@/hooks/query/useCodeMutation";
+import { useSubmitAchievementCodeMutation } from "@/hooks/mutation/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
 import { StudentScore } from "@/shared/types/achievement-type";
 import { AxiosError } from "axios";
