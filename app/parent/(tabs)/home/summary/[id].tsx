@@ -227,7 +227,7 @@ function WeeklyComparisonCard({
                     <Text className="font-kanit-medium text-system-white">{percentageLabel()} จากสัปดาห์ก่อนหน้า</Text>
                 </View>
             </View>
-            <View>
+            <View className="w-full justify-center items-center">
                 <MemoLineChart
                     labels={labels}
                     datas={[
@@ -313,7 +313,7 @@ function ScoreAccordion({
                 color={color}
                 opacity={0.3}
                 score={weekScores.previous}
-                label="สัปดาห์ก่อนหน้า"
+                label="2 สัปดาห์ที่ผ่านมา"
             >
                 {weekScores.previousDaily.map((score, index) => (
                     <Text 

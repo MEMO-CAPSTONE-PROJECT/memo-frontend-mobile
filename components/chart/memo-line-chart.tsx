@@ -2,6 +2,7 @@
 import { Color } from '@/constants/theme/color'
 import { FontFamily, getMemoFontSize } from '@/constants/theme/font'
 import React, { Fragment } from 'react'
+import { Dimensions } from 'react-native'
 import Svg, { Circle, G, Line, Path, Text as SvgText } from 'react-native-svg'
 
 interface ChartData {
@@ -21,11 +22,11 @@ interface LineChartProps {
 export default function MemoLineChart({ datas, labels }: Readonly<LineChartProps>) {
     if (datas.length === 0) return null
     if (!datas.every(data => data.value.length === labels.length)) return null
-    const chartHeight = 250
-    const chartWidth = 350
+    const LAYOUT_PADDING = 24
     const padding = 40 // Increased padding to accommodate axis labels
     const yPadding = 20 // Padding for y-axis label
-
+    const chartHeight = 250
+    const chartWidth = Dimensions.get('window').width - padding - LAYOUT_PADDING
     // Calculate scale for y-axis
     const maxValue = Math.max(1, ...datas.map(d => Math.max(...d.value)))
     const yScale = (chartHeight - padding * 2) / maxValue
