@@ -82,8 +82,8 @@ export default function StudentRankScreen() {
                     </View>
                     <MemoSeperator/>     
                     <View>
-                        {sortedStudents.slice(4, sortedStudents.length).map((student, index) => (
-                            <User key={index} index={index + 4} name={student.firstName} score={student.pointsTotal} active={currentStudentIndex === (index + 4)}>
+                        {sortedStudents.slice(3, sortedStudents.length).map((student, index) => (
+                            <User key={index} index={index + 4} name={student.firstName} score={student.pointsTotal} active={currentStudentIndex === (index + 3)}>
                                 <UserGenderIcon gender={student.gender} size="small" />
                             </User>
                         ))}
