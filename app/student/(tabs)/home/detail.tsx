@@ -97,7 +97,7 @@ export default function StudentDetailScreen() {
             console.log(error)
 
             const errorMessage = error instanceof AxiosError ? error.response?.data?.error : "ชุดรหัสไม่ถูกต้อง"
-            Alert.alert("ล้มเหลว", errorMessage ?? "เกิดข้อผิดพลาดกับชุดรหัส", [
+            Alert.alert("ล้มเหลว", errorMessage ?? "ไม่พบรหัสนี้หรือไม่ได้ลงทะเบียน", [
                 { text: "ตกลง", style: "cancel" }
             ])
         }

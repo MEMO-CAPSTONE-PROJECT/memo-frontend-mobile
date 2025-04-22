@@ -14,7 +14,7 @@ interface StreamContextType {
     startStream: (id: string, message: string) => Promise<string | undefined>;
     refetchMessage: (id: string, message: string) => Promise<string | undefined>;
     getMessageById: (id: string) => BotMessage | null;
-    isMessageLoading: (id: string) => boolean;
+    isMessageLoading: (id: string, isLoadingPrompt?: boolean) => boolean;
     isMessageStreaming: (id: string) => boolean;
     isMessageError: (id: string) => boolean;
     clearMessages: () => void;
@@ -26,7 +26,7 @@ const StreamContext = createContext<StreamContextType | undefined>(undefined);
 // Timeout duration in milliseconds
 const STREAM_TIMEOUT_MS = 4 * 60 * 1000; // 2 minutes
 const RECONNECT_DELAY_MS = 1000; // 3 seconds
-const WEBSOCKET_URL = "wss://capstone24.sit.kmutt.ac.th/sy1-socket/ws?origin=https://capstone24.sit.kmutt.ac.th"
+const WEBSOCKET_URL = "wss://capstone24.sit.kmutt.ac.th/sy1-socket/ws"
 
 // Provider component
 export const StreamProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
@@ -203,9 +203,9 @@ export const StreamProvider: React.FC<{children: React.ReactNode}> = ({ children
         return messages.find(msg => msg.id === id) || null;
     }, [messages]);
     
-    const isMessageLoading = useCallback((id: string) => {
+    const isMessageLoading = useCallback((id: string, isLoadingPrompt = true) => {
         const message = getMessageById(id);
-        return message?.status === "loading";
+        return isLoadingPrompt || message?.status === "loading" || message?.text?.trim() === "";
     }, [getMessageById]);
     
     const isMessageStreaming = useCallback((id: string) => {

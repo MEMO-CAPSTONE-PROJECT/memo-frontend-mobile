@@ -1,10 +1,13 @@
 import BrandingBackground from "@/components/background/branding-background";
 import MemoTextButton from "@/components/button/memo-text-button";
 import MemoCard from "@/components/container/memo-card";
+import MemoRewardModal from "@/components/ui/modal/memo-reward-modal";
 import { Color } from "@/constants/theme/color";
+import { useModal } from "@/context/useModal";
+import { useStudentAchievementsQuery } from "@/hooks/achievement/useAchievementQuery";
 import { useSubmitAchievementCodeMutation } from "@/hooks/mutation/useCodeMutation";
 import { useStudentToken } from "@/hooks/useUserToken";
-import { formattedTotalScore } from "@/shared/utils/aptitude-util";
+import { StudentScore } from "@/shared/types/achievement-type";
 import { useIsFocused } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { BarcodeScanningResult, CameraType, CameraView, useCameraPermissions } from "expo-camera";
@@ -45,10 +48,12 @@ export default function StudentQRCodeScannerScreen() {
     const [isScanned, setIsScanned] = useState(false)
     const [facing, setFacing] = useState<CameraType>("back")
     const [permission, requestPermission] = useCameraPermissions()
+    const { showModal } = useModal()
 
     const { data: student } = useStudentToken()
     const { mutateAsync: submitCode } = useSubmitAchievementCodeMutation()
-
+    const { refetch: refetchAchievements } = useStudentAchievementsQuery({ studentId: student?.sub })
+    
     if (!permission) {
         return <View></View>
     }
@@ -72,6 +77,10 @@ export default function StudentQRCodeScannerScreen() {
         setIsFlash(!isFlash)
     }
 
+    const handleOpenRewardModal = (rewards: StudentScore[]) => showModal(() => {
+        return <MemoRewardModal rewards={rewards}/>
+    })
+
     async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
         try {
             setIsScanned(true)
@@ -81,11 +90,14 @@ export default function StudentQRCodeScannerScreen() {
                 achievementId: result.achievementId,
                 code: result.code ?? ""
             })
-            const title = response ? "สำเร็จ" : "ล้มเหลว"
-            const message = response ? "คุณได้รับคะแนนสำเร็จ\n" + formattedTotalScore(response.data.totalScore) : "คิวอาร์โค้ดไม่ถูกต้อง"
-            Alert.alert(title, message, [
-                { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) }, }
-            ])
+            if (response) {
+                handleOpenRewardModal(response.data.totalScore)
+                refetchAchievements()
+            } else {
+                Alert.alert("ล้มเหลว", "คิวอาร์โค้ดไม่ถูกต้อง", [
+                    { text: "ตกลง", style: "cancel" }
+                ])
+            }
         } catch (error) {
             console.log(error)
 

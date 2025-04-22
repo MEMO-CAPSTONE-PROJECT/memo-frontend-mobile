@@ -28,7 +28,7 @@ export default function StudentAptitudeOverallScreen() {
         data: studentPointsData 
     } = useRankCriteria(rawStudent?.data?.student?.points, !isLoading && !isError)
 
-    const rankedData = useMemo(() => studentPointsData.map(({ type, color, point }) => {
+    const rankedData = useMemo(() => studentPointsData.sort((a, b) => b.point - a.point).map(({ type, color, point }) => {
         const { icon, color: colorCode } = getAptitudeColor(color) ?? {}
         return { type, point, icon, colorCode }
     }), [studentPointsData])

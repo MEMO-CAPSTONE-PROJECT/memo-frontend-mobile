@@ -62,14 +62,15 @@ const TagsSection = ({ isLoading, isError, content, color }: {
 };
 
 export default function ParentCharacterScreen() {
-    const { startStream, refetchMessage, isMessageLoading, isMessageError, getMessageById } = useStreamContext();
+    const { startStream, refetchMessage, isMessageLoading: isRawMessageLoading, isMessageError, getMessageById } = useStreamContext();
     const { studentId } = useLocalSearchParams();
     const studentIdString = studentId as string ?? "";
     
     // Data fetching
-    const { data: rawHistoryPrompt, refetch } = useHistoryPromptQuery(studentIdString);
+    const { data: rawHistoryPrompt, refetch, isLoading: isLoadingPrompt } = useHistoryPromptQuery(studentIdString);
     const { data: rawHistoryMain } = useHistoryMainQuery(studentIdString);
     const { data: rawStudent } = useStudentByIdQuery(studentIdString);
+    const isMessageLoading = (id: string) => isRawMessageLoading(id, isLoadingPrompt)
 
     // Process data
     const student = rawStudent?.data?.student;
@@ -86,6 +87,7 @@ export default function ParentCharacterScreen() {
 
     // Start streaming data
     useEffect(() => { 
+        if (isLoadingPrompt) return;
         const historyPrompt = rawHistoryPrompt?.data?.messages;
         if (!historyPrompt) return;
         
@@ -94,7 +96,7 @@ export default function ParentCharacterScreen() {
         startStream("weakness", historyPrompt?.weakness ?? DEFAULT_PROMPTS.weakness)
         startStream("personality", historyPrompt?.personality ?? DEFAULT_PROMPTS.personality)
         startStream("support", historyPrompt?.support ?? DEFAULT_PROMPTS.support)
-    }, [rawHistoryPrompt, startStream]);
+    }, [rawHistoryPrompt, startStream, isLoadingPrompt]);
     
     function refetchMessages() {
         refetch()
@@ -164,7 +166,7 @@ export default function ParentCharacterScreen() {
                     {/* Analysis section */}
                     <View className="gap-y-lg">
                         {/* Tags section */}
-                        <View className="flex-col gap-y-sm items-center">
+                        <View className="flex-col gap-y-md items-center">
                             <View className="flex-row gap-x-sm">
                                 <Text className="font-kanit-bold text-body text-title-1 text-center">
                                     ผลการวิเคราะห์ภาพรวม 
@@ -173,17 +175,20 @@ export default function ParentCharacterScreen() {
                                     className="flex-row items-center gap-x-sm justify-center rounded-circle bg-system-blue pl-md px-sm" 
                                     onPress={refetchMessages}
                                 >
-                                    <Text className="font-kanit-medium text-system-white">วิเคราะห์อีกครั้ง</Text>
+                                    <Text className="font-kanit-medium text-system-white text-caption-1">วิเคราะห์อีกครั้ง</Text>
                                     <ArrowCounterClockwise color={Color["system-white"]} size={16} weight="bold" />
                                 </TouchableOpacity>
                             </View>
-                            <View className="flex-row justify-center items-center gap-x-lg">
+                            <View className="flex-row justify-center items-center gap-x-md">
                                 <TagsSection
                                     isLoading={isMessageLoading("tags")}
                                     isError={isMessageError("tags")}
                                     content={getMessageById("tags")?.text}
                                     color={color}
                                 />
+                                <View className="rounded-xsm border-2xsm border-body-1 px-md">
+                                    <Text className="font-kanit-medium text-body-1">จาก AI</Text>
+                                </View>
                             </View>
                         </View>
 
@@ -191,7 +196,7 @@ export default function ParentCharacterScreen() {
                         <View className="flex-row gap-x-lg">
                             <View className="flex-1 bg-system-success-light-2 rounded-sm p-lg gap-y-xsm">
                                 <Text className="font-kanit-bold text-body text-grass-dark-green">
-                                    จุดแข็ง
+                                    สิ่งที่โดดเด่น
                                 </Text>
                                 <Text className="font-kanit-medium text-caption-1 text-title-1">
                                     <LoadingOrErrorState
@@ -201,9 +206,9 @@ export default function ParentCharacterScreen() {
                                     />
                                 </Text>
                             </View>
-                            <View className="flex-1 bg-system-error-light-2 rounded-sm p-lg gap-y-xsm">
-                                <Text className="font-kanit-bold text-body text-system-error-2">
-                                    จุดอ่อน
+                            <View className="flex-1 bg-system-light-yellow runded-sm p-lg gap-y-xsm">
+                                <Text className="font-kanit-bold text-body text-secondary-2-hover">
+                                    สิ่งที่สามารถพัฒนา
                                 </Text>
                                 <Text className="font-kanit-medium text-caption-1 text-title-1">
                                     <LoadingOrErrorState
@@ -220,7 +225,7 @@ export default function ParentCharacterScreen() {
                             <Text className="font-kanit-bold text-body text-title-1 text-start">
                                 ลักษณะนิสัย
                             </Text>
-                            <Text className="font-kanit-medium text-body text-body-1">
+                            <Text className="font-kanit-medium text-caption-1 text-body-1">
                                 <LoadingOrErrorState
                                     isLoading={isMessageLoading("personality")}
                                     isError={isMessageError("personality")}
@@ -234,7 +239,7 @@ export default function ParentCharacterScreen() {
                             <Text className="font-kanit-bold text-body text-title-1 text-start">
                                 ข้อเสนอแนะแก่ผู้ปกครอง
                             </Text>
-                            <Text className="font-kanit-medium text-body text-body-1">
+                            <Text className="font-kanit-medium text-caption-1 text-body-1">
                                 <LoadingOrErrorState
                                     isLoading={isMessageLoading("support")}
                                     isError={isMessageError("support")}

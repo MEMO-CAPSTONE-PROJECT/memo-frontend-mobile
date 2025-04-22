@@ -40,7 +40,7 @@ export default function StudentAptitudeOverallScreen() {
                     colors={colors} 
                 />
                 <ScrollableView border={false} className="gap-y-xl p-[1.5rem]" onRefresh={handleRefresh}>
-                    {studentPointsData.map(({ type, color, point }, index) => {
+                    {studentPointsData.sort((a,b) => b.point - a.point).map(({ type, color, point }, index) => {
                         const { icon, color: colorCode } = getAptitudeColor(color) ?? {}
                         return (<MemoAptitudeRank
                             criteria={RankCriteria}
