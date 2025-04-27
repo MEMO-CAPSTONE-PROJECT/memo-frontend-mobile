@@ -12,8 +12,8 @@ import { useStudentToken } from "@/hooks/useUserToken";
 import { randomHexColor } from "@/shared/utils/color-util";
 import { isMan } from "@/shared/utils/gender-util";
 import { router } from "expo-router";
-import { GenderFemale, GenderMale } from "phosphor-react-native";
-import { useState } from "react";
+import { CheckCircle, GenderFemale, GenderMale } from "phosphor-react-native";
+import { Fragment, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export default function StudentProfileScreen() {
@@ -101,13 +101,21 @@ export default function StudentProfileScreen() {
                             <MemoButton name="สีเสื้อ" variant={changeMode === "cloth" ? "primary" : "ghost"} onPress={handleChangeClothColor} size="full" />
                         </View>
                         <View className="flex flex-row flex-wrap justify-stretch gap-sm">
-                            {COLORS.map((color, index) => (
-                                <TouchableOpacity
-                                    key={color + "_" + index}
-                                    className={`h-10 w-10 rounded-xsm border-2xsm border-system-gray`} style={{ backgroundColor: color }}
-                                    onPress={() => handleColorChange(color)}
-                                />
-                            ))}
+                            {COLORS.map((color, index) => {
+                                return (
+                                    <Fragment key={color + "_" + index}>
+                                        <TouchableOpacity
+                                            className={`relative h-10 w-10 rounded-xsm border-2xsm border-system-gray`} 
+                                            style={{ backgroundColor: color }}
+                                            onPress={() => handleColorChange(color)}
+                                        >
+                                            {color === getColor() && <View className="z-20 absolute -right-2 -top-2 rounded-circle border-xsm border-body-1 bg-system-white">
+                                                <CheckCircle weight="fill" color={Color["system-green"]} size={16} />
+                                            </View>}
+                                        </TouchableOpacity>
+                                    </Fragment>
+                                )                      
+                            })}
                             <TouchableOpacity
                                 className={`h-10 w-10 items-center justify-center border-xsm border-body-1 rounded-xsm`}
                                 onPress={() => handleColorChange(randomHexColor())}
