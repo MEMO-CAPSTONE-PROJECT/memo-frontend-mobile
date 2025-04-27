@@ -23,7 +23,7 @@ initializeCalendarConfig()
 export default function RootLayout() {
   // Prevent the splash screen from auto-hiding before asset loading is complete.
   SplashScreen.preventAutoHideAsync()
-  
+
   const [loaded, error] = useFonts({
     "Kanit-Regular": require('@/assets/fonts/Kanit-Regular.ttf'),
     "Kanit-Medium": require('@/assets/fonts/Kanit-Medium.ttf'),
@@ -42,8 +42,8 @@ export default function RootLayout() {
 
   return (
     <PortalProvider shouldAddRootHost>
-      <ModalProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ModalProvider>
           <QueryClientProvider client={queryClient}>
             <AuthProvider>
               <AnimatedAppLoader>
@@ -60,8 +60,8 @@ export default function RootLayout() {
               </AnimatedAppLoader>
             </AuthProvider>
           </QueryClientProvider>
-        </GestureHandlerRootView>
-      </ModalProvider>
+        </ModalProvider>
+      </GestureHandlerRootView>
     </PortalProvider>
   )
 }

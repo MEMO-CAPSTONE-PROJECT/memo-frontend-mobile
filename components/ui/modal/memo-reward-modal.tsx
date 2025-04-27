@@ -6,12 +6,16 @@ import { Text, View } from "react-native"
 
 interface MemoRewardModalProps {
     rewards?: StudentScore[]
-    onSubmit?: (code: string) => void
+    onConfirm?: () => void
     // children
 }
 
-export default function MemoRewardModal({ rewards }: Readonly<MemoRewardModalProps>) {
+export default function MemoRewardModal({ rewards, onConfirm }: Readonly<MemoRewardModalProps>) {
     const { hideModal } = useModal()
+    const onConfirmModal = () => {
+        if (onConfirm) onConfirm()
+        hideModal()
+    }
     return (
         <View className="flex-1 justify-center items-center px-3xl gap-y-2xl">
             <View className="w-[165px] h-[165px] justify-center items-center bg-system-light-blue rounded-circle">
@@ -23,7 +27,7 @@ export default function MemoRewardModal({ rewards }: Readonly<MemoRewardModalPro
                     <Text key={reward.type} className="font-kanit-bold text-title text-primary-2">+ {reward.score} คะแนน{reward.type}</Text>
                 ))}
             </View>
-            <MemoButton name="ยืนยัน" variant="primary" onPress={hideModal} />
+            <MemoButton name="ยืนยัน" variant="primary" onPress={onConfirmModal} />
         </View>
     )
 }

@@ -78,7 +78,7 @@ export default function StudentQRCodeScannerScreen() {
     }
 
     const handleOpenRewardModal = (rewards: StudentScore[]) => showModal(() => {
-        return <MemoRewardModal rewards={rewards}/>
+        return <MemoRewardModal rewards={rewards} onConfirm={() => setIsScanned(false)}/>
     })
 
     async function handleBarCodeScanned(rawResult: BarcodeScanningResult) {
@@ -95,7 +95,7 @@ export default function StudentQRCodeScannerScreen() {
                 refetchAchievements()
             } else {
                 Alert.alert("ล้มเหลว", "คิวอาร์โค้ดไม่ถูกต้อง", [
-                    { text: "ตกลง", style: "cancel" }
+                    { text: "ตกลง", style: "cancel", onPress: () => { setIsScanned(false) } }
                 ])
             }
         } catch (error) {

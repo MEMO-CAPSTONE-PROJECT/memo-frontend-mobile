@@ -144,7 +144,7 @@ export default function ParentCharacterScreen() {
                         </View>
                         <View className="overflow-hidden w-[200] h-[200] rounded-circle">
                             <View className="absolute">
-                                <CharacterBackgroundSvg color={color?.background ?? Color["system-light-blue"]} />
+                                <CharacterBackgroundSvg color={color?.background ?? Color["system-light-purple"]} />
                             </View>
                             <View className="scale-[0.85]">
                                 <StudentCharacter 

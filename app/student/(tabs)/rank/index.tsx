@@ -39,7 +39,7 @@ export default function StudentRankScreen() {
     ), [students, currentStudent?.sub])
     const sortedStudents = students.sort((a, b) => b.pointsTotal - a.pointsTotal)
     const topThree = sortedStudents.slice(0, 3)
-    const classLabel = (index: number) => isClassLevel ? `ชั้น ป.${students[index]?.classLevel}` : `ห้อง ${students[index]?.classRoom}`
+    const classLabel = (index: number) => isClassLevel ? `ชั้น ป.${students[index]?.classLevel ?? ""}` : `ห้อง ${students[index]?.classRoom ?? ""}`
 
     function handleRefresh() {
         refetchRank()
@@ -55,8 +55,8 @@ export default function StudentRankScreen() {
                                 <Text className="text-header text-title-1 font-kanit-bold">{currentStudentIndex + 1}</Text>
                             </View>
                             <View className="flex-col">
-                                <Text className="font-kanit-bold text-title-1">{students[currentStudentIndex]?.firstName} {classLabel(currentStudentIndex)}</Text>
-                                <Text className="font-kanit-medium text-title-1">{students[currentStudentIndex]?.pointsTotal} คะแนน</Text>
+                                <Text className="font-kanit-bold text-title-1">{students[currentStudentIndex]?.firstName ?? ""} {classLabel(currentStudentIndex)}</Text>
+                                <Text className="font-kanit-medium text-title-1">{students[currentStudentIndex]?.pointsTotal ?? 0} คะแนน</Text>
                             </View>
                         </View>
                         <TrophySvg className="justify-center items-center" width={80} height={128}/>
