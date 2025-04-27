@@ -44,6 +44,22 @@ export function useHistoryAchievementMaxScoreQuery(studentId: string) {
     })
 }
 
+interface HistoryAchievementCountResponse {
+    data: {
+        results: number
+    }
+}
+
+export function useHistoryAchievementCount(studentId: string) {
+    return useQuery<null, AxiosError, HistoryAchievementCountResponse>({
+        queryKey: ["history","achievement","count", studentId],
+        queryFn: async () => {
+            const result = await api.get(MemoApis.HISTORY_COUNT_ALL({ studentId: studentId }))
+            return result.data
+        },
+    })
+}
+
 interface HistoryScoresAptitudesResponse {
     data: {
         results: AptitudesScoreComparison[]

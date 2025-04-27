@@ -65,17 +65,24 @@ export default function StudentRankScreen() {
                 <ScrollableView border={false} className="flex-col px-[1.5rem]" onRefresh={handleRefresh}>
                     <View className="flex-row justify-center items-end gap-x-2xl pb-lg">
                         {topThree[1] && 
-                            <TopUser icon={<CrownSvg variant="silver" width={40} height={40}/>} rank={2} name={topThree[1].firstName} score={topThree[1].pointsTotal}>
+                            <TopUser 
+                                icon={<CrownSvg variant="silver" width={40} height={40}/>} rank={2} 
+                                name={topThree[1].firstName + " ป." + topThree[1].classLevel + "/" + topThree[1].classRoom} score={topThree[1].pointsTotal}
+                            >
                                 <UserGenderIcon gender={topThree[1].gender} />
                             </TopUser>
                         }
                         {topThree[0] && 
-                            <TopUser icon={<CrownSvg variant="gold" width={40} height={40}/>} rank={1} name={topThree[0].firstName} score={topThree[0].pointsTotal}>
+                            <TopUser 
+                                icon={<CrownSvg variant="gold" width={40} height={40}/>} rank={1} 
+                                name={topThree[0].firstName + " ป." + topThree[0].classLevel + "/" + topThree[0].classRoom} score={topThree[0].pointsTotal}>
                                 <UserGenderIcon gender={topThree[0].gender} size="large" />
                             </TopUser>
                         }
                         {topThree[2] &&  
-                            <TopUser icon={<CrownSvg variant="bronze" width={40} height={40}/>} rank={3} name={topThree[2].firstName} score={topThree[2].pointsTotal}>
+                            <TopUser 
+                                icon={<CrownSvg variant="bronze" width={40} height={40}/>} rank={3} 
+                                name={topThree[2].firstName + " ป." + topThree[2].classLevel + "/" + topThree[2].classRoom} score={topThree[2].pointsTotal}>
                                 <UserGenderIcon gender={topThree[2].gender} />
                             </TopUser>
                         }
@@ -83,7 +90,13 @@ export default function StudentRankScreen() {
                     <MemoSeperator/>     
                     <View>
                         {sortedStudents.slice(3, sortedStudents.length).map((student, index) => (
-                            <User key={index} index={index + 4} name={student.firstName} score={student.pointsTotal} active={currentStudentIndex === (index + 3)}>
+                            <User 
+                                key={index} 
+                                index={index + 4} 
+                                name={student.firstName + " ป." + student.classLevel + "/" + student.classRoom} 
+                                score={student.pointsTotal} 
+                                active={currentStudentIndex === (index + 3)}
+                            >
                                 <UserGenderIcon gender={student.gender} size="small" />
                             </User>
                         ))}
@@ -121,8 +134,8 @@ function TopUser({ icon, rank, name, score, children }: { icon: React.ReactNode,
             {icon}
             <Text className="font-kanit-bold text-primary-2 text-caption-1">อันดับที่ {rank}</Text>
             {children}
-            <Text className="font-kanit-medium text-title-1 text-caption-1">{name}</Text>
-            <Text className="font-kanit-medium text-secondary-2 text-caption-1">{score} คะแนน</Text>
+            <Text className="font-kanit-medium text-title-1 text-caption-2">{name}</Text>
+            <Text className="font-kanit-medium text-secondary-2 text-caption-2">{score} คะแนน</Text>
         </View>
     )
 }

@@ -67,6 +67,10 @@ export const MemoApis = {
         const searchParams = setSearchParams(params)
         return `/v1/history/count/max?${searchParams.toString()}`
     }, 
+    HISTORY_COUNT_ALL: (params: { studentId: string }) => {
+        const searchParams = setSearchParams(params)
+        return `/v1/history/count/all?${searchParams.toString()}`
+    }, 
     HISTORY_SCORES_APTITUDES: (params: { studentId: string }) => {
         const searchParams = setSearchParams(params)
         return `/v1/history/scores/aptitudes?${searchParams.toString()}`

@@ -6,7 +6,7 @@ import ScrollableView from "@/components/scrollable/scrollable-view";
 import MountainChart from "@/components/ui/icons/natural/mountain-chart";
 import { Color } from "@/constants/theme/color";
 import { useGetAptitudesQuery } from "@/hooks/query/useAptitudeQuery";
-import { useHistoryAchievementMaxScoreQuery, useHistoryScoresAptitudesQuery, useHistoryScoresWeekQuery } from "@/hooks/query/useHistoryAnalysisQuery";
+import { useHistoryAchievementCount, useHistoryAchievementMaxScoreQuery, useHistoryScoresAptitudesQuery, useHistoryScoresWeekQuery } from "@/hooks/query/useHistoryAnalysisQuery";
 import { getAptitudeColor } from "@/shared/utils/aptitude-util";
 import { router, useLocalSearchParams } from "expo-router";
 import { CaretRight } from "phosphor-react-native";
@@ -33,17 +33,18 @@ import { Text, View } from "react-native";
 export default function ParentSummaryScreen() {
   const { studentId } = useLocalSearchParams()
   const [data, setData] = useState<{ label: string, value: number }[]>([])
-  const [achievementSize, setAchievementSize] = useState(0)
  
-  const { data: rawHistoryScoresAptitudes } = useHistoryScoresAptitudesQuery(studentId as string)
-  const { data: rawHistoryScoresWeek } = useHistoryScoresWeekQuery(studentId as string)
-  const { data: rawHistoryAchievementMaxScore } = useHistoryAchievementMaxScoreQuery(studentId as string)
+  const { data: rawHistoryScoresAptitudes, refetch: refetchHistoryScoresAptitudes } = useHistoryScoresAptitudesQuery(studentId as string)
+  const { data: rawHistoryScoresWeek, refetch: refetchHistoryScoresWeek } = useHistoryScoresWeekQuery(studentId as string)
+  const { data: rawHistoryAchievementMaxScore, refetch: refetchHistoryAchievementMaxScore } = useHistoryAchievementMaxScoreQuery(studentId as string)
+  const { data: rawHistoryAchievementCount, refetch: refetchHistoryAchievementCount } = useHistoryAchievementCount(studentId as string)
   const { data: rawAptitudes } = useGetAptitudesQuery()
 
   const colors = ["#B0CF2C", "#85B021", "#639850", "#277C5A", "#004E38"]
   const aptitudes = rawAptitudes?.data?.aptitudes ?? []
   const maxAchievementScore = rawHistoryAchievementMaxScore?.data?.result ?? { type: "ไม่มี", count: 0 }
   const historyScoresAptitudes = rawHistoryScoresAptitudes?.data?.results ?? []
+  const achievementSize = rawHistoryAchievementCount?.data?.results ?? 0
   
   const historyScoresWeek = useMemo(() =>
     rawHistoryScoresWeek?.data?.points ?? [
@@ -57,17 +58,21 @@ export default function ParentSummaryScreen() {
   useEffect(() => {
       const labels = ["จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์"]
       
-      setAchievementSize(0)
       setData([])
-      for (let index = 0; index < labels.length; index++) {
-        const label = labels[index]
-        const totalPoint = historyScoresWeek[index]?.activityCount ?? 0 
-        setData((prev) => [...prev, { 
-            label, 
-            value: totalPoint
-        }])
-        setAchievementSize(prev => prev + totalPoint)
-      }
+      setData(() => {
+        return labels.map((label, index) => {
+          const dayOfWeek = index + 1; // 1 = Monday, 2 = Tuesday, etc.
+    
+          const matchingDay = historyScoresWeek.find(
+            (day) => day.dayOfWeek === dayOfWeek
+          );
+    
+          return {
+            label,
+            value: matchingDay?.activityCount ?? 0,
+          };
+        })
+      })
   }, [historyScoresWeek])
 
   function handleSummary(id: string, type: string, color: string, light: string) {
@@ -76,9 +81,16 @@ export default function ParentSummaryScreen() {
         params: { id: id, type: type, color: color, light: light, studentId: studentId }
       })
   }
+  function handleRefresh() {
+    refetchHistoryScoresAptitudes()
+    refetchHistoryScoresWeek()
+    refetchHistoryAchievementMaxScore()
+    refetchHistoryAchievementCount()
+  }
+
   return (
     <BrandingBackground variant="secondary">
-      <ScrollableView>
+      <ScrollableView onRefresh={handleRefresh}>
         <MountainChart colors={colors} data={data}>
           <View className="p-[1.5rem]">
             <Text className="font-kanit-bold text-title text-title-1">กิจกรรมเป้าหมายที่ได้ทำทั้งหมด</Text>
@@ -113,9 +125,9 @@ export default function ParentSummaryScreen() {
               </View>
             </MemoLongCard>
           </View>
-          <Text className="font-kanit-bold text-title-1 text-body">กิจกรรมเป้าหมายในแต่ละประเภท</Text>
+          <Text className="font-kanit-bold text-title-1 text-body">เปรียบเทียบกิจกรรมแต่ละประเภท 2 สัปดาห์ก่อน</Text>
           {historyScoresAptitudes.length === 0 ? 
-            <Text className="font-kanit-regular text-caption-1 text-title-1">ไม่มีกิจกรรมเป้าหมายที่ได้ทำ</Text> : 
+            <Text className="font-kanit-regular text-caption-1 text-title-1">ไม่มีกิจกรรมที่ได้ทำใน 2 สัปดาห์ก่อน</Text> : 
             historyScoresAptitudes?.map((score) => {
                 const aptitude = aptitudes.find(aptitude => aptitude.type === score.type)
                 if (!aptitude) return null
