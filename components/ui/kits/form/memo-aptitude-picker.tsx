@@ -1,0 +1,74 @@
+import MemoDeleteButton from "@/components/button/memo-delete-button";
+import MemoSelectPickerHelper from "@/components/input/helper/memo-select-picker-helper";
+import MemoTextInputHelper from "@/components/input/helper/memo-text-input-helper";
+import { Fragment } from "react";
+import { View } from "react-native";
+
+interface MemoAptitudePickerProps {
+    data: {
+        id: {
+            value?: string
+            error?: string
+            onChange?: (text: string) => void
+        }
+        normal: {
+            value?: string
+            error?: string
+            onChange?: (text: string) => void
+            onBlur?: () => void
+        }
+        excellent: {
+            value?: string
+            error?: string
+            onChange?: (text: string) => void
+            onBlur?: () => void
+        }
+    }
+    remove?: boolean
+    onRemove: () => void
+}
+
+const MEMO_TYPES = [
+    { name: "จิตอาสา", value: "volunteer" }, 
+    { name: "ความกล้าแสดงออก", value: "self-confident" }, 
+    { name: "ความเป็นผู้นำ", value: "leadership" },
+    { name: "ความแข่งขัน", value: "competition" },
+    { name: "ความมีระเบียบวินัย", value: "discipline" },
+    { name: "ความรับผิดชอบ", value: "responsibility" },
+]
+
+export default function MemoAptitudePicker({ data, remove = true, onRemove }: Readonly<MemoAptitudePickerProps>) {
+    return (
+        <Fragment>
+            <MemoSelectPickerHelper
+                label="กลุ่มความถนัด"
+                rightIcon={() => remove && MemoDeleteButton({
+                    onPress: onRemove
+                })}
+                placeholder="กลุ่มความถนัด"
+                items={MEMO_TYPES}
+                value={data.id?.value}
+                error={data.id?.error}
+                onValueChange={data.id?.onChange}
+            />
+            <View className="w-full flex-1 flex-row gap-x-lg">
+                <MemoTextInputHelper
+                    placeholder="คะแนนคนที่ผ่าน"
+                    keyboardType="number-pad"
+                    value={data.normal?.value}
+                    error={data.normal?.error}
+                    onChangeText={data.normal?.onChange}
+                    onBlur={data.normal?.onBlur}
+                />
+                <MemoTextInputHelper
+                    placeholder="คะแนนคนเก่ง"
+                    keyboardType="number-pad"
+                    value={data.excellent?.value}
+                    error={data.excellent?.error}
+                    onChangeText={data.excellent?.onChange}
+                    onBlur={data.excellent?.onBlur}
+                />
+            </View>
+        </Fragment>
+    )
+}

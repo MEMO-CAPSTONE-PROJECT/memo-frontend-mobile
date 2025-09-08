@@ -1,0 +1,50 @@
+name: Build & Publish Release APK
+
+on:
+  push:
+    tags:
+      - 'android@*'
+
+jobs:
+  android-build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Java 
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: "adopt"
+          cache: "gradle"
+
+      - name: Change wrapper permissions
+        run: chmod +x ./android/gradlew
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '18'
+
+      # install LigntningCSS manually and clear npm packcage cache
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Install LightningCSS manually
+        run: npm install lightningcss --force
+
+      - name: Run Npm Install
+        run: | 
+              npm install
+
+      - name: Build App
+        run: |
+              npm run build:apk
+
+      - name: Upload APK to Artifacts
+        uses: actions/upload-artifact@v4
+        with: 
+            name: app
+            path: ./android/app/build/outputs/apk/release/app-release.apk
+            retention-days: 7
